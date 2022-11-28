@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Board {
     private final Stack<Tile> undrawnTiles;
@@ -54,6 +55,11 @@ public class Board {
     private void addObjectsToHandler() {
         if (!addedToHandler && !undrawnTiles.isEmpty()) {
             for (Tile t: undrawnTiles) {
+                if (boardHandler.objects.contains(t)) {
+                    t.resetCurrentOwner();
+                    boardHandler.removeObject(t);
+                }
+
                 boardHandler.nextPosition(t);
                 boardHandler.addObject(t);
             }
@@ -103,7 +109,6 @@ public class Board {
     public void resetBoard() {
         undrawnTiles.empty();
         discardedTiles.empty();
-        game.resetGame();
         initialise();
     }
 

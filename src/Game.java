@@ -13,7 +13,7 @@ public class Game extends Canvas implements Runnable {
 
     @Serial
     private static final long serialVersionUID = -6112428091888191314L;
-    public static final int WIDTH = 1200;
+    public static final int WIDTH = 1180;
     public static final int HEIGHT = WIDTH / 12 * 9;
     private Thread thread;
     private boolean running = false;
@@ -22,6 +22,7 @@ public class Game extends Canvas implements Runnable {
     private final Board board;
     private final HUD hud;
     private final Menu menu;
+    private final Pause pause;
     private int gamePlayerIndex = 0;
     private LinkedList<Player> gamePlayerRoster = null;
     private final LinkedList<List<Integer>> POSITIONS = new LinkedList<List<Integer>>();
@@ -43,6 +44,9 @@ public class Game extends Canvas implements Runnable {
 
         // set up the HUD
         hud = new HUD(this);
+
+        // set up the pause menu
+        pause = new Pause(this, handler);
 
         // set up the board
         board = new Board(handler, this);
@@ -129,17 +133,20 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() {
-        if (gameState.equals(State.Game)) {
-            hud.tick();
+    private synchronized void tick() {
+        if (this.gameState == State.Game) {
+            if (!paused) {
+                hud.tick();
+                handler.tick();
+            }
+        } else if (this.gameState == State.Menu || this.gameState == State.End) {
             handler.tick();
-
-        } else if (gameState.equals(State.Menu)) {
             menu.tick();
         }
+
     }
 
-    private void render() throws IOException {
+    private synchronized void render() throws IOException {
         BufferStrategy bs = this.getBufferStrategy();
 
         // creating 3 buffering stream
@@ -158,6 +165,8 @@ public class Game extends Canvas implements Runnable {
             handler.render(g);
         } else if (gameState.equals(State.Menu)){
             menu.render(g);
+        } else if (gameState.equals(State.Pause)) {
+            pause.render(g);
         }
 
         g.dispose();
@@ -223,6 +232,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         gamePlayerRoster.clear();
+        board.resetBoard();
         instantiatePlayers();
     }
 

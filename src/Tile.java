@@ -60,6 +60,10 @@ public class Tile extends GameObject implements Comparable<Tile> {
 
     }
 
+    public final void resetCurrentOwner() {
+        owner = null;
+    }
+
     public final void setTilePosition(int x, int y) {
         this.x_coord = x;
         this.y_coord = y;

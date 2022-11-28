@@ -91,6 +91,14 @@ public class Player extends GameObject{
     }
 
     public final void reset() {
+        for (Tile t: inventory) {
+            t.resetCurrentOwner();
+        }
+
+        for (Tile t: publicHand) {
+            t.resetCurrentOwner();
+        }
+
         this.inventory.clear();
         this.publicHand.clear();
     }
