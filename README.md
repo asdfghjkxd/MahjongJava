@@ -1,0 +1,2 @@
+# MahjongJava
+Mahjong in Java
