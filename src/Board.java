@@ -57,7 +57,6 @@ public class Board {
             for (Tile t: undrawnTiles) {
                 if (boardHandler.objects.contains(t)) {
                     t.resetCurrentOwner();
-                    boardHandler.removeObject(t);
                 }
 
                 boardHandler.nextPosition(t);

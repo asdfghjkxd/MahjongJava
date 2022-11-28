@@ -95,6 +95,17 @@ public class Tile extends GameObject implements Comparable<Tile> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Tile) {
+            return ((Tile) obj).getCanonicalTileClass().equals(this.getCanonicalTileClass()) &&
+                    ((Tile) obj).getCanonicalTileSubclass().equals(this.getCanonicalTileSubclass()) &&
+                    ((Tile) obj).getCanonicalValue().equals(this.getCanonicalValue());
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public String toString() {
         return String.valueOf(getCanonicalTileClass().toUpperCase().charAt(0)) +
                 getCanonicalTileSubclass().toUpperCase().charAt(0) + "_" +

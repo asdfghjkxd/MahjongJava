@@ -35,7 +35,15 @@ public class Player extends GameObject{
         return true;
     }
 
-    public final boolean hasEyes() {return true;}
+    public final boolean hasEyes() {
+        for (int i = 0; i < inventory.size() - 1; i++) {
+            if (inventory.get(i).equals(inventory.get(i + 1))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public final boolean canIntervene(Tile t) {
         return true;
@@ -84,10 +92,6 @@ public class Player extends GameObject{
     protected void setPlayerPosition(int x, int y) {
         this.x_coord = x;
         this.y_coord = y;
-    }
-
-    public final void revealHand() {
-        System.out.println(inventory.toString());
     }
 
     public final void reset() {

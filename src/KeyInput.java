@@ -48,6 +48,7 @@ public class KeyInput extends KeyAdapter {
             if (h.getId() == ID.Player) {
                 // key events for player, VK represents the keyboard keys
                 if (key == KeyEvent.VK_W) {
+
                 }
             }
         }
