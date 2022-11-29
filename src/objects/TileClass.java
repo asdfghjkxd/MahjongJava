@@ -1,4 +1,7 @@
+package objects;
+
 import javax.imageio.ImageIO;
+import javax.lang.model.type.UnionType;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,9 +10,7 @@ import java.util.*;
 
 import net.coobird.thumbnailator.Thumbnails;
 
-public enum TileClass {
-    CLASS();
-
+public final class TileClass {
     private static final Map<String, List<String>> classToSubClassMap;
     private static final HashMap<String, String> subClassToClass;
     private static final HashMap<String, List<?>> subClassToValue;

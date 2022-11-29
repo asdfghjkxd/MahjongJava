@@ -1,7 +1,10 @@
+package screen;
+
+import core.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serial;
-import java.util.Objects;
 
 public class Window extends Canvas {
     @Serial

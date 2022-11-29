@@ -1,24 +1,29 @@
+package screen;
+
+import base.TickRender;
+import core.Game;
+import core.Handler;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
-public class Menu extends MouseAdapter {
-    private Game game;
-    private Handler handler;
+public class MainMenu extends MouseAdapter implements TickRender {
+    private final Handler handler;
 
-
-    public Menu(Game g, Handler h) {
+    public MainMenu(Handler handler) {
         super();
-        this.game = g;
-        this.handler = h;
+        this.handler = handler;
     }
+
     @Override
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
 
         if (this.mouseOver(mx, my, 480, 400, 200, 70)) {
-            game.setGameState(Game.State.Game);
+            handler.setGameState(Game.GAME_STATE.MENU);
         } else if (this.mouseOver(mx, my, 480, 515, 200, 70)) {
             System.exit(0);
         }
@@ -37,13 +42,15 @@ public class Menu extends MouseAdapter {
         }
     }
 
+    @Override
     public void tick() {
 
     }
 
-    public void render(Graphics g) {
+    @Override
+    public void render(Graphics g) throws IOException {
         g.setColor(new Color(0, 100, 0));
-        g.fillRect(0, 0, this.game.getWidth(), this.game.getHeight());
+        g.fillRect(0, 0, this.handler.getGamePortWidth(), this.handler.getGamePortHeight());
         g.setFont(new Font("Arial", Font.BOLD, 60));
         g.setColor(Color.WHITE);
         g.fillRect(423, 190, 320, 80);
