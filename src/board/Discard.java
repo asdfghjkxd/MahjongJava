@@ -7,14 +7,24 @@ import javax.swing.*;
 import java.util.Stack;
 
 public final class Discard implements Container {
-    // Discard pile is a stack to maintain recency of Tile discard
+    // Discard pile is a stack to maintain a LIFO order on discarded tiles
     private final Stack<Tile> discardPile = new Stack<>();
 
-    public void acceptDiscard(Tile t) {
-        discardPile.add(t);
+    // Interface methods
+    @Override
+    public void resetContainer() {
+        discardPile.clear();
     }
 
-    public Tile distributeDiscard() {
+    // Interface methods
+    @Override
+    public void acceptItem(Tile tile) {
+        discardPile.add(tile);
+
+    }
+
+    @Override
+    public Tile discardItem() {
         if (!discardPile.isEmpty()) {
             return discardPile.pop();
         } else {
@@ -24,7 +34,9 @@ public final class Discard implements Container {
     }
 
     @Override
-    public void resetContainer() {
-        discardPile.clear();
+    public Tile discardItem(Tile t) {
+        // specific tiles cannot be removed from the discard pile
+        // only the top of the container can be accessed and removed
+        return null;
     }
 }

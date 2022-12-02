@@ -9,7 +9,7 @@ import utils.Observable;
 import java.io.IOException;
 import java.util.*;
 
-public class Board implements Container, Commandable, Observable {
+public final class Board implements Container, Commandable, Observable {
     // Container is represented by a Stack of Tiles
     // Possible since all tiles are unique (even if they are from the same tile class/subclass or has the same value
     private final Stack<Tile> boardTiles = new Stack<>();
@@ -29,16 +29,9 @@ public class Board implements Container, Commandable, Observable {
         initialDistribution();
 
     }
-    @Override
-    public void resetContainer() {
-        this.boardTiles.clear();;
-        this.discardedTiles.resetContainer();
-        for (Player p: boardPlayers) {
-            p.resetContainer();
-        }
-        boardPlayers.clear();
-    }
 
+
+    // Instantiation of the Board and Players
     public void resetGame() {
         resetContainer();
         instantiateBoard();
@@ -46,7 +39,6 @@ public class Board implements Container, Commandable, Observable {
         initialDistribution();
     }
 
-    // Instantiation of the Board and Players
     private void instantiateBoard() {
         for (int i = 1; i <= 4; i++) {
             for (int j = 1; j < 10; j++) {
@@ -100,11 +92,11 @@ public class Board implements Container, Commandable, Observable {
 
     // Discard pile methods abstracted out to the board class to be managed
     public void discardToDiscardPile(Tile t) {
-        discardedTiles.acceptDiscard(t);
+        discardedTiles.acceptItem(t);
     }
 
-    public Tile takeFromDiscardPile(Tile t) {
-        return discardedTiles.distributeDiscard();
+    public Tile takeFromDiscardPile() {
+        return discardedTiles.discardItem();
     }
 
     // Player control
@@ -116,9 +108,34 @@ public class Board implements Container, Commandable, Observable {
 
     }
 
-
-
     // Interface methods
+    @Override
+    public void resetContainer() {
+        this.boardTiles.clear();;
+        this.discardedTiles.resetContainer();
+        for (Player p: boardPlayers) {
+            p.resetContainer();
+        }
+        boardPlayers.clear();
+    }
+
+    @Override
+    public void acceptItem(Tile tile) {
+        // board does not accept items
+    }
+
+    @Override
+    public Tile discardItem() {
+        // board cannot discard items away
+        return null;
+    }
+
+    @Override
+    public Tile discardItem(Tile t) {
+        // board cannot discard items away
+        return null;
+    }
+
     @Override
     public void synchronise_ticks() {
 
