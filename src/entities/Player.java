@@ -2,5 +2,9 @@ package entities;
 
 import utils.Container;
 
-abstract class Player implements Container {
+public abstract class Player implements Container {
+    @Override
+    public void resetContainer() {
+
+    }
 }
