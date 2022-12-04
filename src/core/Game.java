@@ -71,7 +71,7 @@ public class Game extends Canvas implements Runnable, Commandable {
 
             if (running) {
                 try {
-                    synchronise_renders();
+                    synchronise_renders(null);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -100,7 +100,7 @@ public class Game extends Canvas implements Runnable, Commandable {
     }
 
     @Override
-    public synchronized void synchronise_renders() throws IOException {
+    public synchronized void synchronise_renders(Graphics g) throws IOException {
         BufferStrategy bs = this.getBufferStrategy();
 
         // creating 3 buffering stream
@@ -109,11 +109,24 @@ public class Game extends Canvas implements Runnable, Commandable {
             return;
         }
 
-        Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        Graphics graph = bs.getDrawGraphics();
+        graph.setColor(Color.WHITE);
+        graph.fillRect(0, 0, WIDTH, HEIGHT);
 
-        g.dispose();
+        // this is where the game rendering goes
+
+
+        graph.dispose();
         bs.show();
+    }
+
+    // Getters and Setters
+
+    public GAME_STATE getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GAME_STATE gameState) {
+        this.gameState = gameState;
     }
 }

@@ -1,7 +1,7 @@
 package entities;
 
 import board.Board;
-import strategy.RandomStrategy;
+import strategy.AIStrategy;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -11,11 +11,25 @@ public final class Human extends Player {
         this.startingXPosition = x;
         this.startingYPosition = y;
         this.rotationDegrees = 0;
-        this.name = JOptionPane.showInputDialog("Enter in your name below: ");
-        this.strategy = new RandomStrategy();
+        this.name = pollForPlayerName();
+        this.strategy = new AIStrategy();
         this.score = 0;
         this.board = board;
         this.playerPrivateHand = new LinkedList<>();
         this.playerPublicHand = new LinkedList<>();
+    }
+
+    public String pollForPlayerName() {
+        String name = "";
+
+        while (name.equals("")) {
+            name = JOptionPane.showInputDialog("Enter in your name below:");
+
+            if (name.equals("")) {
+                JOptionPane.showMessageDialog(null, "Your name cannot be empty!");
+            }
+        }
+
+        return name;
     }
 }

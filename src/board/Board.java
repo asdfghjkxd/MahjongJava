@@ -1,6 +1,7 @@
 package board;
 
 import core.Game;
+import core.Test;
 import entities.AI;
 import entities.Human;
 import entities.Player;
@@ -9,8 +10,10 @@ import utils.Commandable;
 import utils.Container;
 import utils.Observable;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public final class Board implements Container, Commandable, Observable {
     // Container is represented by a Stack of Tiles
@@ -40,7 +43,6 @@ public final class Board implements Container, Commandable, Observable {
         resetContainer();
         instantiateBoard();
         instantiatePlayers();
-        initialDistribution();
         currentPlayer = boardPlayers.get(currentPlayerIndex);
     }
 
@@ -113,6 +115,7 @@ public final class Board implements Container, Commandable, Observable {
                 }
             }
 
+            // TODO: decide if initial distribution should be done during player setup or after
             initialDistribution();
         }
     }
@@ -123,9 +126,19 @@ public final class Board implements Container, Commandable, Observable {
 
     private void initialDistribution() {
         for (Player p: boardPlayers) {
-            for (int i = 0; i < 12; i++) {
-                p.acceptItem(distributeBoardTile());
+            for (int i = 0; i < 13; i++) {
+                distributeToPlayer(p);
             }
+        }
+    }
+
+    private void distributeToPlayer(Player p) {
+        Tile t = distributeBoardTile();
+        if (t.getTileClass().equals("bonus")) {
+            p.acceptItem(t);
+            distributeToPlayer(p);
+        } else {
+            p.acceptItem(t);
         }
     }
 
@@ -181,12 +194,31 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     @Override
-    public void synchronise_renders() throws IOException {
+    public void synchronise_renders(Graphics g) throws IOException {
+        for (Tile t: boardTiles) {
+            t.render(g);
+        }
+
+        for (Player p: boardPlayers) {
+            p.render(g);
+        }
 
     }
 
     @Override
     public String toString() {
         return "Board Instance";
+    }
+
+    // Test functions
+    public void testBoard() {
+        if (Test.test_state.equals(Test.TEST_STATE.TESTING)) {
+            System.out.println("Board size: " + boardTiles.size());
+            for (Player p : boardPlayers) {
+                System.out.println(p.toString());
+            }
+
+            System.out.println(boardTiles);
+        }
     }
 }

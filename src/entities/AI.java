@@ -3,7 +3,7 @@ package entities;
 import board.Board;
 import org.ajbrown.namemachine.NameGenerator;
 import pieces.Tile;
-import strategy.RandomStrategy;
+import strategy.AIStrategy;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -14,7 +14,7 @@ public final class AI extends Player {
         this.startingYPosition = y;
         this.rotationDegrees = rotationDegrees;
         this.name = new NameGenerator().generateNames(1).get(0).toString();
-        this.strategy = new RandomStrategy();
+        this.strategy = new AIStrategy();
         this.score = 0;
         this.board = board;
         this.playerPrivateHand = new LinkedList<>();
@@ -26,19 +26,19 @@ public final class AI extends Player {
         Collections.sort(playerPrivateHand);
         rotateAllTiles(getRotationDegrees());
 
-        int tempY = getStartingYPosition();
+        int tempY = getStartingY();
         for (Tile t: playerPrivateHand) {
             setNextAvailableTilePosition(t);
             tempY += TILE_Y_SPACING;
         }
 
-        setMovingYPosition(tempY);
+        setMovingY(tempY);
     }
 
     @Override
     public void setNextAvailableTilePosition(Tile tile) {
-        tile.setStartingY(getMovingYPosition());
-        tile.setStartingX(getStartingXPosition());
-        setMovingYPosition(getMovingYPosition() + TILE_X_SPACING);
+        tile.setStartingY(getMovingY());
+        tile.setStartingX(getStartingX());
+        setMovingY(getMovingY() + TILE_Y_SPACING);
     }
 }

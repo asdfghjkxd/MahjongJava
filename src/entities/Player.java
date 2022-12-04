@@ -1,16 +1,20 @@
 package entities;
 
 import board.Board;
+import core.Test;
 import pieces.Tile;
 import strategy.Strategy;
 import utils.Container;
 import utils.Observable;
+import utils.Renderable;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public abstract class Player implements Container, Observable {
+public abstract class Player implements Container, Observable, Renderable {
     protected int startingXPosition;
     protected int movingXPosition;
     protected int startingYPosition;
@@ -48,9 +52,10 @@ public abstract class Player implements Container, Observable {
             tile.setRotationDegrees(getRotationDegrees());
             this.setNextAvailableTilePosition(tile);
 
-            if (tile.getTileClass().equals("bonus")) {
+            if (!tile.getTileClass().equals("bonus")) {
                 playerPublicHand.add(tile);
             } else {
+                score++;
                 playerPrivateHand.add(tile);
             }
 
@@ -85,18 +90,69 @@ public abstract class Player implements Container, Observable {
         return t;
     }
 
+    @Override
+    public void render(Graphics g) throws IOException {
+        for (Tile t: playerPrivateHand) {
+            t.render(g);
+        }
+
+        for (Tile t: playerPublicHand) {
+            t.render(g);
+        }
+    }
+
+    @Override
+    public int getStartingX() {
+        return startingXPosition;
+    }
+
+    @Override
+    public int getStartingY() {
+        return startingYPosition;
+    }
+
+    @Override
+    public int getMovingX() {
+        return movingXPosition;
+    }
+
+    @Override
+    public int getMovingY() {
+        return movingYPosition;
+    }
+
+    @Override
+    public void setStartingX(int x) {
+        startingXPosition = x;
+    }
+
+    @Override
+    public void setStartingY(int y) {
+        startingYPosition = y;
+    }
+
+    @Override
+    public void setMovingX(int x) {
+        movingXPosition = x;
+    }
+
+    @Override
+    public void setMovingY(int y) {
+        movingYPosition = y;
+    }
+
     // Utility functions to keep hand sorted and to derive the next positions for the tile to be placed into
     public void sortHand() {
         Collections.sort(playerPrivateHand);
         rotateAllTiles(getRotationDegrees());
 
-        int tempX = getStartingXPosition();
+        int tempX = getStartingX();
         for (Tile t: playerPrivateHand) {
             setNextAvailableTilePosition(t);
             tempX += TILE_X_SPACING;
         }
 
-        setMovingXPosition(tempX);
+        setMovingX(tempX);
     }
 
     public void rotateAllTiles(int rotationDegrees) {
@@ -110,47 +166,15 @@ public abstract class Player implements Container, Observable {
     }
 
     public void setNextAvailableTilePosition(Tile tile) {
-        tile.setStartingX(getMovingXPosition());
-        tile.setStartingY(getStartingYPosition());
-        setMovingXPosition(getMovingXPosition() + TILE_X_SPACING);
+        tile.setStartingX(getMovingX());
+        tile.setStartingY(getStartingY());
+        setMovingX(getMovingX() + TILE_X_SPACING);
     }
 
     // Getter and Setters
-    public int getStartingXPosition() {
-        return startingXPosition;
-    }
-
-    public void setStartingXPosition(int startingXPosition) {
-        this.startingXPosition = startingXPosition;
-    }
-
-    public int getMovingXPosition() {
-        return movingXPosition;
-    }
-
-    public void setMovingXPosition(int movingXPosition) {
-        this.movingXPosition = movingXPosition;
-    }
-
-    public int getStartingYPosition() {
-        return startingYPosition;
-    }
-
-    public void setStartingYPosition(int startingYPosition) {
-        this.startingYPosition = startingYPosition;
-    }
-
-    public int getMovingYPosition() {
-        return movingYPosition;
-    }
-
-    public void setMovingYPosition(int movingYPosition) {
-        this.movingYPosition = movingYPosition;
-    }
-
     public void setPlayerPosition(int x, int y) {
-        setStartingXPosition(x);
-        setStartingYPosition(y);
+        setStartingX(x);
+        setStartingY(y);
     }
 
     public int getRotationDegrees() {
@@ -167,5 +191,29 @@ public abstract class Player implements Container, Observable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    // Utility functions
+    @Override
+    public String toString() {
+        if (Test.test_state.equals(Test.TEST_STATE.TESTING)) {
+            return "Player: " + getName() + "\n" +
+                    playerPublicHand.toString() + "\n" +
+                    playerPrivateHand.toString() + "\n" +
+                    playerPrivateHand.size() + "\n" +
+                    playerPublicHand.size() + "\n";
+        } else {
+            return "Player: " + getName() + "\n" +
+                    "Score: " + getScore() + "\n" +
+                    playerPublicHand.toString() + "\n";
+        }
     }
 }
