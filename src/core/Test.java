@@ -1,6 +1,7 @@
 package core;
 
 import board.Board;
+import entities.Human;
 import pieces.Tile;
 
 import javax.swing.*;

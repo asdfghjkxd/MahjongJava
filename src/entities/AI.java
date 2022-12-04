@@ -1,18 +1,19 @@
 package entities;
 
 import board.Board;
+import org.ajbrown.namemachine.NameGenerator;
 import pieces.Tile;
 import strategy.RandomStrategy;
 
-import javax.swing.*;
+import java.util.Collections;
 import java.util.LinkedList;
 
-public class AI extends Player {
-
-    public AI(int x, int y, String name, Board board) {
+public final class AI extends Player {
+    public AI(int x, int y, int rotationDegrees, Board board) {
         this.startingXPosition = x;
         this.startingYPosition = y;
-        this.name = name;
+        this.rotationDegrees = rotationDegrees;
+        this.name = new NameGenerator().generateNames(1).get(0).toString();
         this.strategy = new RandomStrategy();
         this.score = 0;
         this.board = board;
@@ -21,59 +22,23 @@ public class AI extends Player {
     }
 
     @Override
-    public void resetContainer() {
-        for (Tile t: playerPublicHand) {
-            t.setOwner(board);
-        }
-        playerPublicHand.clear();
+    public void sortHand() {
+        Collections.sort(playerPrivateHand);
+        rotateAllTiles(getRotationDegrees());
 
+        int tempY = getStartingYPosition();
         for (Tile t: playerPrivateHand) {
-            t.setOwner(board);
+            setNextAvailableTilePosition(t);
+            tempY += TILE_Y_SPACING;
         }
-        playerPrivateHand.clear();
 
-        score = 0;
+        setMovingYPosition(tempY);
     }
 
     @Override
-    public void acceptItem(Tile tile) {
-        if (!(tile.getOwner() instanceof AI || tile.getOwner() instanceof Player)) {
-            tile.setOwner(this);
-            tile.setRotationDegrees(0);
-            this.setNextAvailableTilePosition(tile);
-
-            if (tile.getTileClass().equals("bonus")) {
-                playerPublicHand.add(tile);
-            } else {
-                playerPrivateHand.add(tile);
-            }
-
-            sortHand();
-        }
+    public void setNextAvailableTilePosition(Tile tile) {
+        tile.setStartingY(getMovingYPosition());
+        tile.setStartingX(getStartingXPosition());
+        setMovingYPosition(getMovingYPosition() + TILE_X_SPACING);
     }
-
-    @Override
-    public Tile discardItem() {
-        // cannot randomly discard away the tiles
-        return null;
-    }
-
-    @Override
-    public Tile discardItem(Tile t) {
-        if (t.getOwner() == this) {
-            board.discardToDiscardPile(t);
-
-            // remove this thing from the hands
-            playerPrivateHand.remove(t);
-            playerPublicHand.remove(t);
-        } else {
-            JOptionPane.showMessageDialog(null, "Cannot discard tile that does not belong to" +
-                    " player " + getName());
-        }
-
-        // return the immediate tile for interface consistency
-        return t;
-    }
-
-
 }

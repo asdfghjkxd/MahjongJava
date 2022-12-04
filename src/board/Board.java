@@ -1,5 +1,8 @@
 package board;
 
+import core.Game;
+import entities.AI;
+import entities.Human;
 import entities.Player;
 import pieces.Tile;
 import utils.Commandable;
@@ -16,18 +19,19 @@ public final class Board implements Container, Commandable, Observable {
 
     // Board is responsible for handling the discards
     private final Discard discardedTiles = new Discard();
-    private final LinkedHashSet<Player> boardPlayers = new LinkedHashSet<>();
+    private final LinkedList<Player> boardPlayers = new LinkedList<>();
+    private Player currentPlayer = null;
     private int currentPlayerIndex = 0;
+    private final LinkedList<List<Integer>> POSITIONS =
+            new LinkedList<>(Arrays.asList(
+                    new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (int) (Game.HEIGHT / 13 * 11.5))),
+                    new LinkedList<>(Arrays.asList((Game.WIDTH / 25), (Game.HEIGHT / 5))),
+                    new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (Game.HEIGHT / 30))),
+                    new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 20 * 18.5), (Game.HEIGHT / 5)))
+            ));
 
     public Board() {
-        // resets the container
-        resetContainer();
-
-        // instantiate the board and players
-        instantiateBoard();
-        instantiatePlayers();
-        initialDistribution();
-
+        resetGame();
     }
 
 
@@ -37,6 +41,7 @@ public final class Board implements Container, Commandable, Observable {
         instantiateBoard();
         instantiatePlayers();
         initialDistribution();
+        currentPlayer = boardPlayers.get(currentPlayerIndex);
     }
 
     private void instantiateBoard() {
@@ -73,7 +78,42 @@ public final class Board implements Container, Commandable, Observable {
 
     private void instantiatePlayers() {
         if (boardPlayers.isEmpty()) {
-            // create new players here
+            Human human = new Human(0, 0, this);
+            AI ai1 = new AI(0, 0, 0, this);
+            AI ai2 = new AI(0, 0, 0, this);
+            AI ai3 = new AI(0, 0, 0, this);
+
+            this.boardPlayers.add(human);
+            this.boardPlayers.add(ai1);
+            this.boardPlayers.add(ai2);
+            this.boardPlayers.add(ai3);
+
+            // Shuffle the players
+            Collections.shuffle(boardPlayers, new Random());
+
+            List<Player> playerList = boardPlayers.stream().filter(x -> x instanceof Human).toList();
+            List<Player> AIList = boardPlayers.stream().filter(x -> x instanceof AI).toList();
+
+            for (Player p: playerList) {
+                List<Integer> pos = POSITIONS.get(0);
+                p.setRotationDegrees(0);
+                p.setPlayerPosition(pos.get(0), pos.get(1));
+            }
+
+            for (int i = 1; i < AIList.size(); i++) {
+                Player curr = AIList.get(i);
+                List<Integer> pos = POSITIONS.get(i);
+
+                if (i % 2 == 0) {
+                    curr.setRotationDegrees(90);
+                    curr.setPlayerPosition(pos.get(0), pos.get(1));
+                } else {
+                    curr.setRotationDegrees(0);
+                    curr.setPlayerPosition(pos.get(0), pos.get(1));
+                }
+            }
+
+            initialDistribution();
         }
     }
 
@@ -83,9 +123,8 @@ public final class Board implements Container, Commandable, Observable {
 
     private void initialDistribution() {
         for (Player p: boardPlayers) {
-            for (int i = 0; i < 14; i++) {
-                Tile takenTile = distributeBoardTile();
-                // player accept the tiles here
+            for (int i = 0; i < 12; i++) {
+                p.acceptItem(distributeBoardTile());
             }
         }
     }
@@ -101,7 +140,7 @@ public final class Board implements Container, Commandable, Observable {
 
     // Player control
     public void advancePlayer() {
-
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 4;
     }
 
     public void enforcePlayerAction() {

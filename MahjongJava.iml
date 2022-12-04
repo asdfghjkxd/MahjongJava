@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="net.coobird.thumbnailator" level="project" />
+    <orderEntry type="library" name="ajbrown.name.machine" level="project" />
   </component>
 </module>

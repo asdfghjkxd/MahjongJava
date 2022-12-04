@@ -20,7 +20,6 @@ public final class Discard implements Container {
     @Override
     public void acceptItem(Tile tile) {
         discardPile.add(tile);
-
     }
 
     @Override

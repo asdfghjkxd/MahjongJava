@@ -4,16 +4,10 @@ import pieces.Tile;
 
 import java.util.List;
 
-/**
- * Random Strategy: Choosing a random tile and discarding it, without checking if the tile is needed or not needed
- * to form winning patterns
- */
-public class RandomStrategy implements Strategy {
-    public RandomStrategy() {
-    }
-
+public class HumanStrategy implements Strategy{
     @Override
     public void onTileReceive(List<Tile> inputTiles) {
+
     }
 
     @Override
@@ -23,5 +17,6 @@ public class RandomStrategy implements Strategy {
 
     @Override
     public void onTileDiscard(List<Tile> inputTiles) {
+
     }
 }

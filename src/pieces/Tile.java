@@ -26,8 +26,10 @@ public final class Tile implements Comparable<Tile>, Renderable {
     private String tileValue;
     private Container owner;
     private int rotationDegrees = 0;
-    private int x_position;
-    private int y_position;
+    private int startingX;
+    private int startingY;
+    private int movingX;
+    private int movingY;
 
     /*
      * Static block used to instantiate the static attributes
@@ -179,8 +181,10 @@ public final class Tile implements Comparable<Tile>, Renderable {
      */
     public Tile(int x, int y, String tileClass, String tileSubclass, String tileValue, Board board, int rotationDegrees) {
         if (this.checkValidConfiguration(tileClass, tileSubclass, tileValue)) {
-            this.x_position = x;
-            this.y_position = y;
+            this.startingX = x;
+            this.startingY = y;
+            this.movingX = startingX;
+            this.movingY = startingY;
             this.tileClass = tileClass;
             this.tileSubclass = tileSubclass;
             this.tileValue = tileValue;
@@ -197,11 +201,11 @@ public final class Tile implements Comparable<Tile>, Renderable {
     public void render(Graphics g) throws IOException {
         if (this.owner instanceof Board || this.owner instanceof AI) {
             g.drawImage(Thumbnails.of(backTile).rotate(rotationDegrees)
-                            .asBufferedImage(), x_position, y_position, null);
+                            .asBufferedImage(), startingX, startingY, null);
         } else if (this.owner instanceof Human || this.owner instanceof Discard) {
             g.drawImage(Thumbnails.of(
                     this.getTileImage())
-                    .rotate(rotationDegrees).asBufferedImage(), x_position, y_position, null);
+                    .rotate(rotationDegrees).asBufferedImage(), startingX, startingY, null);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid Tile render configuration: " + this);
             System.exit(1);
@@ -233,12 +237,26 @@ public final class Tile implements Comparable<Tile>, Renderable {
         return rotationDegrees;
     }
 
-    public int getX_position() {
-        return x_position;
+    @Override
+    public int getStartingX() {
+        return startingX;
     }
 
-    public int getY_position() {
-        return y_position;
+    @Override
+    public int getStartingY() {
+        return startingY;
+    }
+
+    @Override
+    public int getMovingX() {
+        // moving x and starting x are the same value
+        return movingX;
+    }
+
+    @Override
+    public int getMovingY() {
+        // moving y and starting y are the same value
+        return movingY;
     }
 
     public void setOwner(Container owner) {
@@ -249,14 +267,31 @@ public final class Tile implements Comparable<Tile>, Renderable {
         this.rotationDegrees = rotationDegrees;
     }
 
-    public void setX_position(int x_position) {
-        this.x_position = x_position;
+    @Override
+    public void setStartingX(int startingX) {
+        this.startingX = startingX;
+        this.movingX = startingX;
     }
 
-    public void setY_position(int y_position) {
-        this.y_position = y_position;
+    @Override
+    public void setStartingY(int startingY) {
+        this.startingY = startingY;
+        this.movingY = startingY;
     }
 
+    @Override
+    public void setMovingX(int movingX) {
+        // moving x will shift with starting x
+        this.movingX = movingX;
+        this.startingX = movingX;
+    }
+
+    @Override
+    public void setMovingY(int movingY) {
+        // moving y will shift with starting y
+        this.movingY = movingY;
+        this.startingY = movingY;
+    }
 
     // Comparability
     public int compareTo(Tile o) {
