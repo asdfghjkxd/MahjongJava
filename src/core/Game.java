@@ -1,9 +1,8 @@
 package core;
 
-import pieces.Tile;
+import io.KeyInput;
+import screens.*;
 import utils.Commandable;
-import utils.Renderable;
-import utils.Tickable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,18 +12,26 @@ import java.io.IOException;
 /**
  * Manages the overall game environment, and acts as the interface between the game and the game logic
  */
-public class Game extends Canvas implements Runnable, Commandable {
+public final class Game extends Canvas implements Runnable, Commandable {
     public static final int WIDTH = 1180;
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final String GAMENAME = "Mahjong";
     private boolean running = false;
+    private boolean paused = false;
     private Thread gameThread;
-    private GAME_STATE gameState = GAME_STATE.RUNNING;
+    private GAME_STATE gameState = GAME_STATE.MAIN_MENU;
     public enum GAME_STATE {
-        RUNNING,
+        MAIN_MENU,
         PAUSED,
+        IN_GAME,
+        SETTINGS,
         END
     }
+    private final MainMenu mainMenu;
+    private final HUD hud;
+    private final Pause pause;
+    private final GameScreen gameScreen;
+    private final Settings settings;
 
     public static void main(String[] args) {
         new Game();
@@ -32,6 +39,15 @@ public class Game extends Canvas implements Runnable, Commandable {
 
     public Game() {
         new Window(WIDTH, HEIGHT, GAMENAME, this);
+        mainMenu = new MainMenu(this);
+        hud = new HUD(this);
+        pause = new Pause(this);
+        gameScreen = new GameScreen(this);
+        settings = new Settings(this);
+
+        this.addKeyListener(new KeyInput(this));
+        this.addMouseListener(mainMenu);
+        this.addMouseListener(gameScreen);
     }
 
     // Functions necessary for running the game
@@ -45,6 +61,7 @@ public class Game extends Canvas implements Runnable, Commandable {
         try {
             gameThread.join();
             running = false;
+            System.exit(0);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -85,6 +102,10 @@ public class Game extends Canvas implements Runnable, Commandable {
         stop();
     }
 
+    public void resetGame() {
+
+    }
+
     @Override
     public synchronized void synchronise_ticks() {
 //        switch (this.gameState) {
@@ -113,15 +134,18 @@ public class Game extends Canvas implements Runnable, Commandable {
         graph.setColor(Color.WHITE);
         graph.fillRect(0, 0, WIDTH, HEIGHT);
 
-        // this is where the game rendering goes
-
+        switch (gameState) {
+            case MAIN_MENU -> mainMenu.render(graph);
+            case SETTINGS -> settings.render(graph);
+            case IN_GAME -> gameScreen.render(graph);
+            case PAUSED -> pause.render(graph);
+        }
 
         graph.dispose();
         bs.show();
     }
 
     // Getters and Setters
-
     public GAME_STATE getGameState() {
         return gameState;
     }

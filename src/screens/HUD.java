@@ -1,12 +1,23 @@
 package screens;
 
+import core.Game;
+
 import java.awt.*;
 import java.io.IOException;
 
 public class HUD extends Screen {
+    public HUD(Game game) {
+        super(game);
+    }
+
     @Override
     public void render(Graphics g) throws IOException {
         super.render(g);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
     }
 
     @Override
@@ -47,10 +58,5 @@ public class HUD extends Screen {
     @Override
     public void setMovingY(int y) {
         super.setMovingY(y);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
     }
 }

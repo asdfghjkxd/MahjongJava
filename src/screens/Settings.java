@@ -1,24 +1,23 @@
 package screens;
 
 import core.Game;
-import utils.Tickable;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class Pause extends Screen implements Tickable {
-    public Pause(Game game) {
+public class Settings extends Screen{
+    public Settings(Game game) {
         super(game);
     }
 
     @Override
     public void render(Graphics g) throws IOException {
-        g.setColor(new Color(0, 80, 0));
-        g.fillRect(0, 0, game.getWidth(), game.getHeight());
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.drawString("PAUSED", 500, 400);
+        JFrame p = new JFrame();
+        p.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        // exiting action
+        p.setVisible(false);
     }
 
     @Override

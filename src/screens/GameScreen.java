@@ -1,12 +1,15 @@
 package screens;
 
-import utils.Renderable;
-import utils.Tickable;
+import core.Game;
 
 import java.awt.*;
 import java.io.IOException;
 
 public class GameScreen extends Screen {
+    public GameScreen(Game game) {
+        super(game);
+    }
+
     @Override
     public void render(Graphics g) throws IOException {
         super.render(g);
