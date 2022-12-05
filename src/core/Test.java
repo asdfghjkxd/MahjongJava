@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Test extends Canvas implements Runnable{
-    public static TEST_STATE test_state = TEST_STATE.TESTING;
+    public static TEST_STATE test_state = TEST_STATE.ACTUAL;
     public enum TEST_STATE {
         TESTING,
         ACTUAL

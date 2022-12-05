@@ -1,6 +1,8 @@
 package core;
 
+import board.Board;
 import io.KeyInput;
+import io.MouseInput;
 import screens.*;
 import utils.Commandable;
 
@@ -32,6 +34,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
     private final Pause pause;
     private final GameScreen gameScreen;
     private final Settings settings;
+    private final Board board;
 
     public static void main(String[] args) {
         new Game();
@@ -40,14 +43,14 @@ public final class Game extends Canvas implements Runnable, Commandable {
     public Game() {
         new Window(WIDTH, HEIGHT, GAMENAME, this);
         mainMenu = new MainMenu(this);
-        hud = new HUD(this);
+        board = new Board();
+        hud = new HUD(this, board);
         pause = new Pause(this);
         gameScreen = new GameScreen(this);
         settings = new Settings(this);
 
         this.addKeyListener(new KeyInput(this));
-        this.addMouseListener(mainMenu);
-        this.addMouseListener(gameScreen);
+        this.addMouseListener(new MouseInput(this));
     }
 
     // Functions necessary for running the game
@@ -131,13 +134,15 @@ public final class Game extends Canvas implements Runnable, Commandable {
         }
 
         Graphics graph = bs.getDrawGraphics();
-        graph.setColor(Color.WHITE);
-        graph.fillRect(0, 0, WIDTH, HEIGHT);
 
         switch (gameState) {
+            case IN_GAME -> {
+                hud.render(graph);
+                gameScreen.render(graph);
+                board.synchronise_renders(graph);
+            }
             case MAIN_MENU -> mainMenu.render(graph);
             case SETTINGS -> settings.render(graph);
-            case IN_GAME -> gameScreen.render(graph);
             case PAUSED -> pause.render(graph);
         }
 
@@ -152,5 +157,13 @@ public final class Game extends Canvas implements Runnable, Commandable {
 
     public void setGameState(GAME_STATE gameState) {
         this.gameState = gameState;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

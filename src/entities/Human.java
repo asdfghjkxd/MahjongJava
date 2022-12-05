@@ -22,6 +22,9 @@ public final class Human extends Player {
     public String pollForPlayerName() {
         String name = "";
 
+        JOptionPane.showMessageDialog(null, "Hello! Before you proceed, please tell us what we " +
+                "should call you!");
+
         while (name.equals("")) {
             name = JOptionPane.showInputDialog("Enter in your name below:");
 
@@ -30,6 +33,7 @@ public final class Human extends Player {
             }
         }
 
+        JOptionPane.showMessageDialog(null, "Hello, " + name + "!");
         return name;
     }
 }

@@ -16,6 +16,11 @@ public class GameScreen extends Screen {
     }
 
     @Override
+    public void tick() {
+        super.tick();
+    }
+
+    @Override
     public int getStartingX() {
         return super.getStartingX();
     }
@@ -53,10 +58,5 @@ public class GameScreen extends Screen {
     @Override
     public void setMovingY(int y) {
         super.setMovingY(y);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
     }
 }

@@ -5,8 +5,8 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public abstract class MouseInput extends MouseAdapter {
-    protected final Game game;
+public class MouseInput extends MouseAdapter {
+    public Game game;
 
     public MouseInput(Game game) {
         this.game = game;
@@ -19,7 +19,9 @@ public abstract class MouseInput extends MouseAdapter {
                 int mouseX = e.getX();
                 int mouseY = e.getY();
 
+                System.out.println("reached");
                 if (mouseOver(mouseX, mouseY, 480, 400, 200, 70)) {
+
                     game.setGameState(Game.GAME_STATE.IN_GAME);
                 } else if (mouseOver(mouseX, mouseY, 480, 515, 200, 70)) {
                     game.setGameState(Game.GAME_STATE.SETTINGS);
@@ -42,7 +44,7 @@ public abstract class MouseInput extends MouseAdapter {
     }
 
     public final boolean mouseOver(int mouseX, int mouseY, int x, int y, int width, int height) {
-        return (mouseY > x && mouseX < x + width)
+        return (mouseX > x && mouseX < x + width)
                 ? (mouseY > y && mouseY < y + height)
                 : false;
     }

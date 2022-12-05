@@ -2,9 +2,7 @@ package screens;
 
 import core.Game;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class MainMenu extends Screen {
@@ -15,18 +13,18 @@ public class MainMenu extends Screen {
     @Override
     public void render(Graphics g) throws IOException {
         g.setColor(new Color(0, 100, 0));
-        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        g.fill3DRect(0, 0, Game.WIDTH, Game.HEIGHT, true);
         g.setFont(new Font("Arial", Font.BOLD, 60));
         g.setColor(Color.WHITE);
-        g.fillRect(423, 190, 320, 80);
+        g.fill3DRect(423, 190, 320, 80, true);
         g.setColor(Color.BLACK);
         g.drawString("Mahjong", 458, 250);
 
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.setColor(Color.WHITE);
-        g.fillRect(480, 400, 200, 70);
-        g.fillRect(480, 515, 200, 70);
-        g.fillRect(480, 630, 200, 70);
+        g.fill3DRect(480, 400, 200, 70, true);
+        g.fill3DRect(480, 515, 200, 70, true);
+        g.fill3DRect(480, 630, 200, 70, true);
 
         g.setColor(Color.BLACK);
         g.drawRect(480, 400, 200, 70);

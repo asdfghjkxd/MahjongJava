@@ -2,7 +2,6 @@ package screens;
 
 import core.Game;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -13,11 +12,19 @@ public class Settings extends Screen{
 
     @Override
     public void render(Graphics g) throws IOException {
-        JFrame p = new JFrame();
-        p.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        // setting the colour of the background
+        g.setColor(new Color(0, 100, 0));
+        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
-        // exiting action
-        p.setVisible(false);
+        // draw the words and characters
+        g.setFont(new Font("Arial", Font.BOLD, 60));
+        g.setColor(Color.WHITE);
+        g.fillRect((int) (Game.WIDTH / 2.70), (int) (Game.HEIGHT / 18), 300, 80);
+        g.setColor(Color.BLACK);
+        g.drawString("Settings", (int) (Game.WIDTH / 2.5), Game.HEIGHT / 8);
+
+        // setting page
+
     }
 
     @Override

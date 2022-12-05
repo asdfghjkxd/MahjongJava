@@ -200,12 +200,14 @@ public final class Tile implements Comparable<Tile>, Renderable {
     @Override
     public void render(Graphics g) throws IOException {
         if (this.owner instanceof Board || this.owner instanceof AI) {
-            g.drawImage(Thumbnails.of(backTile).rotate(rotationDegrees)
+            g.drawImage(Thumbnails.of(backTile).rotate(rotationDegrees).size(maxWidth, maxHeight)
                             .asBufferedImage(), startingX, startingY, null);
         } else if (this.owner instanceof Human || this.owner instanceof Discard) {
             g.drawImage(Thumbnails.of(
                     this.getTileImage())
-                    .rotate(rotationDegrees).asBufferedImage(), startingX, startingY, null);
+                    .rotate(rotationDegrees)
+                    .size(maxWidth, maxHeight)
+                    .asBufferedImage(), startingX, startingY, null);
         } else {
             JOptionPane.showMessageDialog(null, "Invalid Tile render configuration: " + this);
             System.exit(1);

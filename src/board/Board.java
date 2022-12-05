@@ -25,6 +25,7 @@ public final class Board implements Container, Commandable, Observable {
     private final LinkedList<Player> boardPlayers = new LinkedList<>();
     private Player currentPlayer = null;
     private int currentPlayerIndex = 0;
+    private WIND_DIRECTION windDirection = WIND_DIRECTION.NORTH;
     private final LinkedList<List<Integer>> POSITIONS =
             new LinkedList<>(Arrays.asList(
                     new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (int) (Game.HEIGHT / 13 * 11.5))),
@@ -32,6 +33,12 @@ public final class Board implements Container, Commandable, Observable {
                     new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (Game.HEIGHT / 30))),
                     new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 20 * 18.5), (Game.HEIGHT / 5)))
             ));
+    public enum WIND_DIRECTION {
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST
+    }
 
     public Board() {
         resetGame();
@@ -220,5 +227,22 @@ public final class Board implements Container, Commandable, Observable {
 
             System.out.println(boardTiles);
         }
+    }
+
+    // Getters and Setters
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public WIND_DIRECTION getWindDirection() {
+        return windDirection;
+    }
+
+    public void setWindDirection(WIND_DIRECTION windDirection) {
+        this.windDirection = windDirection;
     }
 }
