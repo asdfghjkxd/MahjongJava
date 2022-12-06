@@ -33,11 +33,22 @@ public final class Board implements Container, Commandable, Observable {
                     new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (Game.HEIGHT / 30))),
                     new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 20 * 18.5), (Game.HEIGHT / 5)))
             ));
+    private BOARD_PLACEMENT_DIRECTION direction = BOARD_PLACEMENT_DIRECTION.RIGHT;
+    private int counter = 1;
+    private int localCounter = 0;
+    private int startX = 300;
+    private int startY = 130;
     public enum WIND_DIRECTION {
         NORTH,
         SOUTH,
         EAST,
         WEST
+    }
+    private enum BOARD_PLACEMENT_DIRECTION {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 
     public Board() {
@@ -83,6 +94,10 @@ public final class Board implements Container, Commandable, Observable {
 
         // shuffle the board randomly
         Collections.shuffle(boardTiles, new Random());
+
+        for (Tile t: boardTiles) {
+            arrangeBoardTiles(t);
+        }
     }
 
     private void instantiatePlayers() {
@@ -109,11 +124,11 @@ public final class Board implements Container, Commandable, Observable {
                 p.setPlayerPosition(pos.get(0), pos.get(1));
             }
 
-            for (int i = 1; i < AIList.size(); i++) {
-                Player curr = AIList.get(i);
+            for (int i = 1; i <= AIList.size(); i++) {
+                Player curr = AIList.get(i - 1);
                 List<Integer> pos = POSITIONS.get(i);
 
-                if (i % 2 == 0) {
+                if (i % 2 == 1) {
                     curr.setRotationDegrees(90);
                     curr.setPlayerPosition(pos.get(0), pos.get(1));
                 } else {
@@ -135,6 +150,99 @@ public final class Board implements Container, Commandable, Observable {
         for (Player p: boardPlayers) {
             for (int i = 0; i < 13; i++) {
                 distributeToPlayer(p);
+            }
+            p.sortHand();
+        }
+    }
+
+    private void arrangeBoardTiles(Tile t) {
+        switch (direction) {
+            case RIGHT -> {
+                if (counter % 19 != 0) {
+                    if (localCounter == 0) {
+                        t.setTilePosition(startX, startY);
+                        startY += 10;
+                        localCounter++;
+                    } else if (localCounter == 1) {
+                        t.setTilePosition(startX, startY);
+                        startY -= 10;
+                        startX += 35;
+                        localCounter--;
+                        counter += 1;
+                    }
+                } else {
+                    counter = 1;
+                    localCounter = 0;
+                    direction = BOARD_PLACEMENT_DIRECTION.DOWN;
+                    startX += 30;
+                    this.arrangeBoardTiles(t);
+                }
+            }
+            case DOWN -> {
+                if (counter % 18 != 0) {
+                    if (localCounter == 0) {
+                        t.setRotationDegrees(90);
+                        t.setTilePosition(startX, startY);
+                        startX -= 10;
+                        localCounter++;
+                    } else if (localCounter == 1) {
+                        t.setRotationDegrees(90);
+                        t.setTilePosition(startX, startY);
+                        startX += 10;
+                        startY += 35;
+                        localCounter--;
+                        counter++;
+                    }
+                } else {
+                    counter = 1;
+                    localCounter = 0;
+                    direction = BOARD_PLACEMENT_DIRECTION.LEFT;
+                    startY -= 60;
+                    startX -= 65;
+                    this.arrangeBoardTiles(t);
+                }
+            }
+            case LEFT -> {
+                if (counter % 19 != 0) {
+                    if (localCounter == 0) {
+                        t.setTilePosition(startX, startY);
+                        startY += 10;
+                        localCounter++;
+                    } else if (localCounter == 1) {
+                        t.setTilePosition(startX, startY);
+                        startY -= 10;
+                        startX -= 37;
+                        localCounter--;
+                        counter ++;
+                    }
+                } else {
+                    counter = 1;
+                    localCounter = 0;
+                    startX -= 35;
+                    this.direction = BOARD_PLACEMENT_DIRECTION.UP;
+                    this.arrangeBoardTiles(t);
+                }
+            }
+            case UP -> {
+                if (counter % 18 != 0) {
+                    if (localCounter == 0) {
+                        t.setRotationDegrees(90);
+                        t.setTilePosition(startX, startY);
+                        startX += 10;
+                        localCounter++;
+                    } else if (localCounter == 1) {
+                        t.setRotationDegrees(90);
+                        t.setTilePosition(startX, startY);
+                        startX -= 10;
+                        startY -= 35;
+                        localCounter--;
+                        counter++;
+                    }
+                } else {
+                    counter = 1;
+                    localCounter = 0;
+                    this.arrangeBoardTiles(t);
+                }
             }
         }
     }

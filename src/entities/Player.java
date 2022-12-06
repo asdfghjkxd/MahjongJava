@@ -50,12 +50,14 @@ public abstract class Player implements Container, Observable, Renderable {
         if (!(tile.getOwner() instanceof AI || tile.getOwner() instanceof Player)) {
             tile.setOwner(this);
             tile.setRotationDegrees(getRotationDegrees());
-            this.setNextAvailableTilePosition(tile);
 
             if (!tile.getTileClass().equals("bonus")) {
+                this.setNextAvailableTilePosition(tile);
                 playerPublicHand.add(tile);
             } else {
                 score++;
+                // remove it from screen
+                tile.setTilePosition(-100, -100);
                 playerPrivateHand.add(tile);
             }
 
@@ -69,6 +71,7 @@ public abstract class Player implements Container, Observable, Renderable {
         Tile removed = strategy.pollDiscardTile(playerPublicHand);
         board.discardToDiscardPile(removed);
         strategy.onTileDiscard(playerPublicHand);
+        sortHand();
 
         return removed;
     }
@@ -81,6 +84,8 @@ public abstract class Player implements Container, Observable, Renderable {
             // remove tile from the hands
             playerPrivateHand.remove(t);
             playerPublicHand.remove(t);
+
+            sortHand();
         } else {
             JOptionPane.showMessageDialog(null, "Cannot discard tile that does not belong to" +
                     " player " + getName());
@@ -92,10 +97,8 @@ public abstract class Player implements Container, Observable, Renderable {
 
     @Override
     public void render(Graphics g) throws IOException {
-        for (Tile t: playerPrivateHand) {
-            t.render(g);
-        }
-
+        // TODO
+        // only render the public hand for now, and avoid rendering the private hand
         for (Tile t: playerPublicHand) {
             t.render(g);
         }
@@ -144,15 +147,13 @@ public abstract class Player implements Container, Observable, Renderable {
     // Utility functions to keep hand sorted and to derive the next positions for the tile to be placed into
     public void sortHand() {
         Collections.sort(playerPrivateHand);
-        rotateAllTiles(getRotationDegrees());
 
-        int tempX = getStartingX();
+        setMovingX(getStartingX());
+
         for (Tile t: playerPrivateHand) {
-            setNextAvailableTilePosition(t);
-            tempX += TILE_X_SPACING;
+            t.setTilePosition(getMovingX(), getStartingY());
+            setMovingX(getMovingX() + TILE_X_SPACING);
         }
-
-        setMovingX(tempX);
     }
 
     public void rotateAllTiles(int rotationDegrees) {
@@ -166,15 +167,14 @@ public abstract class Player implements Container, Observable, Renderable {
     }
 
     public void setNextAvailableTilePosition(Tile tile) {
-        tile.setStartingX(getMovingX());
-        tile.setStartingY(getStartingY());
+        tile.setTilePosition(getMovingX(), getStartingY());
         setMovingX(getMovingX() + TILE_X_SPACING);
     }
 
     // Getter and Setters
     public void setPlayerPosition(int x, int y) {
-        setStartingX(x);
-        setStartingY(y);
+        this.startingXPosition = x;
+        this.startingYPosition = y;
     }
 
     public int getRotationDegrees() {

@@ -1,6 +1,7 @@
 package entities;
 
 import board.Board;
+import pieces.Tile;
 import strategy.AIStrategy;
 
 import javax.swing.*;
@@ -10,6 +11,8 @@ public final class Human extends Player {
     public Human(int x, int y, Board board) {
         this.startingXPosition = x;
         this.startingYPosition = y;
+        this.movingXPosition = x;
+        this.movingYPosition = y;
         this.rotationDegrees = 0;
         this.name = pollForPlayerName();
         this.strategy = new AIStrategy();

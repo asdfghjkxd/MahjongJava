@@ -12,8 +12,10 @@ public final class AI extends Player {
     public AI(int x, int y, int rotationDegrees, Board board) {
         this.startingXPosition = x;
         this.startingYPosition = y;
+        this.movingXPosition = x;
+        this.movingYPosition = y;
         this.rotationDegrees = rotationDegrees;
-        this.name = new NameGenerator().generateNames(1).get(0).toString();
+        this.name = new NameGenerator().generateName().toString();
         this.strategy = new AIStrategy();
         this.score = 0;
         this.board = board;
@@ -26,19 +28,41 @@ public final class AI extends Player {
         Collections.sort(playerPrivateHand);
         rotateAllTiles(getRotationDegrees());
 
-        int tempY = getStartingY();
+        setMovingY(getStartingY());
         for (Tile t: playerPrivateHand) {
-            setNextAvailableTilePosition(t);
-            tempY += TILE_Y_SPACING;
+            t.setTilePosition(getStartingX(), getMovingY());
+            setMovingY(getMovingY() + TILE_Y_SPACING);
         }
+    }
 
-        setMovingY(tempY);
+    @Override
+    public void acceptItem(Tile tile) {
+        if (!(tile.getOwner() instanceof AI || tile.getOwner() instanceof Player)) {
+            tile.setOwner(this);
+            tile.setRotationDegrees(getRotationDegrees());
+
+            if (!tile.getTileClass().equals("bonus")) {
+                this.setNextAvailableTilePosition(tile);
+                playerPublicHand.add(tile);
+            } else {
+                score++;
+                // remove it from screen
+                tile.setTilePosition(-100, -100);
+                playerPrivateHand.add(tile);
+            }
+
+            sortHand();
+            strategy.onTileReceive(playerPublicHand);
+        }
     }
 
     @Override
     public void setNextAvailableTilePosition(Tile tile) {
-        tile.setStartingY(getMovingY());
-        tile.setStartingX(getStartingX());
-        setMovingY(getMovingY() + TILE_Y_SPACING);
+        if (rotationDegrees > 0) {
+            tile.setTilePosition(getStartingX(), getMovingY());
+            setMovingY(getMovingY() + TILE_Y_SPACING);
+        } else {
+            super.setNextAvailableTilePosition(tile);
+        }
     }
 }

@@ -295,6 +295,11 @@ public final class Tile implements Comparable<Tile>, Renderable {
         this.startingY = movingY;
     }
 
+    public void setTilePosition(int x, int y) {
+        this.startingX = x;
+        this.startingY = y;
+    }
+
     // Comparability
     public int compareTo(Tile o) {
         if (this.getTileClass().compareTo(o.getTileClass()) != 0) {
