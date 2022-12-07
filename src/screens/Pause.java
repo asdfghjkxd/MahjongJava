@@ -19,6 +19,10 @@ public class Pause extends Screen implements Tickable {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 40));
         g.drawString("PAUSED", 500, 400);
+        g.setColor(Color.WHITE);
+        g.fillRect(450, 475, 275, 70);
+        g.setColor(Color.BLACK);
+        g.drawString("Resume", 515, 525);
     }
 
     @Override

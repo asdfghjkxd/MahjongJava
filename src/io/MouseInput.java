@@ -14,11 +14,11 @@ public class MouseInput extends MouseAdapter {
 
     @Override
     public final void mousePressed(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
         switch (game.getGameState()) {
             case MAIN_MENU -> {
-                int mouseX = e.getX();
-                int mouseY = e.getY();
-
                 if (mouseOver(mouseX, mouseY, 480, 400, 200, 70)) {
                     game.resetGame();
                     game.setGameState(Game.GAME_STATE.IN_GAME);
@@ -31,9 +31,21 @@ public class MouseInput extends MouseAdapter {
                     }
                 }
             }
-            case PAUSED -> {}
-            case SETTINGS -> {}
-            case IN_GAME -> {}
+            case PAUSED -> {
+                if (mouseOver(mouseX, mouseY, 450, 475, 275, 70)) {
+                    game.setGameState(Game.GAME_STATE.IN_GAME);
+                }
+            }
+            case SETTINGS -> {
+                if (mouseOver(mouseX, mouseY, Game.WIDTH - 215, Game.HEIGHT - 175, 170, 80)) {
+                    game.setGameState(Game.GAME_STATE.MAIN_MENU);
+                }
+            }
+            case IN_GAME -> {
+                if (mouseOver(mouseX, mouseY, Game.WIDTH - 75, 25, 50, 50)) {
+                    game.setGameState(Game.GAME_STATE.PAUSED);
+                }
+            }
         }
     }
 

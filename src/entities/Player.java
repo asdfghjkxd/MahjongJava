@@ -27,7 +27,7 @@ public abstract class Player implements Container, Observable, Renderable {
     protected LinkedList<Tile> playerPrivateHand;
     protected Board board;
     protected final int TILE_X_SPACING = 50;
-    protected final int TILE_Y_SPACING = 30;
+    protected final int TILE_Y_SPACING = 40;
 
     // Interface methods
     @Override
@@ -148,12 +148,22 @@ public abstract class Player implements Container, Observable, Renderable {
     public void sortHand() {
         Collections.sort(playerPrivateHand);
 
-        setMovingX(getStartingX());
+        if (getRotationDegrees() == 0) {
+            setMovingX(getStartingX());
 
-        for (Tile t: playerPrivateHand) {
-            t.setTilePosition(getMovingX(), getStartingY());
-            setMovingX(getMovingX() + TILE_X_SPACING);
+            for (Tile t: playerPublicHand) {
+                t.setTilePosition(getMovingX(), getStartingY());
+                setMovingX(getMovingX() + TILE_X_SPACING);
+            }
+        } else {
+            setMovingY(getStartingY());
+
+            for (Tile t: playerPublicHand) {
+                t.setTilePosition(getStartingX(), getMovingY());
+                setMovingY(getMovingY() + TILE_Y_SPACING);
+            }
         }
+
     }
 
     public void rotateAllTiles(int rotationDegrees) {

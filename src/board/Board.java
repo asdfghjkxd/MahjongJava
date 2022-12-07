@@ -58,6 +58,14 @@ public final class Board implements Container, Commandable, Observable {
 
     // Instantiation of the Board and Players
     public void resetGame() {
+        // reset board tile placement parameters
+        startX = 300;
+        startY = 130;
+        direction = BOARD_PLACEMENT_DIRECTION.RIGHT;
+        counter = 1;
+        localCounter = 0;
+
+        // reset the board items
         resetContainer();
         instantiateBoard();
         instantiatePlayers();
@@ -139,6 +147,10 @@ public final class Board implements Container, Commandable, Observable {
 
             // TODO: decide if initial distribution should be done during player setup or after
             initialDistribution();
+        } else {
+            // if it is not empty for any reason, clear the players then reset it
+            boardPlayers.clear();
+            instantiatePlayers();
         }
     }
 
@@ -151,6 +163,7 @@ public final class Board implements Container, Commandable, Observable {
             for (int i = 0; i < 13; i++) {
                 distributeToPlayer(p);
             }
+
             p.sortHand();
         }
     }
@@ -241,6 +254,7 @@ public final class Board implements Container, Commandable, Observable {
                 } else {
                     counter = 1;
                     localCounter = 0;
+                    direction = BOARD_PLACEMENT_DIRECTION.RIGHT;
                     this.arrangeBoardTiles(t);
                 }
             }

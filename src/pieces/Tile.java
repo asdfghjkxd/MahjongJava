@@ -18,8 +18,8 @@ import java.util.HashMap;
 
 public final class Tile implements Comparable<Tile>, Renderable {
     private static final HashMap<String, HashMap<String, HashMap<String, BufferedImage>>> table = new HashMap<>();
-    public static final int maxHeight = 50;
-    public static final int maxWidth = 40;
+    public static final int maxHeight = 45;
+    public static final int maxWidth = 36;
     public static BufferedImage backTile;
     private String tileClass;
     private String tileSubclass;

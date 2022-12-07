@@ -22,24 +22,25 @@ public class HUD extends Screen {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 16));
         g.setColor(Color.WHITE);
-        g.fillRect(35, 20, 300,70);
+        g.fillRect(35, 20, 225,90);
         g.setColor(Color.BLACK);
+        g.drawString("Wind Direction: " + board.getWindDirection(), 40, 40);
         g.drawString("Current Player: " +
                 (board.getCurrentPlayer() == null
                         ? "NULL"
                         : board.getCurrentPlayer().getName()), 40, 60);
         g.drawString("Direction: ⥁", 40, 80);
-        g.drawString("Wind Direction: " + board.getWindDirection(), 40, 40);
-
-        g.setColor(Color.WHITE);
-        g.fillRect(Game.WIDTH - 185, 20, 160,30);
-        g.setColor(Color.BLACK);
-        g.drawString("Current Score: " + board.getCurrentPlayer().getScore() + " 台", game.getWidth() - 180, 40);
+        g.drawString("Current Score: " + board.getCurrentPlayer().getScore() + " 台", 40, 100);
 
         Tile img = new Tile(0, 0, "honour", "wind",
                 board.getWindDirection().toString().toLowerCase(), null, 0);
 
         g.drawImage(img.getTileImage(), game.getWidth() / 2 - 30, game.getHeight() / 2 - 35, null);
+        g.setColor(Color.WHITE);
+        g.fillRect(Game.WIDTH - 75, 25, 50, 50);
+        g.setColor(Color.BLACK);
+        g.fillRect(Game.WIDTH - 70, 30, 15, 40);
+        g.fillRect(Game.WIDTH - 45, 30, 15, 40);
     }
 
     @Override

@@ -15,24 +15,12 @@ public final class AI extends Player {
         this.movingXPosition = x;
         this.movingYPosition = y;
         this.rotationDegrees = rotationDegrees;
-        this.name = new NameGenerator().generateName().toString();
+        this.name = new NameGenerator().generateName().toString().split(" ")[0];
         this.strategy = new AIStrategy();
         this.score = 0;
         this.board = board;
         this.playerPrivateHand = new LinkedList<>();
         this.playerPublicHand = new LinkedList<>();
-    }
-
-    @Override
-    public void sortHand() {
-        Collections.sort(playerPrivateHand);
-        rotateAllTiles(getRotationDegrees());
-
-        setMovingY(getStartingY());
-        for (Tile t: playerPrivateHand) {
-            t.setTilePosition(getStartingX(), getMovingY());
-            setMovingY(getMovingY() + TILE_Y_SPACING);
-        }
     }
 
     @Override

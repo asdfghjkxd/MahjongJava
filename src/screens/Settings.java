@@ -25,6 +25,10 @@ public class Settings extends Screen{
 
         // setting page
 
+        g.setColor(Color.WHITE);
+        g.fillRect(Game.WIDTH - 215, Game.HEIGHT - 175, 170, 80);
+        g.setColor(Color.BLACK);
+        g.drawString("Back", Game.WIDTH - 200, Game.HEIGHT - 115);
     }
 
     @Override
