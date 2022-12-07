@@ -106,7 +106,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
     }
 
     public void resetGame() {
-
+        board.resetGame();
     }
 
     @Override

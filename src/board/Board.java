@@ -52,7 +52,7 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     public Board() {
-        resetGame();
+        // resetGame();
     }
 
 

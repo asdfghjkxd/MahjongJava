@@ -20,7 +20,7 @@ public class MouseInput extends MouseAdapter {
                 int mouseY = e.getY();
 
                 if (mouseOver(mouseX, mouseY, 480, 400, 200, 70)) {
-
+                    game.resetGame();
                     game.setGameState(Game.GAME_STATE.IN_GAME);
                 } else if (mouseOver(mouseX, mouseY, 480, 515, 200, 70)) {
                     game.setGameState(Game.GAME_STATE.SETTINGS);

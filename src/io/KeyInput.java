@@ -43,7 +43,6 @@ public class KeyInput extends KeyAdapter {
                         }
                         case IN_GAME, PAUSED, SETTINGS -> {
                             game.setGameState(Game.GAME_STATE.MAIN_MENU);
-                            // game.resetGame();
                         }
                     }
 
