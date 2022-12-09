@@ -12,7 +12,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void render(Graphics g) throws IOException {
-        // super.render(g);
+        // do nothing
     }
 
     @Override

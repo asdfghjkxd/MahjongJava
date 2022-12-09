@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class BackTrack {
+public class HandScorer {
     private Stack<Tile> pushPopTiles = new Stack<>();
     private HashMap<Tile, LinkedList<Boolean>> tileTraversedWin = new HashMap<>();
 
 
-    public BackTrack(LinkedList<Tile> inputTiles) {
+    public HandScorer(LinkedList<Tile> inputTiles) {
         for (Tile t: inputTiles) {
             tileTraversedWin.putIfAbsent(t, new LinkedList<>(Arrays.asList(false, false)));
         }

@@ -1,10 +1,8 @@
 package core;
 
-import algorithms.TilePattern;
 import board.Board;
 import io.KeyInput;
 import io.MouseInput;
-import pieces.Tile;
 import screens.*;
 import utils.Commandable;
 
@@ -36,6 +34,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
     private final Pause pause;
     private final GameScreen gameScreen;
     private final Settings settings;
+    private final End end;
     private final Board board;
 
     public static void main(String[] args) {
@@ -50,6 +49,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
         pause = new Pause(this);
         gameScreen = new GameScreen(this);
         settings = new Settings(this);
+        end = new End(this, board);
 
         this.addKeyListener(new KeyInput(this));
         this.addMouseListener(new MouseInput(this));
@@ -146,6 +146,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
             case MAIN_MENU -> mainMenu.render(graph);
             case SETTINGS -> settings.render(graph);
             case PAUSED -> pause.render(graph);
+            case END -> end.render(graph);
         }
 
         graph.dispose();
@@ -159,13 +160,5 @@ public final class Game extends Canvas implements Runnable, Commandable {
 
     public void setGameState(GAME_STATE gameState) {
         this.gameState = gameState;
-    }
-
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
     }
 }

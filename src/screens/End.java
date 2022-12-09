@@ -1,18 +1,25 @@
 package screens;
 
+import board.Board;
 import core.Game;
 
 import java.awt.*;
 import java.io.IOException;
 
 public class End extends Screen {
-    public End(Game game) {
+    private final Board board;
+
+    public End(Game game, Board board) {
         super(game);
+        this.board = board;
     }
 
     @Override
     public void render(Graphics g) throws IOException {
-        super.render(g);
+        g.setColor(new Color(0, 100, 0));
+        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        g.setColor(Color.BLACK);
+        g.drawString("Game Over! " + board.getCurrentPlayer() + " wins!", 200, 200);
     }
 
     @Override

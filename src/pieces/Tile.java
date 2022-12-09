@@ -15,9 +15,11 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
 
-public final class Tile implements Comparable<Tile>, Renderable {
+/**
+ * Base class for how tiles are implemented in this game
+ */
+public class Tile implements Comparable<Tile>, Renderable {
     private static final HashMap<String, HashMap<String, HashMap<String, BufferedImage>>> table = new HashMap<>();
     public static final int maxHeight = 45;
     public static final int maxWidth = 36;
@@ -197,6 +199,10 @@ public final class Tile implements Comparable<Tile>, Renderable {
         }
     }
 
+    public Tile() {
+        // empty constructor, does nothing
+    }
+
     // Renderable functions
     @Override
     public void render(Graphics g) throws IOException {
@@ -318,7 +324,6 @@ public final class Tile implements Comparable<Tile>, Renderable {
         return 0;
     }
 
-    // Hashable and Comparable functions
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Tile) {
