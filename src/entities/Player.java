@@ -1,6 +1,7 @@
 package entities;
 
 import board.Board;
+import com.sun.source.tree.Tree;
 import core.Test;
 import pieces.Tile;
 import strategy.Strategy;
@@ -11,8 +12,8 @@ import utils.Renderable;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
+import java.util.List;
 
 public abstract class Player implements Container, Observable, Renderable {
     protected int startingXPosition;
@@ -182,7 +183,7 @@ public abstract class Player implements Container, Observable, Renderable {
     }
 
     // Getter and Setters
-    public void setPlayerPosition(int x, int y) {
+    public final void setPlayerPosition(int x, int y) {
         this.startingXPosition = x;
         this.startingYPosition = y;
     }

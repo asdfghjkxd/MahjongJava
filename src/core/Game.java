@@ -1,8 +1,10 @@
 package core;
 
+import algorithms.TilePattern;
 import board.Board;
 import io.KeyInput;
 import io.MouseInput;
+import pieces.Tile;
 import screens.*;
 import utils.Commandable;
 

@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public final class Tile implements Comparable<Tile>, Renderable {
     private static final HashMap<String, HashMap<String, HashMap<String, BufferedImage>>> table = new HashMap<>();
@@ -317,6 +318,7 @@ public final class Tile implements Comparable<Tile>, Renderable {
         return 0;
     }
 
+    // Hashable and Comparable functions
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Tile) {
@@ -328,12 +330,11 @@ public final class Tile implements Comparable<Tile>, Renderable {
         }
     }
 
-
     // Utility
     @Override
     public String toString() {
         return String.valueOf(getTileClass().toUpperCase().charAt(0)) +
-                getTileClass().toUpperCase().charAt(0) + "_" +
+                getTileSubclass().toUpperCase().charAt(0) + "_" +
                 getTileValue().toUpperCase();
     }
 
