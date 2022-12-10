@@ -28,3 +28,4 @@ hs_err_pid*
 .old
 out/production/MahjongJava/README.md
 *.iml
+MahjongJava.iml
