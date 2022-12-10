@@ -27,7 +27,8 @@ public final class Discard implements Container {
         if (!discardPile.isEmpty()) {
             return discardPile.pop();
         } else {
-            JOptionPane.showMessageDialog(null,"Discard Pile is empty!");
+            JOptionPane.showMessageDialog(null,"Discard Pile is empty!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
     }

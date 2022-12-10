@@ -42,17 +42,19 @@ public final class Game extends Canvas implements Runnable, Commandable {
     }
 
     public Game() {
-        new Window(WIDTH, HEIGHT, GAMENAME, this);
-        mainMenu = new MainMenu(this);
-        board = new Board();
-        hud = new HUD(this, board);
-        pause = new Pause(this);
-        gameScreen = new GameScreen(this);
-        settings = new Settings(this);
-        end = new End(this, board);
+        synchronized (this) {
+            new Window(WIDTH, HEIGHT, GAMENAME, this);
+            mainMenu = new MainMenu(this);
+            board = new Board();
+            hud = new HUD(this, board);
+            pause = new Pause(this);
+            gameScreen = new GameScreen(this);
+            settings = new Settings(this);
+            end = new End(this, board);
 
-        this.addKeyListener(new KeyInput(this));
-        this.addMouseListener(new MouseInput(this));
+            this.addKeyListener(new KeyInput(this, hud));
+            this.addMouseListener(new MouseInput(this, hud));
+        }
     }
 
     // Functions necessary for running the game

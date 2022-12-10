@@ -1,7 +1,7 @@
 package entities;
 
 import board.Board;
-import pieces.Tile;
+import core.Game;
 import strategy.AIStrategy;
 
 import javax.swing.*;
@@ -18,25 +18,30 @@ public final class Human extends Player {
         this.strategy = new AIStrategy();
         this.score = 0;
         this.board = board;
-        this.playerPrivateHand = new LinkedList<>();
-        this.playerPublicHand = new LinkedList<>();
+        this.publicHand = new LinkedList<>();
+        this.privateHand = new LinkedList<>();
     }
 
     public String pollForPlayerName() {
         String name = "";
 
         JOptionPane.showMessageDialog(null, "Hello! Before you proceed, please tell us what we " +
-                "should call you!");
+                "should call you!", "Welcome", JOptionPane.INFORMATION_MESSAGE);
 
         while (name.equals("")) {
-            name = JOptionPane.showInputDialog("Enter in your name below:");
+            name = JOptionPane.showInputDialog(null, "Enter in your name: ",
+                    "Name Input", JOptionPane.INFORMATION_MESSAGE);
 
-            if (name.equals("")) {
-                JOptionPane.showMessageDialog(null, "Your name cannot be empty!");
+            if (name == null) {
+                name = "Player";
+            } else if (name.equals("")) {
+                JOptionPane.showMessageDialog(null, "Your name cannot be empty!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 
-        JOptionPane.showMessageDialog(null, "Hello, " + name + "!");
+        JOptionPane.showMessageDialog(null, "Hello, " + name + "!",
+                "Hello!", JOptionPane.INFORMATION_MESSAGE);
         return name;
     }
 }

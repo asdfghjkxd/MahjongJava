@@ -1,5 +1,6 @@
 package screens;
 
+import board.Board;
 import core.Game;
 import io.MouseInput;
 import utils.Renderable;
@@ -16,6 +17,10 @@ public abstract class Screen extends MouseInput implements Tickable, Renderable 
 
     public Screen(Game game) {
         super(game);
+    }
+
+    public Screen(Game game, HUD hud) {
+        super(game, hud);
     }
 
 

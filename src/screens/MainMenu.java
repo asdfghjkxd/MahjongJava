@@ -1,8 +1,16 @@
 package screens;
 
+import constants.Constants;
 import core.Game;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
+import pieces.Tile;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainMenu extends Screen {
@@ -12,27 +20,40 @@ public class MainMenu extends Screen {
 
     @Override
     public void render(Graphics g) throws IOException {
-        g.setColor(new Color(0, 100, 0));
+        g.setColor(Constants.BACKGROUND_COLOUR);
         g.fill3DRect(0, 0, Game.WIDTH, Game.HEIGHT, true);
-        g.setFont(new Font("Arial", Font.BOLD, 60));
-        g.setColor(Color.WHITE);
+        g.setFont(Constants.MEDIUM_BOLD_FONT);
+        g.setColor(Constants.TEXTBOX_COLOUR);
         g.fill3DRect(423, 190, 320, 80, true);
-        g.setColor(Color.BLACK);
+        g.setColor(Constants.FONT_COLOUR);
         g.drawString("Mahjong", 458, 250);
 
-        g.setFont(new Font("Arial", Font.BOLD, 40));
-        g.setColor(Color.WHITE);
+        g.setFont(Constants.SMALL_BOLD_FONT);
+        g.setColor(Constants.TEXTBOX_COLOUR);
         g.fill3DRect(480, 400, 200, 70, true);
         g.fill3DRect(480, 515, 200, 70, true);
         g.fill3DRect(480, 630, 200, 70, true);
 
-        g.setColor(Color.BLACK);
+        g.setColor(Constants.FONT_COLOUR);
         g.drawRect(480, 400, 200, 70);
         g.drawRect(480, 515, 200, 70);
         g.drawRect(480, 630, 200, 70);
         g.drawString("Play", 540, 450);
         g.drawString("Settings", 505, 565);
         g.drawString("Quit", 540, 680);
+
+        g.drawImage(
+                Thumbnails.of(ImageIO.read(new FileInputStream("assets/dragon_red.png")))
+                        .size(120, 146)
+                        .rotate(-20)
+                        .asBufferedImage(),
+                230, 150, null);
+        g.drawImage(
+                Thumbnails.of(ImageIO.read(new FileInputStream("assets/dragon_green.png")))
+                        .size(120, 146)
+                        .rotate(20)
+                        .asBufferedImage(),
+                775, 150, null);
     }
 
     @Override

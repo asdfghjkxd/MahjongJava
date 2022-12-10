@@ -1,5 +1,6 @@
 package screens;
 
+import constants.Constants;
 import core.Game;
 import utils.Tickable;
 
@@ -14,14 +15,14 @@ public class Pause extends Screen implements Tickable {
 
     @Override
     public void render(Graphics g) throws IOException {
-        g.setColor(new Color(0, 80, 0));
+        g.setColor(Constants.BACKGROUND_DARKENED);
         g.fillRect(0, 0, game.getWidth(), game.getHeight());
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 40));
+        g.setColor(Constants.TEXTBOX_COLOUR);
+        g.setFont(Constants.SMALL_BOLD_FONT);
         g.drawString("PAUSED", 500, 400);
-        g.setColor(Color.WHITE);
+        g.setColor(Constants.TEXTBOX_COLOUR);
         g.fillRect(450, 475, 275, 70);
-        g.setColor(Color.BLACK);
+        g.setColor(Constants.FONT_COLOUR);
         g.drawString("Resume", 510, 525);
     }
 

@@ -58,7 +58,8 @@ public class Tile implements Comparable<Tile>, Renderable {
                         .asBufferedImage());
 
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error in loading suit assets, terminating...");
+                JOptionPane.showMessageDialog(null, "Error in loading suit assets, terminating...",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             }
         }
@@ -96,7 +97,8 @@ public class Tile implements Comparable<Tile>, Renderable {
                     .size(maxWidth, maxHeight)
                     .asBufferedImage());
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in loading honour assets, terminating...");
+            JOptionPane.showMessageDialog(null, "Error in loading honour assets, terminating...",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
 
@@ -147,7 +149,8 @@ public class Tile implements Comparable<Tile>, Renderable {
                     .size(maxWidth, maxHeight)
                     .asBufferedImage());
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in loading bonus assets, terminating...");
+            JOptionPane.showMessageDialog(null, "Error in loading bonus assets, terminating...",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
 
@@ -163,7 +166,8 @@ public class Tile implements Comparable<Tile>, Renderable {
                     .size(maxWidth, maxHeight)
                     .asBufferedImage();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in loading assets, terminating...");
+            JOptionPane.showMessageDialog(null, "Error in loading assets, terminating...",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
     }
@@ -194,7 +198,8 @@ public class Tile implements Comparable<Tile>, Renderable {
             this.owner = board;
             this.rotationDegrees = Math.abs(rotationDegrees % 360);
         } else {
-            JOptionPane.showMessageDialog(null, "Illegal instantiation of Tile");
+            JOptionPane.showMessageDialog(null, "Illegal instantiation of Tile", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
     }
@@ -216,7 +221,8 @@ public class Tile implements Comparable<Tile>, Renderable {
                     .size(maxWidth, maxHeight)
                     .asBufferedImage(), startingX, startingY, null);
         } else {
-            JOptionPane.showMessageDialog(null, "Invalid Tile render configuration: " + this);
+            JOptionPane.showMessageDialog(null, "Invalid Tile render configuration: " + this,
+                    "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
     }
@@ -305,6 +311,8 @@ public class Tile implements Comparable<Tile>, Renderable {
     public void setTilePosition(int x, int y) {
         this.startingX = x;
         this.startingY = y;
+        this.movingX = x;
+        this.movingY = y;
     }
 
     // Comparability
@@ -317,7 +325,8 @@ public class Tile implements Comparable<Tile>, Renderable {
             if (this.getTileValue() != null && o.getTileValue() != null) {
                 return this.getTileValue().compareTo(o.getTileValue());
             } else {
-                JOptionPane.showMessageDialog(null, "Invalid Comparator");
+                JOptionPane.showMessageDialog(null, "Invalid Comparator", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 

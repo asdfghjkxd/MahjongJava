@@ -1,7 +1,6 @@
 package entities;
 
 import board.Board;
-import com.sun.source.tree.Tree;
 import core.Test;
 import pieces.Tile;
 import strategy.Strategy;
@@ -13,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 public abstract class Player implements Container, Observable, Renderable {
     protected int startingXPosition;
@@ -24,8 +22,8 @@ public abstract class Player implements Container, Observable, Renderable {
     protected String name;
     protected Strategy strategy;
     protected int score;
-    protected LinkedList<Tile> playerPublicHand;
-    protected LinkedList<Tile> playerPrivateHand;
+    protected LinkedList<Tile> privateHand;
+    protected LinkedList<Tile> publicHand;
     protected Board board;
     protected final int TILE_X_SPACING = 50;
     protected final int TILE_Y_SPACING = 40;
@@ -33,15 +31,15 @@ public abstract class Player implements Container, Observable, Renderable {
     // Interface methods
     @Override
     public void resetContainer() {
-        for (Tile t: playerPublicHand) {
+        for (Tile t: privateHand) {
             t.setOwner(board);
         }
-        playerPublicHand.clear();
+        privateHand.clear();
 
-        for (Tile t: playerPrivateHand) {
+        for (Tile t: publicHand) {
             t.setOwner(board);
         }
-        playerPrivateHand.clear();
+        publicHand.clear();
 
         score = 0;
     }
@@ -54,24 +52,24 @@ public abstract class Player implements Container, Observable, Renderable {
 
             if (!tile.getTileClass().equals("bonus")) {
                 this.setNextAvailableTilePosition(tile);
-                playerPublicHand.add(tile);
+                privateHand.add(tile);
             } else {
                 score++;
                 // remove it from screen
                 tile.setTilePosition(-100, -100);
-                playerPrivateHand.add(tile);
+                publicHand.add(tile);
             }
 
             sortHand();
-            strategy.onTileReceive(playerPublicHand);
+            strategy.onTileReceive(privateHand);
         }
     }
 
     @Override
     public Tile discardItem() {
-        Tile removed = strategy.pollDiscardTile(playerPublicHand);
+        Tile removed = strategy.pollDiscardTile(privateHand);
         board.discardToDiscardPile(removed);
-        strategy.onTileDiscard(playerPublicHand);
+        strategy.onTileDiscard(privateHand);
         sortHand();
 
         return removed;
@@ -83,13 +81,13 @@ public abstract class Player implements Container, Observable, Renderable {
             board.discardToDiscardPile(t);
 
             // remove tile from the hands
-            playerPrivateHand.remove(t);
-            playerPublicHand.remove(t);
+            publicHand.remove(t);
+            privateHand.remove(t);
 
             sortHand();
         } else {
             JOptionPane.showMessageDialog(null, "Cannot discard tile that does not belong to" +
-                    " player " + getName());
+                    " player " + getName(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         // return the immediate tile for interface consistency
@@ -100,7 +98,7 @@ public abstract class Player implements Container, Observable, Renderable {
     public void render(Graphics g) throws IOException {
         // TODO
         // only render the public hand for now, and avoid rendering the private hand
-        for (Tile t: playerPublicHand) {
+        for (Tile t: privateHand) {
             t.render(g);
         }
     }
@@ -147,19 +145,19 @@ public abstract class Player implements Container, Observable, Renderable {
 
     // Utility functions to keep hand sorted and to derive the next positions for the tile to be placed into
     public void sortHand() {
-        Collections.sort(playerPrivateHand);
+        Collections.sort(publicHand);
 
         if (getRotationDegrees() == 0) {
             setMovingX(getStartingX());
 
-            for (Tile t: playerPublicHand) {
+            for (Tile t: privateHand) {
                 t.setTilePosition(getMovingX(), getStartingY());
                 setMovingX(getMovingX() + TILE_X_SPACING);
             }
         } else {
             setMovingY(getStartingY());
 
-            for (Tile t: playerPublicHand) {
+            for (Tile t: privateHand) {
                 t.setTilePosition(getStartingX(), getMovingY());
                 setMovingY(getMovingY() + TILE_Y_SPACING);
             }
@@ -168,11 +166,11 @@ public abstract class Player implements Container, Observable, Renderable {
     }
 
     public void rotateAllTiles(int rotationDegrees) {
-        for (Tile t: playerPrivateHand) {
+        for (Tile t: publicHand) {
             t.setRotationDegrees(rotationDegrees % 360);
         }
 
-        for (Tile t: playerPublicHand) {
+        for (Tile t: privateHand) {
             t.setRotationDegrees(rotationDegrees % 360);
         }
     }
@@ -212,19 +210,36 @@ public abstract class Player implements Container, Observable, Renderable {
         this.score = score;
     }
 
+    public int[] getTilePosition(int pos) {
+        if (pos < 0 || pos > privateHand.size() - 1) {
+            return new int[]{-100, -100};
+        } else {
+            Tile curr = privateHand.get(pos);
+            return new int[]{curr.getMovingX(), curr.getMovingY()};
+        }
+    }
+
+    public int getNumberOfPublicTiles() {
+        return publicHand.size();
+    }
+
+    public int getNumberOfPrivateTiles() {
+        return privateHand.size();
+    }
+
     // Utility functions
     @Override
     public String toString() {
         if (Test.test_state.equals(Test.TEST_STATE.TESTING)) {
             return "Player: " + getName() + "\n" +
-                    playerPublicHand.toString() + "\n" +
-                    playerPrivateHand.toString() + "\n" +
-                    playerPrivateHand.size() + "\n" +
-                    playerPublicHand.size() + "\n";
+                    privateHand.toString() + "\n" +
+                    publicHand.toString() + "\n" +
+                    publicHand.size() + "\n" +
+                    privateHand.size() + "\n";
         } else {
             return "Player: " + getName() + "\n" +
                     "Score: " + getScore() + "\n" +
-                    playerPublicHand.toString() + "\n";
+                    privateHand.toString() + "\n";
         }
     }
 }

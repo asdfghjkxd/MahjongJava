@@ -30,7 +30,11 @@ public class WrappedTile extends Tile {
         winning = false;
     }
 
-    // Wrapped tiles are treated the same as tiles
+    public Tile getTile() {
+        return tile;
+    }
+
+    // Wrapped tiles are treated the same as the tile it wraps around
     @Override
     public int hashCode() {
         return tile.hashCode();

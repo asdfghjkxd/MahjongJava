@@ -5,7 +5,6 @@ import org.ajbrown.namemachine.NameGenerator;
 import pieces.Tile;
 import strategy.AIStrategy;
 
-import java.util.Collections;
 import java.util.LinkedList;
 
 public final class AI extends Player {
@@ -19,29 +18,8 @@ public final class AI extends Player {
         this.strategy = new AIStrategy();
         this.score = 0;
         this.board = board;
-        this.playerPrivateHand = new LinkedList<>();
-        this.playerPublicHand = new LinkedList<>();
-    }
-
-    @Override
-    public void acceptItem(Tile tile) {
-        if (!(tile.getOwner() instanceof AI || tile.getOwner() instanceof Player)) {
-            tile.setOwner(this);
-            tile.setRotationDegrees(getRotationDegrees());
-
-            if (!tile.getTileClass().equals("bonus")) {
-                this.setNextAvailableTilePosition(tile);
-                playerPublicHand.add(tile);
-            } else {
-                score++;
-                // remove it from screen
-                tile.setTilePosition(-100, -100);
-                playerPrivateHand.add(tile);
-            }
-
-            sortHand();
-            strategy.onTileReceive(playerPublicHand);
-        }
+        this.publicHand = new LinkedList<>();
+        this.privateHand = new LinkedList<>();
     }
 
     @Override

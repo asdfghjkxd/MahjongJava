@@ -24,6 +24,7 @@ public final class Board implements Container, Commandable, Observable {
     private final Discard discardedTiles = new Discard();
     private final LinkedList<Player> boardPlayers = new LinkedList<>();
     private Player currentPlayer = null;
+    private Player humanPlayer;
     private int currentPlayerIndex = 0;
     private WIND_DIRECTION windDirection = WIND_DIRECTION.NORTH;
     private final LinkedList<List<Integer>> POSITIONS =
@@ -69,6 +70,7 @@ public final class Board implements Container, Commandable, Observable {
         resetContainer();
         instantiateBoard();
         instantiatePlayers();
+        humanPlayer = boardPlayers.stream().filter(x -> x instanceof Human).toList().get(0);
         currentPlayer = boardPlayers.get(currentPlayerIndex);
     }
 
@@ -359,6 +361,10 @@ public final class Board implements Container, Commandable, Observable {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public Player getHumanPlayer() {
+        return boardPlayers.stream().filter(x -> x instanceof Human).toList().get(0);
     }
 
     public WIND_DIRECTION getWindDirection() {
