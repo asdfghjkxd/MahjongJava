@@ -2,7 +2,9 @@ package entities;
 
 import board.Board;
 import core.Game;
+import screens.HUD;
 import strategy.AIStrategy;
+import strategy.HumanStrategy;
 
 import javax.swing.*;
 import java.util.LinkedList;
@@ -22,7 +24,7 @@ public final class Human extends Player {
         this.privateHand = new LinkedList<>();
     }
 
-    public String pollForPlayerName() {
+    public synchronized String pollForPlayerName() {
         String name = "";
 
         JOptionPane.showMessageDialog(null, "Hello! Before you proceed, please tell us what we " +
@@ -43,5 +45,19 @@ public final class Human extends Player {
         JOptionPane.showMessageDialog(null, "Hello, " + name + "!",
                 "Hello!", JOptionPane.INFORMATION_MESSAGE);
         return name;
+    }
+
+    @Override
+    public synchronized boolean strategyAction(int tilePos) {
+        int result = JOptionPane.showConfirmDialog(null, "Discard Tile?", "Confirm",
+                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+        if (result == 0) {
+            discardItem(tilePos);
+            HUD.tileCounter = Math.max(0, HUD.tileCounter - 1);
+            return true;
+        }
+
+        return false;
     }
 }

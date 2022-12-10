@@ -23,12 +23,18 @@ public final class AI extends Player {
     }
 
     @Override
-    public void setNextAvailableTilePosition(Tile tile) {
+    public synchronized void setNextAvailableTilePosition(Tile tile) {
         if (rotationDegrees > 0) {
             tile.setTilePosition(getStartingX(), getMovingY());
             setMovingY(getMovingY() + TILE_Y_SPACING);
         } else {
             super.setNextAvailableTilePosition(tile);
         }
+    }
+
+    @Override
+    public synchronized boolean strategyAction(int tilePos) {
+        discardItem();
+        return true;
     }
 }

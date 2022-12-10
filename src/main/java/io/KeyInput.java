@@ -1,7 +1,9 @@
 package io;
 
+import board.Board;
 import constants.Constants;
 import core.Game;
+import pieces.Tile;
 import screens.HUD;
 
 import javax.swing.*;
@@ -11,10 +13,12 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter {
     private final Game game;
     private final HUD hud;
+    private final Board board;
 
-    public KeyInput(Game game, HUD hud) {
+    public KeyInput(Game game, HUD hud, Board board) {
         this.game = game;
         this.hud = hud;
+        this.board = board;
     }
 
     @Override
@@ -73,7 +77,12 @@ public class KeyInput extends KeyAdapter {
                 hud.shiftCursor(HUD.tileCounter - 1);
             }
             case KeyEvent.VK_ENTER -> {
-                // nothing happens yet
+                if (board.getCurrentPlayer().equals(board.getHumanPlayer())) {
+                    board.enforcePlayerAction(HUD.tileCounter);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cannot perform actions when " +
+                            "it is not your turn!", "Wait your turn!", JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
     }

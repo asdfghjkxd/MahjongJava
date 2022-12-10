@@ -52,7 +52,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
             settings = new Settings(this);
             end = new End(this, board);
 
-            this.addKeyListener(new KeyInput(this, hud));
+            this.addKeyListener(new KeyInput(this, hud, board));
             this.addMouseListener(new MouseInput(this, hud));
         }
     }
@@ -116,13 +116,8 @@ public final class Game extends Canvas implements Runnable, Commandable {
     @Override
     public synchronized void synchronise_ticks() {
 //        switch (this.gameState) {
-//            case GAME -> {
-//                hud.tick();
-//                handler.tick();
-//            }
-//            case MENU, END -> {
-//                handler.tick();
-//                menu.tick();
+//            case IN_GAME -> {
+//                board.synchronise_ticks();
 //            }
 //        }
     }

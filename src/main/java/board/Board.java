@@ -6,10 +6,12 @@ import entities.AI;
 import entities.Human;
 import entities.Player;
 import pieces.Tile;
+import screens.HUD;
 import utils.Commandable;
 import utils.Container;
 import utils.Observable;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
@@ -288,8 +290,11 @@ public final class Board implements Container, Commandable, Observable {
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 4;
     }
 
-    public void enforcePlayerAction() {
-
+    public void enforcePlayerAction(int tilePos) {
+        if (getCurrentPlayer().strategyAction(tilePos)) {
+            advancePlayer();
+            distributeToPlayer(getCurrentPlayer());
+        }
     }
 
     // Interface methods
@@ -322,17 +327,21 @@ public final class Board implements Container, Commandable, Observable {
 
     @Override
     public void synchronise_ticks() {
-
+        enforcePlayerAction(HUD.tileCounter);
     }
 
     @Override
     public void synchronise_renders(Graphics g) throws IOException {
-        for (Tile t: boardTiles) {
-            t.render(g);
+        synchronized (boardTiles) {
+            for (Tile t : boardTiles) {
+                t.render(g);
+            }
         }
 
-        for (Player p: boardPlayers) {
-            p.render(g);
+        synchronized (boardPlayers) {
+            for (Player p : boardPlayers) {
+                p.render(g);
+            }
         }
 
     }
