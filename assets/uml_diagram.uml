@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="281.875" y="-313.83333333333337">strategy.HumanStrategy</node>
+    <node x="1087.5" y="959.5">core.Game</node>
+    <node x="974.0" y="1667.2857142857142">screens.End</node>
+    <node x="1431.5" y="2136.035714285714">utils.Tickable</node>
+    <node x="1102.0" y="1371.2857142857142">screens.HUD</node>
+    <node x="574.1145833333333" y="1027.0">utils.Container</node>
+    <node x="1397.0" y="1384.2857142857142">screens.GameScreen</node>
+    <node x="1260.0" y="1596.2857142857142">screens.Screen</node>
+    <node x="72.58333333333331" y="879.0">pieces.Tile</node>
+    <node x="-215.625" y="584.5">entities.AI</node>
+    <node x="1547.0" y="1640.2857142857142">screens.MainMenu</node>
+    <node x="1058.5" y="732.75">utils.Commandable</node>
+    <node x="-222.125" y="-76.83333333333326">strategy.AIStrategy</node>
+    <node x="1131.0" y="1917.2857142857142">screens.Settings</node>
+    <node x="-207.41666666666669" y="1072.0">pieces.WrappedTile</node>
+    <node x="363.375" y="254.5">entities.Human</node>
+    <node x="47.375" y="116.5">entities.Player</node>
+    <node x="572.1145833333333" y="1195.9285714285713">utils.Renderable</node>
+    <node x="443.5" y="756.25">utils.Observable</node>
+    <node x="418.5" y="525.0">board.Discard</node>
+    <node x="29.875" y="-175.83333333333337">strategy.Strategy</node>
+    <node x="1373.5" y="922.5">core.Game.GAME_STATE</node>
+    <node x="709.5" y="331.0">board.Board</node>
+    <node x="1413.0" y="1910.2857142857142">screens.Pause</node>
+    <node x="835.5" y="1166.5">core.Window</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="entities.AI" target="entities.Player" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="112.59354323964078" y="468.0413268395424" />
+      <point x="121.43853630669372" y="461.92165753951474" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="pieces.Tile" target="utils.Container" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="utils.Observable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="pieces.Tile" relationship="TO_MANY">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="utils.Container" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="204.56612673374684" y="484.3605894564443" />
+      <point x="214.23359993688473" y="497.96309096482656" />
+      <point x="589.9393715159756" y="991.5765469453532" />
+      <point x="600.7632369249093" y="1004.9635044743567" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="entities.AI" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="546.5027955761811" y="684.6289995277468" />
+      <point x="529.4037969677366" y="686.9407912556309" />
+      <point x="512.1257199328153" y="688.2837551963186" />
+      <point x="478.3805222648027" y="688.504483612814" />
+      <point x="158.13546436058073" y="676.1752811408656" />
+      <point x="124.97541810690842" y="673.0160329149945" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="pieces.WrappedTile" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.HUD" target="board.Board" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.Pause" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="1336.5362847456297" y="1430.793849601463" />
+      <point x="1357.8740884602278" y="1500.0893623547163" />
+      <point x="1364.1734119330506" y="1517.5721409141952" />
+      <point x="1371.2724578548414" y="1534.645705640383" />
+      <point x="1380.7406092782326" y="1550.8164833733445" />
+      <point x="1391.8797273047105" y="1565.094704378961" />
+      <point x="1405.4919365283672" y="1578.3173290458133" />
+      <point x="1459.9190302143422" y="1623.7420897703382" />
+      <point x="1472.3765167500935" y="1636.427191724096" />
+      <point x="1483.5311869440156" y="1650.2107271451225" />
+      <point x="1492.9133138124646" y="1664.7228241848843" />
+      <point x="1500.7373365801575" y="1680.5533388330703" />
+      <point x="1506.652719473453" y="1696.7903645526435" />
+      <point x="1510.962328555307" y="1713.7705860000756" />
+      <point x="1513.3228768580732" y="1731.3876333489973" />
+      <point x="1514.0193074347244" y="1749.296083083853" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.Pause" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="1303.0545413503492" y="1331.6487172124675" />
+      <point x="1343.8267200286862" y="1453.851878694984" />
+      <point x="1359.7011329315615" y="1505.3605697765272" />
+      <point x="1366.1411380581355" y="1522.65075229156" />
+      <point x="1374.0917928528456" y="1539.7747867516832" />
+      <point x="1384.0524726015096" y="1555.5006869049287" />
+      <point x="1396.2690996647057" y="1569.7253468199672" />
+      <point x="1409.5790382688454" y="1582.1428536023811" />
+      <point x="1451.1331278240139" y="1615.9101477610143" />
+      <point x="1464.1075042173495" y="1627.4515981451739" />
+      <point x="1476.3995078803496" y="1640.9222294116564" />
+      <point x="1487.0926007658031" y="1655.0830538441724" />
+      <point x="1495.8250467829048" y="1670.339131455106" />
+      <point x="1503.1620422691328" y="1686.3673063177855" />
+      <point x="1508.5289861216504" y="1702.811249339042" />
+      <point x="1512.0522824866857" y="1719.9781882929806" />
+      <point x="1513.818078384514" y="1737.8095102167501" />
+      <point x="1514.2973680189596" y="1755.2945048218703" />
+      <point x="1512.9673566421204" y="1787.7194347903476" />
+      <point x="1512.9198873169587" y="1802.6166686660142" />
+      <point x="1505.4342314289665" y="1961.7628356688833" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="strategy.Strategy" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.Settings" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="1318.3426311976739" y="1399.1439658363531" />
+      <point x="1328.062672741451" y="1436.6092255914102" />
+      <point x="1331.7947459726383" y="1455.8015032733927" />
+      <point x="1332.9590132018693" y="1475.5124810992422" />
+      <point x="1331.8580026619857" y="1494.6036872695379" />
+      <point x="1327.9525151519717" y="1513.4208431971745" />
+      <point x="1321.3891043112847" y="1531.2150740599168" />
+      <point x="1312.8029992279676" y="1548.034116216598" />
+      <point x="1302.2130642809905" y="1563.302327975235" />
+      <point x="1289.9447445231685" y="1577.3439204792828" />
+      <point x="1238.017479951119" y="1628.2001279744022" />
+      <point x="1225.824248908452" y="1641.949182501708" />
+      <point x="1214.8529702938088" y="1657.1490418403234" />
+      <point x="1205.8464231323167" y="1673.1627215431731" />
+      <point x="1198.4278307756524" y="1690.5163454251872" />
+      <point x="1193.0296734769488" y="1708.6960219872067" />
+      <point x="1190.0815150131023" y="1727.8463471521293" />
+      <point x="1189.4484019542185" y="1747.6454482323668" />
+      <point x="1190.4872204977135" y="1767.8198623827236" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.HUD" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="core.Game" relationship="TO_ONE">
+      <point x="-0.0" y="-0.0" />
+      <point x="-0.0" y="-0.0" />
+    </edge>
+    <edge source="core.Game" target="board.Board" relationship="TO_ONE">
+      <point x="-0.0" y="-0.0" />
+      <point x="880.4145266554888" y="676.5505287544988" />
+      <point x="868.0779828945413" y="662.5592230950745" />
+      <point x="856.4337926392955" y="648.0192053636322" />
+      <point x="-0.0" y="-0.0" />
+    </edge>
+    <edge source="screens.End" target="screens.Screen" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="core.Game.GAME_STATE" relationship="TO_ONE">
+      <point x="-0.0" y="-0.0" />
+      <point x="1391.2754260059432" y="1014.4100380885961" />
+      <point x="1408.5531622929052" y="1007.6016470844191" />
+      <point x="-0.0" y="-0.0" />
+    </edge>
+    <edge source="screens.Screen" target="utils.Tickable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="1395.6863695795685" y="2001.3549533160822" />
+      <point x="1402.2480763487279" y="2029.9213150450498" />
+      <point x="1407.2299043063174" y="2044.202200171039" />
+      <point x="1413.9883814969232" y="2057.989834714238" />
+      <point x="1421.6711769889687" y="2070.7161084052536" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.MainMenu" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="1268.3230402753331" y="1199.0043311452737" />
+      <point x="1301.2035360909506" y="1289.2334450205312" />
+      <point x="1321.804708601723" y="1356.2545605425776" />
+      <point x="1357.6313676812565" y="1496.979531056453" />
+      <point x="1362.011013320197" y="1511.7912248016246" />
+      <point x="1367.2766543151706" y="1526.4062754537586" />
+      <point x="1374.2268383066719" y="1540.5192963160084" />
+      <point x="1382.3824521102133" y="1553.5293890727523" />
+      <point x="1392.4169538591084" y="1566.0441644859482" />
+      <point x="1403.1942330114325" y="1576.6014558676877" />
+      <point x="1415.4905214993528" y="1586.0299205289741" />
+      <point x="1428.3967225781978" y="1594.121381520793" />
+      <point x="1501.264680724978" y="1632.562785402079" />
+      <point x="1543.7596636702356" y="1657.8480915891935" />
+      <point x="1562.840829667947" y="1670.866684323935" />
+      <point x="1589.8739009914245" y="1691.2903964422626" />
+      <point x="1597.9790760884232" y="1698.5612513733374" />
+      <point x="1606.7143624461314" y="1705.2761893784848" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="board.Board" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="527.0660516861609" y="504.74287680903126" />
+      <point x="542.2312755339525" y="509.1557681550619" />
+      <point x="571.0247493060658" y="519.8277446153536" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.MainMenu" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="1264.9084764998145" y="1186.0688922291347" />
+      <point x="1269.606019332104" y="1198.7232782443566" />
+      <point x="1284.9707489930138" y="1237.0000714864084" />
+      <point x="1289.1235001208906" y="1250.2119867964855" />
+      <point x="1294.0470502599178" y="1263.021892640851" />
+      <point x="1315.126897683585" y="1329.4151008202984" />
+      <point x="1340.850347197119" y="1426.285050772069" />
+      <point x="1343.882618747371" y="1440.46716552389" />
+      <point x="1347.7472753015031" y="1454.3713219990927" />
+      <point x="1357.9280948769463" y="1497.0318308072024" />
+      <point x="1362.1314041793491" y="1511.655163294757" />
+      <point x="1367.3077459400808" y="1526.2655700050168" />
+      <point x="1373.824049249423" y="1540.428049512319" />
+      <point x="1382.3118244532293" y="1553.3110743062512" />
+      <point x="1391.893248837414" y="1565.5358639056185" />
+      <point x="1403.1637559315725" y="1576.4367044350129" />
+      <point x="1415.381028118532" y="1585.7786987189484" />
+      <point x="1428.3732469688182" y="1594.0016010728016" />
+      <point x="1466.7496957548842" y="1614.0864489369317" />
+      <point x="1478.547156933813" y="1619.6949900780749" />
+      <point x="1524.0705071527818" y="1644.8549632220831" />
+      <point x="1554.2842067325485" y="1663.8711116922289" />
+      <point x="1589.9863361515777" y="1690.8980710966327" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.Settings" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="1325.363746104311" y="1424.4442261071674" />
+      <point x="1329.2206764606794" y="1440.244377898422" />
+      <point x="1332.0469010844913" y="1456.4401759379753" />
+      <point x="1333.294052250268" y="1472.9039565783344" />
+      <point x="1332.5453150793835" y="1488.753266800226" />
+      <point x="1330.3126756198074" y="1504.7403286302758" />
+      <point x="1325.8135869499583" y="1520.315822596926" />
+      <point x="1320.273027106792" y="1534.9780985377497" />
+      <point x="1312.4610204565108" y="1548.8453985934882" />
+      <point x="1303.6706565858735" y="1562.0719988999494" />
+      <point x="1293.343353026166" y="1574.1061732217033" />
+      <point x="1237.385303605031" y="1628.4027019952312" />
+      <point x="1226.5190745126515" y="1640.4580912757926" />
+      <point x="1216.744849102177" y="1654.0216967771814" />
+      <point x="1208.027154489147" y="1668.1375153397748" />
+      <point x="1200.5189812871265" y="1683.5430239102188" />
+      <point x="1195.334141434518" y="1699.6674675521513" />
+      <point x="1191.4787339086008" y="1716.5470344144285" />
+      <point x="1189.5997789513399" y="1734.4922640838424" />
+      <point x="1189.6774572498541" y="1753.8383860077663" />
+      <point x="1190.8394710946525" y="1772.9273401649343" />
+      <point x="1199.7396971477021" y="1844.7177426121036" />
+      <point x="1202.5228777125155" y="1862.6113919614168" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.HUD" target="screens.Screen" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.End" target="board.Board" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="1052.121319167132" y="1490.5852918381631" />
+      <point x="1052.764787419935" y="1455.4873431929152" />
+      <point x="1069.979904679326" y="1219.8310302727277" />
+      <point x="1070.354541794602" y="1202.2859002313467" />
+      <point x="1069.6651558264416" y="1184.207445176758" />
+      <point x="1066.6166985909165" y="1166.2790118331136" />
+      <point x="1061.24273421559" y="1148.3865732841514" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="entities.Player" relationship="TO_MANY">
+      <point x="0.0" y="0.0" />
+      <point x="556.5394371418829" y="514.0791058836621" />
+      <point x="542.0226655500649" y="508.95433731469114" />
+      <point x="526.9833351020012" y="504.4326972253328" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="strategy.AIStrategy" target="strategy.Strategy" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="core.Window" relationship="CREATE">
+      <point x="-0.0" y="-0.0" />
+      <point x="-0.0" y="-0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.GameScreen" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.Pause" target="screens.Screen" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="1371.008809625588" y="1777.2584047441926" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.End" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="1070.271112766708" y="1405.8373594793925" />
+      <point x="1064.4897090317245" y="1420.3092543376854" />
+      <point x="1059.4686629919336" y="1435.060113603054" />
+      <point x="1055.9228839332138" y="1450.4264362411427" />
+      <point x="1053.6510550381859" y="1465.7970609882805" />
+      <point x="1052.9709516607518" y="1481.518636496539" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.AI" target="strategy.AIStrategy" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="strategy.HumanStrategy" target="strategy.Strategy" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="board.Board" relationship="CREATE">
+      <point x="-0.0" y="-0.0" />
+      <point x="-0.0" y="-0.0" />
+    </edge>
+    <edge source="pieces.WrappedTile" target="pieces.Tile" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.Pause" target="utils.Tickable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="pieces.Tile" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="pieces.WrappedTile" target="pieces.Tile" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Human" target="strategy.HumanStrategy" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.End" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="1072.1261899313047" y="1402.0111129874724" />
+      <point x="1065.9920499744228" y="1416.2309265923518" />
+      <point x="1060.8041611551187" y="1431.0727443489197" />
+      <point x="1056.8134331366887" y="1446.2324868782166" />
+      <point x="1054.2553969942126" y="1461.9024438532888" />
+      <point x="1053.124838249611" y="1477.6985080937156" />
+      <point x="1053.6493112295568" y="1523.3796269745785" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game.GAME_STATE" target="core.Game" relationship="INNER_CLASS">
+      <point x="-0.0" y="-0.0" />
+      <point x="-0.0" y="-0.0" />
+    </edge>
+    <edge source="screens.GameScreen" target="screens.Screen" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="pieces.Tile" target="utils.Renderable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.GameScreen" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="board.Discard" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Human" target="entities.Player" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="461.13254230303005" y="307.1519465790662" />
+      <point x="451.9495685032623" y="311.3088971177743" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.MainMenu" target="screens.Screen" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="1423.3322915175816" y="1742.6207349803642" />
+      <point x="1405.4973056386373" y="1743.862904983269" />
+      <point x="1387.3431335759792" y="1743.9306992958016" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="utils.Renderable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="507.91921984907333" y="990.3910880727459" />
+      <point x="540.2939605469036" y="1042.288894405525" />
+      <point x="555.4174405121998" y="1069.8124689968845" />
+      <point x="589.5993673426749" y="1138.809061609863" />
+      <point x="626.4780587394329" y="1203.5611560024233" />
+      <point x="634.1912594857981" y="1216.007547442087" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.Settings" target="screens.Screen" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="utils.Commandable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="screens.Screen" target="utils.Renderable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="1102.9238572325323" y="1586.3582269358549" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Discard" target="utils.Container" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="573.7362596759427" y="743.4263287459577" />
+      <point x="578.8083703767845" y="759.192004820196" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="entities.Human" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="utils.Commandable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="core.Game" target="screens.HUD" relationship="CREATE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="entities.Player" target="utils.Observable" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="utils.Container" relationship="REALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="board.Board" target="board.Discard" relationship="TO_ONE">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.39491000580607705" showDependencies="true" x="1004.5" y="1470.8928571428573" />
+  <SelectedNodes>
+    <node>utils.Commandable</node>
+    <node>utils.Renderable</node>
+    <node>utils.Tickable</node>
+    <node>utils.Observable</node>
+    <node>utils.Container</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

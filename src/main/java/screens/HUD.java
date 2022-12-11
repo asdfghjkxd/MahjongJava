@@ -39,10 +39,6 @@ public class HUD extends Screen {
         g.drawString("Direction: ⥁", 40, 80);
         g.drawString("Current Score: " + board.getCurrentPlayer().getScore() + " 台", 40, 100);
 
-        Tile img = new Tile(0, 0, "honour", "wind",
-                board.getWindDirection().toString().toLowerCase(), null, 0);
-
-        g.drawImage(img.getTileImage(), game.getWidth() / 2 - 30, game.getHeight() / 2 - 35, null);
         g.setColor(Constants.TEXTBOX_COLOUR);
         g.fillRect(Game.WIDTH - 75, 25, 50, 50);
         g.setColor(Constants.ACCENT_COLOUR);

@@ -1,8 +1,9 @@
 package entities;
 
 import board.Board;
-import core.Test;
+import tests.Test;
 import pieces.Tile;
+import pieces.WrappedTile;
 import strategy.Strategy;
 import utils.Container;
 import utils.Observable;
@@ -50,7 +51,7 @@ public abstract class Player implements Container, Observable, Renderable {
             tile.setOwner(this);
             tile.setRotationDegrees(getRotationDegrees());
 
-            if (!tile.getTileClass().equals("bonus")) {
+            if (!tile.isBonus()) {
                 this.setNextAvailableTilePosition(tile);
                 privateHand.add(tile);
             } else {
@@ -124,6 +125,19 @@ public abstract class Player implements Container, Observable, Renderable {
         for (Tile t : privateHand) {
             t.render(g);
         }
+    }
+
+    // Checks if the hand is winning
+    public boolean isWinningHand() {
+        LinkedList<WrappedTile> collect = new LinkedList<>();
+
+        for (Tile t: privateHand) {
+            WrappedTile wT = new WrappedTile(t);
+            collect.add(wT);
+        }
+
+//        return TilePattern.isValid(collect);
+        return false;
     }
 
     public abstract boolean strategyAction(int tilePos);

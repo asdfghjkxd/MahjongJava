@@ -1,7 +1,8 @@
 package board;
 
+import constants.*;
 import core.Game;
-import core.Test;
+import tests.Test;
 import entities.AI;
 import entities.Human;
 import entities.Player;
@@ -11,7 +12,6 @@ import utils.Commandable;
 import utils.Container;
 import utils.Observable;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
@@ -21,6 +21,7 @@ public final class Board implements Container, Commandable, Observable {
     // Container is represented by a Stack of Tiles
     // Possible since all tiles are unique (even if they are from the same tile class/subclass or has the same value
     private final Stack<Tile> boardTiles = new Stack<>();
+    private final Game game;
 
     // Board is responsible for handling the discards
     private final Discard discardedTiles = new Discard();
@@ -41,20 +42,9 @@ public final class Board implements Container, Commandable, Observable {
     private int localCounter = 0;
     private int startX = 300;
     private int startY = 130;
-    public enum WIND_DIRECTION {
-        NORTH,
-        SOUTH,
-        EAST,
-        WEST
-    }
-    private enum BOARD_PLACEMENT_DIRECTION {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
 
-    public Board() {
+    public Board(Game game) {
+        this.game = game;
         // resetGame();
     }
 
@@ -77,32 +67,19 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     private void instantiateBoard() {
-        for (int i = 1; i <= 4; i++) {
-            for (int j = 1; j < 10; j++) {
-                // suits
-                boardTiles.add(new Tile(0, 0, "suit", "number", String.valueOf(j), this, 0));
-                boardTiles.add(new Tile(0, 0, "suit", "circle", String.valueOf(j), this, 0));
-                boardTiles.add(new Tile(0, 0, "suit", "bamboo", String.valueOf(j), this, 0));
+        for (int i = 0; i <= 33; i++) {
+            for (int j = 0; j < 4; j++) {
+                boardTiles.push(
+                        new Tile(0, 0, TILE_VECTOR_VALUE_INDEX.fromValue(i), this, 0)
+                );
             }
-
-            // honours
-            boardTiles.add(new Tile(0, 0, "honour", "wind", "north", this, 0));
-            boardTiles.add(new Tile(0, 0, "honour", "wind", "south", this, 0));
-            boardTiles.add(new Tile(0, 0, "honour", "wind", "east", this, 0));
-            boardTiles.add(new Tile(0, 0, "honour", "wind", "west", this, 0));
-            boardTiles.add(new Tile(0, 0, "honour", "dragon", "white", this, 0));
-            boardTiles.add(new Tile(0, 0, "honour", "dragon", "green", this, 0));
-            boardTiles.add(new Tile(0, 0, "honour", "dragon", "red", this, 0));
-
-            // bonus
-            boardTiles.add(new Tile(0, 0, "bonus", "flower", "bf" + i, this, 0));
-            boardTiles.add(new Tile(0, 0, "bonus", "flower", "rf" + i, this, 0));
         }
 
-        boardTiles.add(new Tile(0, 0, "bonus", "animal", "cat", this, 0));
-        boardTiles.add(new Tile(0, 0, "bonus", "animal", "rat", this, 0));
-        boardTiles.add(new Tile(0, 0, "bonus", "animal", "rooster", this, 0));
-        boardTiles.add(new Tile(0, 0, "bonus", "animal", "centipede", this, 0));
+        for (int i = 34; i <= 45; i++) {
+            boardTiles.push(
+                    new Tile(0, 0, TILE_VECTOR_VALUE_INDEX.fromValue(i), this, 0)
+            );
+        }
 
         // shuffle the board randomly
         Collections.shuffle(boardTiles, new Random());
@@ -159,7 +136,12 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     private Tile distributeBoardTile() {
-        return boardTiles.pop();
+        if (boardTiles.empty()) {
+            game.setGameState(Game.GAME_STATE.END);
+            return null;
+        } else {
+            return boardTiles.pop();
+        }
     }
 
     private void initialDistribution() {
@@ -268,7 +250,7 @@ public final class Board implements Container, Commandable, Observable {
 
     private void distributeToPlayer(Player p) {
         Tile t = distributeBoardTile();
-        if (t.getTileClass().equals("bonus")) {
+        if (t.isBonus()) {
             p.acceptItem(t);
             distributeToPlayer(p);
         } else {

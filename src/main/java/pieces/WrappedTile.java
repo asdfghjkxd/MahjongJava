@@ -30,6 +30,11 @@ public class WrappedTile extends Tile {
         winning = false;
     }
 
+    public void resetStatus() {
+        winning = false;
+        visited = false;
+    }
+
     public Tile getTile() {
         return tile;
     }

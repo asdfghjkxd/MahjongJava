@@ -1,32 +1,31 @@
 package pieces;
 
-import board.Board;
-import board.Discard;
-import entities.AI;
-import entities.Human;
+import board.*;
+import constants.TILE_VECTOR_VALUE_INDEX;
+import entities.*;
 import net.coobird.thumbnailator.Thumbnails;
 import utils.Container;
 import utils.Renderable;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Base class for how tiles are implemented in this game
+ *
+ * @author George Tay
+ * @see constants.TILE_VECTOR_VALUE_INDEX
+ * @see Renderable
+ * @see Comparable
+ * @apiNote Note that the initialising of this class should be handled by the {@link Board}, and if there are
+ * any loose initialisation of the tiles, the owner should be pointed to null to avoid errors
  */
 public class Tile implements Comparable<Tile>, Renderable {
-    private static final HashMap<String, HashMap<String, HashMap<String, BufferedImage>>> table = new HashMap<>();
+    private TILE_VECTOR_VALUE_INDEX tileProperty;
+
     public static final int maxHeight = 45;
     public static final int maxWidth = 36;
-    public static BufferedImage backTile;
-    private String tileClass;
-    private String tileSubclass;
-    private String tileValue;
     private Container owner;
     private int rotationDegrees = 0;
     private int startingX;
@@ -34,189 +33,52 @@ public class Tile implements Comparable<Tile>, Renderable {
     private int movingX;
     private int movingY;
 
-    /*
-     * Static block used to instantiate the static attributes
-     *
-     * > Creates the various HashMaps required to store key-value/image bindings
-     */
-    static {
-        // Create the Suit Tiles
-        HashMap<String, BufferedImage> circleImageMap = new HashMap<>();
-        HashMap<String, BufferedImage> bambooImageMap = new HashMap<>();
-        HashMap<String, BufferedImage> numberImageMap = new HashMap<>();
-
-        for (int i = 1; i < 10; i++) {
-            try {
-                circleImageMap.put(String.valueOf(i), Thumbnails.of(ImageIO.read(new FileInputStream("assets/circle_" + i + ".png")))
-                        .size(maxWidth, maxHeight)
-                        .asBufferedImage());
-                bambooImageMap.put(String.valueOf(i), Thumbnails.of(ImageIO.read(new FileInputStream("assets/bamboo_" + i + ".png")))
-                        .size(maxWidth, maxHeight)
-                        .asBufferedImage());
-                numberImageMap.put(String.valueOf(i), Thumbnails.of(ImageIO.read(new FileInputStream("assets/numbers_" + i + ".png")))
-                        .size(maxWidth, maxHeight)
-                        .asBufferedImage());
-
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error in loading suit assets, terminating...",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                System.exit(1);
-            }
-        }
-
-        HashMap<String, HashMap<String, BufferedImage>> suitMap = new HashMap<>();
-        suitMap.put("circle", circleImageMap);
-        suitMap.put("bamboo", bambooImageMap);
-        suitMap.put("number", numberImageMap);
-        table.put("suit", suitMap);
-
-        // Create the Honour Tiles
-        HashMap<String, BufferedImage> windImageMap = new HashMap<>();
-        HashMap<String, BufferedImage> dragonImageMap = new HashMap<>();
-
-        try {
-            dragonImageMap.put("green", Thumbnails.of(ImageIO.read(new FileInputStream("assets/dragon_green.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            dragonImageMap.put("red", Thumbnails.of(ImageIO.read(new FileInputStream("assets/dragon_red.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            dragonImageMap.put("white", Thumbnails.of(ImageIO.read(new FileInputStream("assets/dragon_white.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            windImageMap.put("north", Thumbnails.of(ImageIO.read(new FileInputStream("assets/north.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            windImageMap.put("south", Thumbnails.of(ImageIO.read(new FileInputStream("assets/south.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            windImageMap.put("east", Thumbnails.of(ImageIO.read(new FileInputStream("assets/east.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            windImageMap.put("west", Thumbnails.of(ImageIO.read(new FileInputStream("assets/west.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in loading honour assets, terminating...",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-
-        HashMap<String, HashMap<String, BufferedImage>> honourMap = new HashMap<>();
-        honourMap.put("wind", windImageMap);
-        honourMap.put("dragon", dragonImageMap);
-        table.put("honour", honourMap);
-
-        // Create the Bonus tiles
-        HashMap<String, BufferedImage> animalImageMap = new HashMap<>();
-        HashMap<String, BufferedImage> flowerImageMap = new HashMap<>();
-
-        try {
-            animalImageMap.put("cat", Thumbnails.of(ImageIO.read(new FileInputStream("assets/cat.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            animalImageMap.put("rat", Thumbnails.of(ImageIO.read(new FileInputStream("assets/rat.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            animalImageMap.put("rooster", Thumbnails.of(ImageIO.read(new FileInputStream("assets/rooster.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            animalImageMap.put("centipede", Thumbnails.of(ImageIO.read(new FileInputStream("assets/centipede.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("bf1", Thumbnails.of(ImageIO.read(new FileInputStream("assets/black_flower_1.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("bf2", Thumbnails.of(ImageIO.read(new FileInputStream("assets/black_flower_2.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("bf3", Thumbnails.of(ImageIO.read(new FileInputStream("assets/black_flower_3.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("bf4", Thumbnails.of(ImageIO.read(new FileInputStream("assets/black_flower_4.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("rf1", Thumbnails.of(ImageIO.read(new FileInputStream("assets/red_flower_1.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("rf2", Thumbnails.of(ImageIO.read(new FileInputStream("assets/red_flower_2.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("rf3", Thumbnails.of(ImageIO.read(new FileInputStream("assets/red_flower_3.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-            flowerImageMap.put("rf4", Thumbnails.of(ImageIO.read(new FileInputStream("assets/red_flower_4.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage());
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in loading bonus assets, terminating...",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-
-        HashMap<String, HashMap<String, BufferedImage>> bonusMap = new HashMap<>();
-        bonusMap.put("animal", animalImageMap);
-        bonusMap.put("flower", flowerImageMap);
-        table.put("bonus", bonusMap);
-
-
-        // Create the Back Tile
-        try {
-            backTile = Thumbnails.of(ImageIO.read(new FileInputStream("assets/back.png")))
-                    .size(maxWidth, maxHeight)
-                    .asBufferedImage();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error in loading assets, terminating...",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-    }
 
     /**
-     * Main constructor for the tile
-     * <p>
-     * Tiles are initially bounded to the Board and hence requires board as an input
-     * The board should handle all tile instantiation and users should not be able to construct tiles
-     * </p>
-     * @param x: x coordinates of the tile (upper left corner)
-     * @param y: y coordinates of the tile (upper left corner)
-     * @param tileClass: the overarching Suit class of the Tile
-     * @param tileSubclass: the specific subclass of a particular Suit class
-     * @param tileValue: The value of the tile, given by a string
-     * @param board: The board the tile is attached to
-     * @param rotationDegrees: The degree of rotation (clockwise) the tile is rotated by
+     * Default constructor that instantiates nothing
      */
-    public Tile(int x, int y, String tileClass, String tileSubclass, String tileValue, Board board, int rotationDegrees) {
-        if (this.checkValidConfiguration(tileClass, tileSubclass, tileValue)) {
-            this.startingX = x;
-            this.startingY = y;
-            this.movingX = startingX;
-            this.movingY = startingY;
-            this.tileClass = tileClass;
-            this.tileSubclass = tileSubclass;
-            this.tileValue = tileValue;
-            this.owner = board;
-            this.rotationDegrees = Math.abs(rotationDegrees % 360);
-        } else {
-            JOptionPane.showMessageDialog(null, "Illegal instantiation of Tile", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-    }
-
     public Tile() {
         // empty constructor, does nothing
     }
 
-    // Renderable functions
+    /**
+     * Constructor that initialises the fields for this tile
+     * @param x The starting x coordinates of this tile
+     * @param y The starting y coordinates of this tile
+     * @param value The overall value of the tile, one of {@code TILE_VECTOR_VALUE_INDEX.*}
+     * @param board An instance of {@link Board}
+     * @param rotationDegrees An {@code int}, describing the degree of rotation of the tile image
+     *
+     * @see TILE_VECTOR_VALUE_INDEX
+     * @see Board
+     */
+    public Tile(int x, int y, TILE_VECTOR_VALUE_INDEX value, Board board, int rotationDegrees) {
+        startingX = movingX = x;
+        startingY = movingY = y;
+        tileProperty = value;
+        owner = board;
+        this.rotationDegrees = rotationDegrees;
+    }
+
+    /**
+     * Renders this tile on the board
+     *
+     * @param g An instance of {@link Graphics} that handles drawing on the main {@link JFrame}
+     * @throws IOException Thrown when there is an error with {@code Thumbnails.asBufferedImage()}
+     * @see Thumbnails
+     * @see Graphics
+     * @see IOException
+     */
     @Override
     public void render(Graphics g) throws IOException {
         if (this.owner instanceof Board || this.owner instanceof AI) {
-            g.drawImage(Thumbnails.of(backTile).rotate(rotationDegrees).size(maxWidth, maxHeight)
-                            .asBufferedImage(), startingX, startingY, null);
+            g.drawImage(Thumbnails.of(TILE_VECTOR_VALUE_INDEX.BACK.tileImage)
+                    .rotate(rotationDegrees)
+                    .size(maxWidth, maxHeight)
+                    .asBufferedImage(), startingX, startingY, null);
         } else if (this.owner instanceof Human || this.owner instanceof Discard) {
             g.drawImage(Thumbnails.of(
-                    this.getTileImage())
+                            tileProperty.toImage())
                     .rotate(rotationDegrees)
                     .size(maxWidth, maxHeight)
                     .asBufferedImage(), startingX, startingY, null);
@@ -228,22 +90,6 @@ public class Tile implements Comparable<Tile>, Renderable {
     }
 
     // Getter and Setters
-    public String getTileClass() {
-        return tileClass;
-    }
-
-    public String getTileSubclass() {
-        return tileSubclass;
-    }
-
-    public String getTileValue() {
-        return tileValue;
-    }
-
-    public BufferedImage getTileImage() {
-        return table.get(tileClass).get(tileSubclass).get(tileValue);
-    }
-
     public Container getOwner() {
         return owner;
     }
@@ -308,6 +154,11 @@ public class Tile implements Comparable<Tile>, Renderable {
         this.startingY = movingY;
     }
 
+    /**
+     * Allows user to set both the x and y position of the tile at one time
+     * @param x new x coordinate of this tile
+     * @param y new y coordinate of this tile
+     */
     public void setTilePosition(int x, int y) {
         this.startingX = x;
         this.startingY = y;
@@ -315,56 +166,140 @@ public class Tile implements Comparable<Tile>, Renderable {
         this.movingY = y;
     }
 
-    // Comparability
+    // Comparators
+    /**
+     * Compares this tile with another tile to establish order, which is handled
+     * by the enum
+     *
+     * @param o the object to be compared.
+     * @return {@code 0} if the tiles are the same, {@code 1} if this tile is greater
+     * than the tile of comparison, and {@code -1} if this tile is less than the otehr
+     * tile of comparison
+     */
     public int compareTo(Tile o) {
-        if (this.getTileClass().compareTo(o.getTileClass()) != 0) {
-            return (-this.getTileClass().compareTo(o.getTileClass()));
-        } else if (this.getTileSubclass().compareTo(o.getTileSubclass()) != 0) {
-            return this.getTileSubclass().compareTo(o.getTileSubclass());
-        } else {
-            if (this.getTileValue() != null && o.getTileValue() != null) {
-                return this.getTileValue().compareTo(o.getTileValue());
-            } else {
-                JOptionPane.showMessageDialog(null, "Invalid Comparator", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
-        return 0;
+        return this.tileProperty.compareTo(o.tileProperty);
     }
 
+    /**
+     * Checks if 2 tiles are the same
+     *
+     * @param obj The object to check equality to
+     * @return {@code true} if both tiles are the same, else {@code false}
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Tile) {
-            return ((Tile) obj).getTileClass().equals(this.getTileClass()) &&
-                    ((Tile) obj).getTileSubclass().equals(this.getTileSubclass()) &&
-                    ((Tile) obj).getTileValue().equals(this.getTileValue());
+            return this.tileProperty.equals(((Tile) obj).tileProperty);
         } else {
             return false;
         }
+    }
+
+    /**
+     * Describes the behaviour when the tiles are hashed
+     *
+     * @return hashcode, based on the {@link Tile} tileProperty
+     */
+    @Override
+    public int hashCode() {
+        return tileProperty.hashCode();
+    }
+
+    // Assertion functions
+    public boolean isBamboo() {
+        return (tileProperty.tileValue >= 0 && tileProperty.tileValue < 9);
+    }
+
+    public boolean isCircle() {
+        return (tileProperty.tileValue >= 9 && tileProperty.tileValue < 18);
+    }
+
+    public boolean isNumber() {
+        return (tileProperty.tileValue >= 18 && tileProperty.tileValue < 27);
+    }
+
+    public boolean isHonour() {
+        return (tileProperty.tileValue >= 27 && tileProperty.tileValue < 34);
+    }
+
+    public boolean isBonus() {
+        return (tileProperty.tileValue > 33 && tileProperty.tileValue < 46);
+    }
+
+    /**
+     * Checks for this tile's equality to the enum {@link TILE_VECTOR_VALUE_INDEX}
+     *
+     * @param refTile The reference tile value to compare to, found at {@link TILE_VECTOR_VALUE_INDEX}
+     * @return {@code true} if this tile has the same tileProperty value compared to the reference tile,
+     * {@code false} otherwise
+     */
+    public boolean equalToStandardTileValue(TILE_VECTOR_VALUE_INDEX refTile) {
+        return tileProperty.tileValue == refTile.tileValue;
+    }
+
+    /**
+     * Gets this tile's actual value based on this tile's tileProperty
+     *
+     * @return a string containing the actual value of the tile
+     */
+    public String getTileValue() {
+        if (isBamboo() || isCircle() || isNumber()) {
+            return String.valueOf(tileProperty.tileValue % 9 + 1);
+        } else if (isHonour()) {
+            switch (tileProperty.tileValue) {
+                case 27:
+                    return "green";
+                case 28:
+                    return "red";
+                case 29:
+                    return "white";
+                case 30:
+                    return "east";
+                case 31:
+                    return "north";
+                case 32:
+                    return "south";
+                case 33:
+                    return "west";
+            }
+        } else if (isBonus()) {
+            switch (tileProperty.tileValue) {
+                case 34:
+                    return "cat";
+                case 35:
+                    return "centipede";
+                case 36:
+                    return "rat";
+                case 37:
+                    return "rooster";
+                case 38:
+                    return "black_flower_1";
+                case 39:
+                    return "black_flower_2";
+                case 40:
+                    return "black_flower_3";
+                case 41:
+                    return "black_flower_4";
+                case 42:
+                    return "red_flower_1";
+                case 43:
+                    return "red_flower_2";
+                case 44:
+                    return "red_flower_3";
+                case 45:
+                    return "red_flower_4";
+
+            }
+        } else {
+            return "invalid";
+        }
+
+        return "invalid";
     }
 
     // Utility
     @Override
     public String toString() {
-        return String.valueOf(getTileClass().toUpperCase().charAt(0)) +
-                getTileSubclass().toUpperCase().charAt(0) + "_" +
-                getTileValue().toUpperCase();
-    }
-
-    /**
-     * Checks if a given configuration of Tile Class, Subclass and Value is valid
-     *
-     * @param tileClass: the overarching Suit class of the Tile
-     * @param tileSubclass: the specific subclass of a particular Suit class
-     * @param tileValue: The value of the tile, given by a string
-     * @return true if valid, false otherwise
-     */
-    private boolean checkValidConfiguration(String tileClass, String tileSubclass, String tileValue) {
-        try {
-            return table.get(tileClass).get(tileSubclass).containsKey(tileValue);
-        } catch (Exception e) {
-            return false;
-        }
+        return tileProperty.toString();
     }
 }

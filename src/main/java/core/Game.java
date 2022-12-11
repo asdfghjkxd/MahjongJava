@@ -19,7 +19,6 @@ public final class Game extends Canvas implements Runnable, Commandable {
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final String GAMENAME = "Mahjong";
     private boolean running = false;
-    private boolean paused = false;
     private Thread gameThread;
     private GAME_STATE gameState = GAME_STATE.MAIN_MENU;
     public enum GAME_STATE {
@@ -45,7 +44,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
         synchronized (this) {
             new Window(WIDTH, HEIGHT, GAMENAME, this);
             mainMenu = new MainMenu(this);
-            board = new Board();
+            board = new Board(this);
             hud = new HUD(this, board);
             pause = new Pause(this);
             gameScreen = new GameScreen(this);

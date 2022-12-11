@@ -1,9 +1,7 @@
 package entities;
 
 import board.Board;
-import core.Game;
 import screens.HUD;
-import strategy.AIStrategy;
 import strategy.HumanStrategy;
 
 import javax.swing.*;
@@ -17,7 +15,7 @@ public final class Human extends Player {
         this.movingYPosition = y;
         this.rotationDegrees = 0;
         this.name = pollForPlayerName();
-        this.strategy = new AIStrategy();
+        this.strategy = new HumanStrategy();
         this.score = 0;
         this.board = board;
         this.publicHand = new LinkedList<>();
