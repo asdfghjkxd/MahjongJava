@@ -1,6 +1,6 @@
 package screens;
 
-import constants.Constants;
+import constants.CONSTANTS;
 import core.Game;
 
 import java.awt.*;
@@ -14,21 +14,21 @@ public class Settings extends Screen{
     @Override
     public void render(Graphics g) throws IOException {
         // setting the colour of the background
-        g.setColor(Constants.BACKGROUND_COLOUR);
+        g.setColor(CONSTANTS.BACKGROUND_COLOUR);
         g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
         // draw the words and characters
-        g.setColor(Constants.TEXTBOX_COLOUR);
+        g.setColor(CONSTANTS.TEXTBOX_COLOUR);
         g.fillRect((int) (Game.WIDTH / 2.70), (Game.HEIGHT / 18), 300, 80);
         g.fillRect((int) (Game.WIDTH / 2.70), (Game.HEIGHT / 18) + 250, 300, 80);
         g.fillRect(Game.WIDTH - 215, Game.HEIGHT - 175, 170, 80);
 
-        g.setColor(Constants.FONT_COLOUR);
-        g.setFont(Constants.MEDIUM_BOLD_FONT);
+        g.setColor(CONSTANTS.FONT_COLOUR);
+        g.setFont(CONSTANTS.MEDIUM_BOLD_FONT);
         g.drawString("Settings", (int) (Game.WIDTH / 2.5), Game.HEIGHT / 8);
         g.drawString("Back", Game.WIDTH - 200, Game.HEIGHT - 115);
 
-        g.setFont(Constants.SMALL_BOLD_FONT);
+        g.setFont(CONSTANTS.SMALL_BOLD_FONT);
         g.drawString("Set Colours", (int) (Game.WIDTH / 2.70) + 40, (Game.HEIGHT / 18) + 305);
     }
 

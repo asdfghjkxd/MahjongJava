@@ -1,11 +1,10 @@
 package io;
 
-import constants.Constants;
+import constants.CONSTANTS;
 import core.Game;
 import screens.HUD;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -83,9 +82,9 @@ public class MouseInput extends MouseAdapter {
                     // make the listeners
                     ActionListener backgroundListener = e1 -> {
                         Color selected = JColorChooser.showDialog(null, "Pick a Background Colour",
-                                Constants.BACKGROUND_COLOUR);
+                                CONSTANTS.BACKGROUND_COLOUR);
                         if (selected != null) {
-                            Constants.BACKGROUND_COLOUR = selected;
+                            CONSTANTS.BACKGROUND_COLOUR = selected;
                             JOptionPane.showMessageDialog(null, "Done!", "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -93,9 +92,9 @@ public class MouseInput extends MouseAdapter {
 
                     ActionListener backgroundDarkListener = e1 -> {
                         Color selected = JColorChooser.showDialog(null, "Pick a Darkened Background Colour",
-                                Constants.BACKGROUND_DARKENED);
+                                CONSTANTS.BACKGROUND_DARKENED);
                         if (selected != null) {
-                            Constants.BACKGROUND_DARKENED = selected;
+                            CONSTANTS.BACKGROUND_DARKENED = selected;
                             JOptionPane.showMessageDialog(null, "Done!", "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -103,9 +102,9 @@ public class MouseInput extends MouseAdapter {
 
                     ActionListener fontListener = e1 -> {
                         Color selected = JColorChooser.showDialog(null, "Pick a Font Colour",
-                                Constants.FONT_COLOUR);
+                                CONSTANTS.FONT_COLOUR);
                         if (selected != null) {
-                            Constants.FONT_COLOUR = selected;
+                            CONSTANTS.FONT_COLOUR = selected;
                             JOptionPane.showMessageDialog(null, "Done!", "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -113,9 +112,9 @@ public class MouseInput extends MouseAdapter {
 
                     ActionListener accentListener = e1 -> {
                         Color selected = JColorChooser.showDialog(null, "Pick a Font Colour",
-                                Constants.ACCENT_COLOUR);
+                                CONSTANTS.ACCENT_COLOUR);
                         if (selected != null) {
-                            Constants.ACCENT_COLOUR = selected;
+                            CONSTANTS.ACCENT_COLOUR = selected;
                             JOptionPane.showMessageDialog(null, "Done!", "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -123,9 +122,9 @@ public class MouseInput extends MouseAdapter {
 
                     ActionListener cursorListener = e1 -> {
                         Color selected = JColorChooser.showDialog(null, "Pick a Cursor Colour",
-                                Constants.CURSOR_COLOUR);
+                                CONSTANTS.CURSOR_COLOUR);
                         if (selected != null) {
-                            Constants.CURSOR_COLOUR = selected;
+                            CONSTANTS.CURSOR_COLOUR = selected;
                             JOptionPane.showMessageDialog(null, "Done!", "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
@@ -133,9 +132,9 @@ public class MouseInput extends MouseAdapter {
 
                     ActionListener textBoxListener = e1 -> {
                         Color selected = JColorChooser.showDialog(null, "Pick a Text Box Colour",
-                                Constants.TEXTBOX_COLOUR);
+                                CONSTANTS.TEXTBOX_COLOUR);
                         if (selected != null) {
-                            Constants.TEXTBOX_COLOUR = selected;
+                            CONSTANTS.TEXTBOX_COLOUR = selected;
                             JOptionPane.showMessageDialog(null, "Done!", "Success",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }

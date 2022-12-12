@@ -1,11 +1,10 @@
 package screens;
 
-import constants.Constants;
+import constants.CONSTANTS;
 import core.Game;
 import utils.Tickable;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Pause extends Screen implements Tickable {
@@ -15,14 +14,14 @@ public class Pause extends Screen implements Tickable {
 
     @Override
     public void render(Graphics g) throws IOException {
-        g.setColor(Constants.BACKGROUND_DARKENED);
+        g.setColor(CONSTANTS.BACKGROUND_DARKENED);
         g.fillRect(0, 0, game.getWidth(), game.getHeight());
-        g.setColor(Constants.TEXTBOX_COLOUR);
-        g.setFont(Constants.SMALL_BOLD_FONT);
+        g.setColor(CONSTANTS.TEXTBOX_COLOUR);
+        g.setFont(CONSTANTS.SMALL_BOLD_FONT);
         g.drawString("PAUSED", 500, 400);
-        g.setColor(Constants.TEXTBOX_COLOUR);
+        g.setColor(CONSTANTS.TEXTBOX_COLOUR);
         g.fillRect(450, 475, 275, 70);
-        g.setColor(Constants.FONT_COLOUR);
+        g.setColor(CONSTANTS.FONT_COLOUR);
         g.drawString("Resume", 510, 525);
     }
 

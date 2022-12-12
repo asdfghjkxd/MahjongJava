@@ -1,9 +1,7 @@
 package io;
 
 import board.Board;
-import constants.Constants;
 import core.Game;
-import pieces.Tile;
 import screens.HUD;
 
 import javax.swing.*;

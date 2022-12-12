@@ -1,12 +1,11 @@
 package constants;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
  * Contains all the constants used by the screen drawing functions
  */
-public class Constants {
+public class CONSTANTS {
     public static Color BACKGROUND_COLOUR = new Color(0, 110, 0);
     public static Color BACKGROUND_DARKENED = new Color(0, 80, 0);
     public static Color FONT_COLOUR = Color.BLACK;

@@ -1,7 +1,7 @@
 package screens;
 
 import board.Board;
-import constants.Constants;
+import constants.CONSTANTS;
 import core.Game;
 
 import java.awt.*;
@@ -17,9 +17,9 @@ public class End extends Screen {
 
     @Override
     public void render(Graphics g) throws IOException {
-        g.setColor(Constants.BACKGROUND_COLOUR);
+        g.setColor(CONSTANTS.BACKGROUND_COLOUR);
         g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-        g.setColor(Constants.FONT_COLOUR);
+        g.setColor(CONSTANTS.FONT_COLOUR);
         g.drawString("Game Over! " + board.getCurrentPlayer() + " wins!", 200, 200);
     }
 
