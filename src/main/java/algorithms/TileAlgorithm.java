@@ -2,7 +2,6 @@ package algorithms;
 
 import board.Board;
 import constants.TILE_VECTOR_VALUE_INDEX;
-import constants.VALID_TILE_ACTIONS;
 import org.apache.commons.lang3.tuple.MutablePair;
 import pieces.Tile;
 
@@ -12,6 +11,9 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 
+/**
+ * Static class that contains 2 helper conversion methods and 1 main function to check if the hand is valid
+ */
 public final class TileAlgorithm {
     /**
      * Converts a LinkedList of Tiles to its vector representation (represented by an ArrayList)
@@ -21,12 +23,12 @@ public final class TileAlgorithm {
      */
     public static ArrayList<Integer> tileList2IntList(LinkedList<Tile> input) {
         ArrayList<Integer> toReturn = new ArrayList<>(List.of(
-                3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         ));
 
         for (Tile t: input) {
-            toReturn.add(t.getTileProperty().tileValue, toReturn.get(t.getTileProperty().tileValue) + 1);
+            toReturn.set(t.getTileProperty().tileValue, toReturn.get(t.getTileProperty().tileValue) + 1);
         }
 
         return toReturn;
@@ -124,7 +126,7 @@ public final class TileAlgorithm {
      * @param comparison The {@link List} of all possible vector actions that can be taken by the hand
      * @return {@link List} of valid vectors that the {@code hand} can take
      */
-    public static List<ArrayList<Integer>> allPossibleActions(ArrayList<Integer> hand,
+    private static List<ArrayList<Integer>> allPossibleActions(ArrayList<Integer> hand,
                                                              List<ArrayList<Integer>> comparison) {
         return comparison.stream().filter(
                 x -> {
@@ -149,12 +151,20 @@ public final class TileAlgorithm {
     }
 
     /**
+     * Checks if the hand is a winning valid hand
      *
-     * @param hand
-     * @param allActions
-     * @param headActions
-     * @param appliedActions
-     * @return
+     * @param hand Vector representation of the hand to check
+     * @param allActions {@link LinkedList} of {@link ArrayList} of {@link Integer}; contains the kong/pong/chow
+     *                                     patterns to check
+     * @param headActions {@link LinkedList} of {@link ArrayList} of {@link Integer}; contains the head/pair patterns
+     *                                      to check
+     * @param appliedActions {@link LinkedList} of {@link ArrayList} of {@link Integer}; contains all the possible
+     *                                         actions that lead to a winning hand or an empty {@link LinkedList}
+     *                                         if the hand does not lead to a winning hand
+     * @return {@link MutablePair}, with the first element being a {@link Boolean} that describes if the hand is a
+     * winning hand, and the second element being a {@link LinkedList} of {@link ArrayList} of {@link Integer} (if
+     * the hand is a winning hand) or an empty {@link LinkedList} (hand is not winning), which describes the vector
+     * patterns that lead to a winning hand
      */
     public static MutablePair<Boolean, LinkedList<ArrayList<Integer>>> validHand(
             ArrayList<Integer> hand, List<ArrayList<Integer>> allActions,

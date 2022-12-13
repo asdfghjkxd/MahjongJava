@@ -114,11 +114,11 @@ public final class Game extends Canvas implements Runnable, Commandable {
 
     @Override
     public synchronized void synchronise_ticks() {
-//        switch (this.gameState) {
-//            case IN_GAME -> {
-//                board.synchronise_ticks();
-//            }
-//        }
+        switch (this.gameState) {
+            case IN_GAME -> {
+                board.synchronise_ticks();
+            }
+        }
     }
 
     @Override

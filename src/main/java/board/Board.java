@@ -12,6 +12,7 @@ import utils.Commandable;
 import utils.Container;
 import utils.Observable;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
@@ -152,7 +153,6 @@ public final class Board implements Container, Commandable, Observable {
 
             p.sortHand();
         }
-
     }
 
     private void arrangeBoardTiles(Tile t) {
@@ -250,11 +250,13 @@ public final class Board implements Container, Commandable, Observable {
 
     private void distributeToPlayer(Player p) {
         Tile t = distributeBoardTile();
-        if (t.isBonus()) {
-            p.acceptItem(t);
-            distributeToPlayer(p);
-        } else {
-            p.acceptItem(t);
+        if (t != null) {
+            if (t.isBonus()) {
+                p.acceptItem(t);
+                distributeToPlayer(p);
+            } else {
+                p.acceptItem(t);
+            }
         }
     }
 
@@ -269,20 +271,22 @@ public final class Board implements Container, Commandable, Observable {
 
     // Player control
     public void advancePlayer() {
+        System.out.println(this.currentPlayerIndex);
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 4;
     }
 
     public void enforcePlayerAction(int tilePos) {
+        distributeToPlayer(getCurrentPlayer());
+
         if (getCurrentPlayer().strategyAction(tilePos)) {
             advancePlayer();
-            distributeToPlayer(getCurrentPlayer());
         }
     }
 
     // Interface methods
     @Override
     public void resetContainer() {
-        this.boardTiles.clear();;
+        this.boardTiles.clear();
         this.discardedTiles.resetContainer();
         for (Player p: boardPlayers) {
             p.resetContainer();
@@ -293,17 +297,21 @@ public final class Board implements Container, Commandable, Observable {
     @Override
     public void acceptItem(Tile tile) {
         // board does not accept items
+        JOptionPane.showMessageDialog(null, "Board does not accept tiles", "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public Tile discardItem() {
-        // board cannot discard items away
+        JOptionPane.showMessageDialog(null, "Board does not discard tiles", "Error",
+                JOptionPane.ERROR_MESSAGE);
         return null;
     }
 
     @Override
     public Tile discardItem(Tile t) {
-        // board cannot discard items away
+        JOptionPane.showMessageDialog(null, "Board does not discard specific tiles",
+                "Error", JOptionPane.ERROR_MESSAGE);
         return null;
     }
 

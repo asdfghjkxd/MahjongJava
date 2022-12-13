@@ -35,13 +35,6 @@ public final class Tile implements Comparable<Tile>, Renderable {
 
 
     /**
-     * Default constructor that instantiates nothing
-     */
-    public Tile() {
-        // empty constructor, does nothing
-    }
-
-    /**
      * Constructor that initialises the fields for this tile
      * @param x The starting x coordinates of this tile
      * @param y The starting y coordinates of this tile
@@ -71,12 +64,12 @@ public final class Tile implements Comparable<Tile>, Renderable {
      */
     @Override
     public void render(Graphics g) throws IOException {
-        if (this.owner instanceof Board || this.owner instanceof AI) {
+        if (owner instanceof Board || owner instanceof AI) {
             g.drawImage(Thumbnails.of(TILE_VECTOR_VALUE_INDEX.BACK.tileImage)
                     .rotate(rotationDegrees)
                     .size(maxWidth, maxHeight)
                     .asBufferedImage(), startingX, startingY, null);
-        } else if (this.owner instanceof Human || this.owner instanceof Discard) {
+        } else if (owner instanceof Human || owner instanceof Discard) {
             g.drawImage(Thumbnails.of(
                             tileProperty.toImage())
                     .rotate(rotationDegrees)
