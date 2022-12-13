@@ -28,7 +28,7 @@ public class VALID_TILE_ACTIONS {
             ALL_ACTIONS.add(quadrupleBasis);
         }
 
-        for (int i = 0; i < 9 - 2; i++) {
+        for (int i = 0; i < 7; i++) {
             ArrayList<Integer> chowBasis = new ArrayList<>(47);
             for (int j = 0; j < 45; j++) {
                 if (j == i) {
@@ -42,7 +42,7 @@ public class VALID_TILE_ACTIONS {
             ALL_ACTIONS.add(chowBasis);
         }
 
-        for (int i = 9; i < 18 - 2; i++) {
+        for (int i = 9; i < 16; i++) {
             ArrayList<Integer> chowBasis = new ArrayList<>(47);
             for (int j = 0; j < 45; j++) {
                 if (j == i) {
@@ -56,7 +56,7 @@ public class VALID_TILE_ACTIONS {
             ALL_ACTIONS.add(chowBasis);
         }
 
-        for (int i = 18; i < 27 - 2; i++) {
+        for (int i = 18; i < 25; i++) {
             ArrayList<Integer> chowBasis = new ArrayList<>(47);
             for (int j = 0; j < 45; j++) {
                 if (j == i) {

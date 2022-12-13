@@ -1,9 +1,10 @@
 package entities;
 
+import algorithms.TileAlgorithm;
 import board.Board;
+import constants.VALID_TILE_ACTIONS;
 import tests.Test;
 import pieces.Tile;
-import pieces.WrappedTile;
 import strategy.Strategy;
 import utils.Container;
 import utils.Observable;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class Player implements Container, Observable, Renderable {
     protected int startingXPosition;
@@ -129,15 +131,25 @@ public abstract class Player implements Container, Observable, Renderable {
 
     // Checks if the hand is winning
     public boolean isWinningHand() {
-        LinkedList<WrappedTile> collect = new LinkedList<>();
+        // get all the possible pong/kang/chow-able tiles from public or private hand
+        LinkedList<Tile> onlyValidTiles = new LinkedList<>();
+        onlyValidTiles.addAll(
+                privateHand.stream().filter(x -> x.getTileProperty().tileValue < 34).toList()
+        );
+        onlyValidTiles.addAll(
+                publicHand.stream().filter(x -> x.getTileProperty().tileValue < 34).toList()
+        );
+        Collections.sort(onlyValidTiles);
 
-        for (Tile t: privateHand) {
-            WrappedTile wT = new WrappedTile(t);
-            collect.add(wT);
-        }
-
-//        return TilePattern.isValid(collect);
-        return false;
+        // then convert this list into a hand and check
+        // note that bonus tiles do not contribute in any manner to the winning configuratio of the tiles, only scores
+        ArrayList<Integer> collect = TileAlgorithm.tileList2IntList(onlyValidTiles);
+        return TileAlgorithm.validHand(
+                collect,
+                VALID_TILE_ACTIONS.ALL_ACTIONS,
+                VALID_TILE_ACTIONS.HEAD_ACTIONS,
+                new LinkedList<>()
+        ).getLeft();
     }
 
     public abstract boolean strategyAction(int tilePos);

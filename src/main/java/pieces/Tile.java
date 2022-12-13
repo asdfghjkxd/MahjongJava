@@ -21,7 +21,7 @@ import java.io.IOException;
  * @apiNote Note that the initialising of this class should be handled by the {@link Board}, and if there are
  * any loose initialisation of the tiles, the owner should be pointed to null to avoid errors
  */
-public class Tile implements Comparable<Tile>, Renderable {
+public final class Tile implements Comparable<Tile>, Renderable {
     private TILE_VECTOR_VALUE_INDEX tileProperty;
 
     public static final int maxHeight = 45;
@@ -198,7 +198,7 @@ public class Tile implements Comparable<Tile>, Renderable {
     /**
      * Describes the behaviour when the tiles are hashed
      *
-     * @return hashcode, based on the {@link Tile} tileProperty
+     * @return hashcode, based on the {@link Tile} {@code tileProperty}
      */
     @Override
     public int hashCode() {
@@ -235,6 +235,10 @@ public class Tile implements Comparable<Tile>, Renderable {
      */
     public boolean equalToStandardTileValue(TILE_VECTOR_VALUE_INDEX refTile) {
         return tileProperty.tileValue == refTile.tileValue;
+    }
+
+    public TILE_VECTOR_VALUE_INDEX getTileProperty() {
+        return tileProperty;
     }
 
     /**
@@ -288,7 +292,6 @@ public class Tile implements Comparable<Tile>, Renderable {
                     return "red_flower_3";
                 case 45:
                     return "red_flower_4";
-
             }
         } else {
             return "invalid";

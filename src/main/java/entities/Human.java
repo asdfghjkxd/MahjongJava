@@ -47,6 +47,12 @@ public final class Human extends Player {
 
     @Override
     public synchronized boolean strategyAction(int tilePos) {
+        if (isWinningHand()) {
+            // disrupt game and set winner to this player
+            return false;
+        }
+
+        // if not winning then he must be forced to discard a tile
         int result = JOptionPane.showConfirmDialog(null, "Discard Tile?", "Confirm",
                 JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 

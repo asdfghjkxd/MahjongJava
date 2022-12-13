@@ -34,7 +34,12 @@ public final class AI extends Player {
 
     @Override
     public synchronized boolean strategyAction(int tilePos) {
-        discardItem();
-        return true;
+        if (isWinningHand()) {
+            // disrupt the game and set winner as this player
+            return false;
+        } else {
+            discardItem();
+            return true;
+        }
     }
 }

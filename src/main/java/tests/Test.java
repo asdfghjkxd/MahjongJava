@@ -43,8 +43,6 @@ public class Test extends Canvas implements Runnable{
     }
 
     private static void testNewTileSystem() {
-        TileAlgorithm tp = new TileAlgorithm();
-
         for (ArrayList<Integer> arrayList: VALID_TILE_ACTIONS.ALL_ACTIONS) {
             System.out.println(arrayList);
         }
@@ -54,7 +52,7 @@ public class Test extends Canvas implements Runnable{
 //                VALID_ACTIONS.ALL_ACTIONS
 //        );
 
-        MutablePair<Boolean, LinkedList<ArrayList<Integer>>> testValue= tp.validHand(
+        MutablePair<Boolean, LinkedList<ArrayList<Integer>>> testValue= TileAlgorithm.validHand(
                 new ArrayList<>(Arrays.asList(2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
                         1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
                 VALID_TILE_ACTIONS.ALL_ACTIONS,
