@@ -51,6 +51,10 @@ public final class Board implements Container, Commandable, Observable {
 
 
     // Instantiation of the Board and Players
+    public void endGame(Player player) {
+        currentPlayer = player;
+        game.setGameState(Game.GAME_STATE.END);
+    }
     public void resetGame() {
         // reset board tile placement parameters
         startX = 300;
@@ -271,7 +275,6 @@ public final class Board implements Container, Commandable, Observable {
 
     // Player control
     public void advancePlayer() {
-        System.out.println(this.currentPlayerIndex);
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 4;
     }
 
@@ -355,11 +358,7 @@ public final class Board implements Container, Commandable, Observable {
 
     // Getters and Setters
     public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+        return boardPlayers.get(currentPlayerIndex);
     }
 
     public Player getHumanPlayer() {

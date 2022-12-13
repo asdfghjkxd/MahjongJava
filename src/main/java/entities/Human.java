@@ -47,19 +47,21 @@ public final class Human extends Player {
 
     @Override
     public synchronized boolean strategyAction(int tilePos) {
-        if (isWinningHand()) {
-            // disrupt game and set winner to this player
-            return false;
-        }
+        if (board.getCurrentPlayer() == this) {
+            if (isWinningHand()) {
+                board.endGame(this);
+                return true;
+            }
 
-        // if not winning then he must be forced to discard a tile
-        int result = JOptionPane.showConfirmDialog(null, "Discard Tile?", "Confirm",
-                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            // if not winning then he must be forced to discard a tile
+            int result = JOptionPane.showConfirmDialog(null, "Discard Tile?", "Confirm",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-        if (result == 0) {
-            discardItem(tilePos);
-            HUD.tileCounter = Math.max(0, HUD.tileCounter - 1);
-            return true;
+            if (result == 0) {
+                discardItem(tilePos);
+                HUD.tileCounter = Math.max(0, HUD.tileCounter - 1);
+                return true;
+            }
         }
 
         return false;
