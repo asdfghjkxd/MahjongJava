@@ -88,7 +88,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
             delta += (now - lastTime) / ns;
             lastTime = now;
 
-            while (delta >= 2) {
+            while (delta >= 1) {
                 synchronise_ticks();
                 delta--;
             }
@@ -115,11 +115,11 @@ public final class Game extends Canvas implements Runnable, Commandable {
 
     @Override
     public synchronized void synchronise_ticks() {
-        switch (this.gameState) {
-            case IN_GAME -> {
-                board.synchronise_ticks();
-            }
-        }
+//        switch (this.gameState) {
+//            case IN_GAME -> {
+//                board.synchronise_ticks();
+//            }
+//        }
     }
 
     @Override

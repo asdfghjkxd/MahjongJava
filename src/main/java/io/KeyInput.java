@@ -1,5 +1,6 @@
 package io;
 
+import algorithms.TileAlgorithm;
 import board.Board;
 import core.Game;
 import screens.HUD;
@@ -7,9 +8,6 @@ import screens.HUD;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class KeyInput extends KeyAdapter {
     private final Game game;
@@ -79,8 +77,7 @@ public class KeyInput extends KeyAdapter {
             }
             case KeyEvent.VK_ENTER -> {
                 if (board.getCurrentPlayer().equals(board.getHumanPlayer())) {
-                    System.out.println("played");
-                    board.getCurrentPlayer().strategyAction(-1);
+                    board.getCurrentPlayer().strategyAction(HUD.tileCounter);
                 } else {
                     JOptionPane.showMessageDialog(null, "Cannot discard tile when it is not " +
                             "your turn", "Wait!", JOptionPane.ERROR_MESSAGE);

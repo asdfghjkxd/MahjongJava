@@ -22,8 +22,21 @@ public class HumanStrategy implements Strategy{
     }
 
     private int pollHelper(List<Tile> inputTiles) {
-        BlockingIntegerInput.getInput("Discard Tile", "Select a tile to remove", JOptionPane.QUESTION_MESSAGE);
-        return BlockingIntegerInput.retrieveInput();
+        int value = -Integer.MAX_VALUE;
+
+        while (value == -Integer.MAX_VALUE) {
+            String toRetrieve = JOptionPane.showInputDialog(null, "Enter in a valid number " +
+                    "corresponding to the index of the tile to discard", JOptionPane.QUESTION_MESSAGE);
+
+            try {
+                value = Integer.parseInt(toRetrieve);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Invalid number!", "Error", JOptionPane.ERROR_MESSAGE);
+                pollHelper(inputTiles);
+            }
+        }
+
+        return value;
     }
 
     @Override

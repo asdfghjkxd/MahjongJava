@@ -72,6 +72,8 @@ public final class Board implements Container, Commandable, Observable {
         instantiatePlayers();
         humanPlayer = boardPlayers.stream().filter(x -> x instanceof Human).toList().get(0);
         currentPlayer = boardPlayers.get(currentPlayerIndex.get());
+
+        startGame();
     }
 
     private void instantiateBoard() {
@@ -310,6 +312,23 @@ public final class Board implements Container, Commandable, Observable {
         JOptionPane.showMessageDialog(null, "Board does not discard specific tiles",
                 "Error", JOptionPane.ERROR_MESSAGE);
         return null;
+    }
+
+    public synchronized void startGame() {
+         try {
+             synchronise_renders(game.graphics);
+         } catch (IOException ex) {
+             // do nothing
+         }
+
+         Player player = getCurrentPlayer();
+         player.strategyAction(HUD.tileCounter);
+         System.out.println(player.getName());
+         currentPlayerIndex.getAndUpdate(
+                 x -> (x + 1) % 4
+         );
+
+         startGame();
     }
 
     @Override
