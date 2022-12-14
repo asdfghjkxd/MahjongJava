@@ -2,9 +2,12 @@ package tests;
 
 import algorithms.TileAlgorithm;
 import constants.VALID_TILE_ACTIONS;
+import io.BlockingIntegerInput;
+import io.BlockingStringInput;
 import org.apache.commons.lang3.tuple.MutablePair;
 import pieces.Tile;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
@@ -26,8 +29,8 @@ public class Test extends Canvas implements Runnable{
 //        System.out.println(b);
 //        b.testBoard();
 
-        testNewTileSystem();
-
+        // testNewTileSystem();
+        block();
     }
 
     @Override
@@ -62,5 +65,18 @@ public class Test extends Canvas implements Runnable{
 
         assert testValue.left;
         System.out.println(testValue);
+    }
+
+    private static void block() {
+        BlockingStringInput.getInput("test", "test", JOptionPane.ERROR_MESSAGE);
+        System.out.println(BlockingStringInput.retrieveInput());
+
+        BlockingIntegerInput.getInput("test2", "test2", JOptionPane.INFORMATION_MESSAGE);
+
+        System.out.println(BlockingIntegerInput.retrieveInput());
+    }
+
+    public static void print() {
+        System.out.println("hello");
     }
 }

@@ -2,7 +2,6 @@ package board;
 
 import constants.*;
 import core.Game;
-import tests.Test;
 import entities.AI;
 import entities.Human;
 import entities.Player;
@@ -17,6 +16,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Board implements Container, Commandable, Observable {
     // Container is represented by a Stack of Tiles
@@ -29,7 +31,7 @@ public final class Board implements Container, Commandable, Observable {
     private final LinkedList<Player> boardPlayers = new LinkedList<>();
     private Player currentPlayer = null;
     private Player humanPlayer;
-    private int currentPlayerIndex = 0;
+    private AtomicInteger currentPlayerIndex = new AtomicInteger(0);
     private WIND_DIRECTION windDirection = WIND_DIRECTION.NORTH;
     private final LinkedList<List<Integer>> POSITIONS =
             new LinkedList<>(Arrays.asList(
@@ -43,6 +45,7 @@ public final class Board implements Container, Commandable, Observable {
     private int localCounter = 0;
     private int startX = 300;
     private int startY = 130;
+
 
     public Board(Game game) {
         this.game = game;
@@ -68,7 +71,7 @@ public final class Board implements Container, Commandable, Observable {
         instantiateBoard();
         instantiatePlayers();
         humanPlayer = boardPlayers.stream().filter(x -> x instanceof Human).toList().get(0);
-        currentPlayer = boardPlayers.get(currentPlayerIndex);
+        currentPlayer = boardPlayers.get(currentPlayerIndex.get());
     }
 
     private void instantiateBoard() {
@@ -129,6 +132,10 @@ public final class Board implements Container, Commandable, Observable {
                     curr.setRotationDegrees(0);
                     curr.setPlayerPosition(pos.get(0), pos.get(1));
                 }
+            }
+
+            for (int i = 0; i < playerList.size(); i++) {
+                playerList.get(i).setOrder(i);
             }
 
             // TODO: decide if initial distribution should be done during player setup or after
@@ -274,16 +281,24 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     // Player control
-    public void advancePlayer() {
-        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 4;
-    }
+    public CompletableFuture<Boolean> enforcePlayerAction(int tilePos) throws IOException, ExecutionException, InterruptedException {
+        CompletableFuture<Boolean> enforced = CompletableFuture.supplyAsync(() -> {
+                distributeToPlayer(getCurrentPlayer());
 
-    public void enforcePlayerAction(int tilePos) {
-        distributeToPlayer(getCurrentPlayer());
+                if (getCurrentPlayer().strategyAction(tilePos)) {
+                    return true;
+                }
 
-        if (getCurrentPlayer().strategyAction(tilePos)) {
-            advancePlayer();
+                return false;
+            });
+
+        while (!enforced.isDone()) {
+            if (game.graphics != null) {
+                synchronise_renders(game.graphics);
+            }
         }
+
+        return enforced;
     }
 
     // Interface methods
@@ -319,8 +334,18 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     @Override
-    public void synchronise_ticks() {
-        enforcePlayerAction(HUD.tileCounter);
+    public synchronized void synchronise_ticks() {
+        for (Player p: boardPlayers) {
+            System.out.println(p);
+            if (currentPlayerIndex.get() == p.getOrder()) {
+                while (true) {
+                    if (currentPlayer.strategyAction(-1)) {
+                        break;
+                    }
+                }
+                currentPlayerIndex.set(currentPlayerIndex.getAndUpdate(x -> (x + 1) % 4));
+            }
+        }
     }
 
     @Override
@@ -344,21 +369,9 @@ public final class Board implements Container, Commandable, Observable {
         return "Board Instance";
     }
 
-    // Test functions
-    public void testBoard() {
-        if (Test.test_state.equals(Test.TEST_STATE.TESTING)) {
-            System.out.println("Board size: " + boardTiles.size());
-            for (Player p : boardPlayers) {
-                System.out.println(p.toString());
-            }
-
-            System.out.println(boardTiles);
-        }
-    }
-
     // Getters and Setters
     public Player getCurrentPlayer() {
-        return boardPlayers.get(currentPlayerIndex);
+        return boardPlayers.get(currentPlayerIndex.get());
     }
 
     public Player getHumanPlayer() {

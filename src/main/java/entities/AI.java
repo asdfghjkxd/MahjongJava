@@ -33,16 +33,19 @@ public final class AI extends Player {
     }
 
     @Override
-    public synchronized boolean strategyAction(int tilePos) {
-        if (board.getCurrentPlayer() == this) {
-            if (isWinningHand()) {
-                board.endGame(this);
-            } else {
-                discardItem();
-                return true;
-            }
+    public boolean strategyAction(int tilePos) {
+        if (isWinningHand()) {
+            board.endGame(this);
+        } else {
+            discardItem();
         }
 
-        return false;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            ;
+        }
+
+        return true;
     }
 }

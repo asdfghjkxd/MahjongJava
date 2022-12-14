@@ -35,6 +35,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
     private final Settings settings;
     private final End end;
     private final Board board;
+    public Graphics graphics;
 
     public static void main(String[] args) {
         new Game();
@@ -132,6 +133,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
         }
 
         Graphics graph = bs.getDrawGraphics();
+        this.graphics = graph;
 
         switch (gameState) {
             case IN_GAME -> {

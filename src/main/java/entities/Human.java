@@ -1,6 +1,7 @@
 package entities;
 
 import board.Board;
+import io.BlockingIntegerInput;
 import screens.HUD;
 import strategy.HumanStrategy;
 
@@ -46,24 +47,15 @@ public final class Human extends Player {
     }
 
     @Override
-    public synchronized boolean strategyAction(int tilePos) {
-        if (board.getCurrentPlayer() == this) {
-            if (isWinningHand()) {
-                board.endGame(this);
-                return true;
-            }
-
-            // if not winning then he must be forced to discard a tile
-            int result = JOptionPane.showConfirmDialog(null, "Discard Tile?", "Confirm",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-            if (result == 0) {
-                discardItem(tilePos);
-                HUD.tileCounter = Math.max(0, HUD.tileCounter - 1);
-                return true;
-            }
+    public boolean strategyAction(int tilePos) {
+        if (isWinningHand()) {
+            board.endGame(this);
+            return true;
         }
 
-        return false;
+        BlockingIntegerInput.getInput("Discard", "Input tile to discard", JOptionPane.QUESTION_MESSAGE);
+        discardItem(BlockingIntegerInput.retrieveInput());
+        HUD.tileCounter = Math.max(0, HUD.tileCounter - 1);
+        return true;
     }
 }

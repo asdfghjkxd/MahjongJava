@@ -1,5 +1,6 @@
 package strategy;
 
+import io.BlockingIntegerInput;
 import pieces.Tile;
 
 import javax.swing.*;
@@ -21,17 +22,8 @@ public class HumanStrategy implements Strategy{
     }
 
     private int pollHelper(List<Tile> inputTiles) {
-        int item = -1;
-
-        while (item < 0) {
-            try {
-                item = Integer.parseInt(JOptionPane.showInputDialog("Enter in the position of tile to remove: "));
-            } catch (NumberFormatException e) {
-                pollHelper(inputTiles);
-            }
-        }
-
-        return item;
+        BlockingIntegerInput.getInput("Discard Tile", "Select a tile to remove", JOptionPane.QUESTION_MESSAGE);
+        return BlockingIntegerInput.retrieveInput();
     }
 
     @Override

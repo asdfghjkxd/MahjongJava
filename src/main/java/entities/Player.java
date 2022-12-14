@@ -29,6 +29,7 @@ public abstract class Player implements Container, Observable, Renderable {
     protected Board board;
     protected final int TILE_X_SPACING = 50;
     protected final int TILE_Y_SPACING = 40;
+    protected int order = -1;
 
     // Interface methods
     @Override
@@ -73,6 +74,12 @@ public abstract class Player implements Container, Observable, Renderable {
         board.discardToDiscardPile(removed);
         strategy.onTileDiscard(privateHand);
         sortHand();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            ;
+        }
 
         return removed;
     }
@@ -258,6 +265,14 @@ public abstract class Player implements Container, Observable, Renderable {
 
     public synchronized void setScore(int score) {
         this.score = score;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public int getOrder() {
+        return order;
     }
 
     public synchronized int[] getTilePosition(int pos) {
