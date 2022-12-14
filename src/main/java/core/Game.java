@@ -96,8 +96,8 @@ public final class Game extends Canvas implements Runnable, Commandable {
             if (running) {
                 try {
                     synchronise_renders(null);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
 

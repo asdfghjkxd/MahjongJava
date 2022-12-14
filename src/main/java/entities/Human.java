@@ -45,15 +45,4 @@ public final class Human extends Player {
                 "Hello!", JOptionPane.INFORMATION_MESSAGE);
         return name;
     }
-
-    @Override
-    public boolean strategyAction(int tilePos) {
-        if (isWinningHand()) {
-            board.endGame(this);
-            return true;
-        }
-
-        discardItem();
-        return true;
-    }
 }

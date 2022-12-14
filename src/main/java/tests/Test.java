@@ -31,6 +31,14 @@ public class Test extends Canvas implements Runnable{
 
         // testNewTileSystem();
         block();
+        for (int i = 0; i < 100; i++) {
+            print();
+            try {
+                Thread.sleep(1000);
+            } catch (Exception ex) {
+                ;
+            }
+        }
     }
 
     @Override
@@ -68,12 +76,19 @@ public class Test extends Canvas implements Runnable{
     }
 
     private static void block() {
-        BlockingStringInput.getInput("test", "test", JOptionPane.ERROR_MESSAGE);
-        System.out.println(BlockingStringInput.retrieveInput());
-
-        BlockingIntegerInput.getInput("test2", "test2", JOptionPane.INFORMATION_MESSAGE);
-
-        System.out.println(BlockingIntegerInput.retrieveInput());
+        JOptionPane jOptionPane = new JOptionPane("bruh", JOptionPane.QUESTION_MESSAGE);
+        jOptionPane.setWantsInput(true);
+        JDialog jDialog = jOptionPane.createDialog(null, "Bruh");
+        jOptionPane.addPropertyChangeListener(
+                JOptionPane.WANTS_INPUT_PROPERTY,
+                ignored -> {
+                    Object selected = jOptionPane.getInputValue();
+                    System.out.println(selected);
+                    jDialog.dispose();
+                }
+        );
+        jDialog.setModal(false);
+        jDialog.setVisible(true);
     }
 
     public static void print() {

@@ -58,6 +58,7 @@ public final class Board implements Container, Commandable, Observable {
         currentPlayer = player;
         game.setGameState(Game.GAME_STATE.END);
     }
+
     public void resetGame() {
         // reset board tile placement parameters
         startX = 300;
@@ -73,7 +74,12 @@ public final class Board implements Container, Commandable, Observable {
         humanPlayer = boardPlayers.stream().filter(x -> x instanceof Human).toList().get(0);
         currentPlayer = boardPlayers.get(currentPlayerIndex.get());
 
-        startGame();
+        try {
+            startGame();
+        } catch (InterruptedException ex) {
+            JOptionPane.showMessageDialog(null, "Runtime error", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void instantiateBoard() {
@@ -314,43 +320,41 @@ public final class Board implements Container, Commandable, Observable {
         return null;
     }
 
-    public synchronized void startGame() {
-         try {
-             synchronise_renders(game.graphics);
-         } catch (IOException ex) {
-             // do nothing
-         }
+    public synchronized void startGame() throws InterruptedException {
+//         try {
+//             synchronise_renders(game.graphics);
+//         } catch (IOException ex) {
+//             // do nothing
+//         }
 
-         Player player = getCurrentPlayer();
-         player.strategyAction(HUD.tileCounter);
-         System.out.println(player.getName());
-         currentPlayerIndex.getAndUpdate(
-                 x -> (x + 1) % 4
-         );
-
-         startGame();
+        Player player = getCurrentPlayer();
+        distributeToPlayer(player);
+        player.strategyAction();
     }
 
     @Override
     public synchronized void synchronise_ticks() {
-        try {
-            synchronise_renders(game.graphics);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-
-        for (Player p: boardPlayers) {
-            if (currentPlayerIndex.get() == p.getOrder()) {
-                System.out.println(p.getName());
-                while (true) {
-                    if (p.strategyAction(-1)) {
-                        break;
-                    }
-                }
-                currentPlayerIndex.getAndUpdate(x -> (x + 1) % 4);
-            }
-        }
+//        try {
+//            synchronise_renders(game.graphics);
+//        } catch (IOException ex) {
+//            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+//            System.exit(1);
+//        }
+//
+//        for (Player p: boardPlayers) {
+//            if (currentPlayerIndex.get() == p.getOrder()) {
+//                System.out.println(p.getName());
+//                while (true) {
+//                    try {
+//                        if (p.strategyAction(-1)) {
+//                            break;
+//                        }
+//                    } catch (InterruptedException ex) {
+//                        // Do nothing
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -370,6 +374,10 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     // Getters and Setters
+    public void advancePlayer() {
+        currentPlayerIndex.getAndUpdate(x -> (x + 1) % 4);
+    }
+
     public Player getCurrentPlayer() {
         return boardPlayers.get(currentPlayerIndex.get());
     }

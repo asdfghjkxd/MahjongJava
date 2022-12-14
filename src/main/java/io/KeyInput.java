@@ -77,7 +77,12 @@ public class KeyInput extends KeyAdapter {
             }
             case KeyEvent.VK_ENTER -> {
                 if (board.getCurrentPlayer().equals(board.getHumanPlayer())) {
-                    board.getCurrentPlayer().strategyAction(HUD.tileCounter);
+                    try {
+                        board.getCurrentPlayer().strategyAction();
+                    } catch (InterruptedException ex) {
+                        JOptionPane.showMessageDialog(null, "Error with action for user "
+                                + board.getCurrentPlayer().getName(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Cannot discard tile when it is not " +
                             "your turn", "Wait!", JOptionPane.ERROR_MESSAGE);

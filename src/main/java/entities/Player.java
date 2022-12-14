@@ -22,14 +22,14 @@ public abstract class Player implements Container, Observable, Renderable {
     protected int movingYPosition;
     protected int rotationDegrees;
     protected String name;
-    protected Strategy strategy;
-    protected int score;
-    protected LinkedList<Tile> privateHand;
-    protected LinkedList<Tile> publicHand;
-    protected Board board;
+    protected volatile Strategy strategy;
+    protected volatile int score;
+    protected volatile LinkedList<Tile> privateHand;
+    protected volatile LinkedList<Tile> publicHand;
+    protected volatile Board board;
     protected final int TILE_X_SPACING = 50;
     protected final int TILE_Y_SPACING = 40;
-    protected int order = -1;
+    protected volatile int order = -1;
 
     // Interface methods
     @Override
@@ -152,7 +152,25 @@ public abstract class Player implements Container, Observable, Renderable {
         ).getLeft();
     }
 
-    public abstract boolean strategyAction(int tilePos);
+    public void strategyAction() throws InterruptedException {
+        Thread current = new Thread(
+                () -> {
+                    if (isWinningHand()) {
+                        board.endGame(this);
+                    } else {
+                        Tile discard = strategy.pollDiscardTile(privateHand);
+                        discardItem(discard);
+                    }
+                });
+        current.start();
+        current.join();
+        current.interrupt();
+        current.notifyAll();
+
+        // after the thread has run to completion call the next player
+        board.advancePlayer();
+        board.getCurrentPlayer().strategyAction();
+    };
 
     // Tile utility functions to keep hand sorted and to derive the next positions for the tile to be placed into
     public synchronized void sortHand() {
@@ -174,16 +192,6 @@ public abstract class Player implements Container, Observable, Renderable {
             }
         }
 
-    }
-
-    public synchronized void rotateAllTiles(int rotationDegrees) {
-        for (Tile t: publicHand) {
-            t.setRotationDegrees(rotationDegrees % 360);
-        }
-
-        for (Tile t: privateHand) {
-            t.setRotationDegrees(rotationDegrees % 360);
-        }
     }
 
     public synchronized void setNextAvailableTilePosition(Tile tile) {
