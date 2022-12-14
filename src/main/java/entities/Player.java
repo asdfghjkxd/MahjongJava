@@ -75,12 +75,6 @@ public abstract class Player implements Container, Observable, Renderable {
         strategy.onTileDiscard(privateHand);
         sortHand();
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            ;
-        }
-
         return removed;
     }
 

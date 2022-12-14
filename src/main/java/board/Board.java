@@ -280,27 +280,6 @@ public final class Board implements Container, Commandable, Observable {
         return discardedTiles.discardItem();
     }
 
-    // Player control
-    public CompletableFuture<Boolean> enforcePlayerAction(int tilePos) throws IOException, ExecutionException, InterruptedException {
-        CompletableFuture<Boolean> enforced = CompletableFuture.supplyAsync(() -> {
-                distributeToPlayer(getCurrentPlayer());
-
-                if (getCurrentPlayer().strategyAction(tilePos)) {
-                    return true;
-                }
-
-                return false;
-            });
-
-        while (!enforced.isDone()) {
-            if (game.graphics != null) {
-                synchronise_renders(game.graphics);
-            }
-        }
-
-        return enforced;
-    }
-
     // Interface methods
     @Override
     public void resetContainer() {
@@ -335,33 +314,35 @@ public final class Board implements Container, Commandable, Observable {
 
     @Override
     public synchronized void synchronise_ticks() {
+        try {
+            synchronise_renders(game.graphics);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+
         for (Player p: boardPlayers) {
-            System.out.println(p);
             if (currentPlayerIndex.get() == p.getOrder()) {
+                System.out.println(p.getName());
                 while (true) {
-                    if (currentPlayer.strategyAction(-1)) {
+                    if (p.strategyAction(-1)) {
                         break;
                     }
                 }
-                currentPlayerIndex.set(currentPlayerIndex.getAndUpdate(x -> (x + 1) % 4));
+                currentPlayerIndex.getAndUpdate(x -> (x + 1) % 4);
             }
         }
     }
 
     @Override
     public void synchronise_renders(Graphics g) throws IOException {
-        synchronized (boardTiles) {
-            for (Tile t : boardTiles) {
-                t.render(g);
-            }
+        for (Tile t : boardTiles) {
+            t.render(g);
         }
 
-        synchronized (boardPlayers) {
-            for (Player p : boardPlayers) {
-                p.render(g);
-            }
+        for (Player p : boardPlayers) {
+            p.render(g);
         }
-
     }
 
     @Override

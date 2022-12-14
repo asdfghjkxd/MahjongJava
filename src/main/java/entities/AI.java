@@ -40,12 +40,6 @@ public final class AI extends Player {
             discardItem();
         }
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-            ;
-        }
-
         return true;
     }
 }

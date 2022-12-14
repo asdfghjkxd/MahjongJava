@@ -53,9 +53,7 @@ public final class Human extends Player {
             return true;
         }
 
-        BlockingIntegerInput.getInput("Discard", "Input tile to discard", JOptionPane.QUESTION_MESSAGE);
-        discardItem(BlockingIntegerInput.retrieveInput());
-        HUD.tileCounter = Math.max(0, HUD.tileCounter - 1);
+        discardItem();
         return true;
     }
 }

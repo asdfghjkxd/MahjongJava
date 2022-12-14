@@ -88,7 +88,7 @@ public final class Game extends Canvas implements Runnable, Commandable {
             delta += (now - lastTime) / ns;
             lastTime = now;
 
-            while (delta >= 1) {
+            while (delta >= 2) {
                 synchronise_ticks();
                 delta--;
             }

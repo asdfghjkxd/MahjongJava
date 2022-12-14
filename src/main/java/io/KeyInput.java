@@ -78,20 +78,13 @@ public class KeyInput extends KeyAdapter {
                 hud.shiftCursor(HUD.tileCounter - 1);
             }
             case KeyEvent.VK_ENTER -> {
-//                if (board.getCurrentPlayer().equals(board.getHumanPlayer())) {
-//                    try {
-//                        CompletableFuture<Boolean> completableFuture = board.enforcePlayerAction(HUD.tileCounter);
-//                        if (completableFuture.get()) {
-//                            // board.advancePlayer();
-//                        }
-//                    } catch (IOException | InterruptedException | ExecutionException ex) {
-//                        JOptionPane.showMessageDialog(null, "Cannot enforce player action",
-//                                "Error", JOptionPane.ERROR_MESSAGE);
-//                    }
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Cannot perform actions when " +
-//                            "it is not your turn!", "Wait your turn!", JOptionPane.WARNING_MESSAGE);
-//                }
+                if (board.getCurrentPlayer().equals(board.getHumanPlayer())) {
+                    System.out.println("played");
+                    board.getCurrentPlayer().strategyAction(-1);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cannot discard tile when it is not " +
+                            "your turn", "Wait!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
