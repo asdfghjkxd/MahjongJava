@@ -4,11 +4,15 @@ import algorithms.TileAlgorithm;
 import constants.VALID_TILE_ACTIONS;
 import io.BlockingIntegerInput;
 import io.BlockingStringInput;
+import io.NonBlockingIntegerDialog;
+import io.NonBlockingStringDialog;
 import org.apache.commons.lang3.tuple.MutablePair;
 import pieces.Tile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 public class Test extends Canvas implements Runnable{
@@ -76,19 +80,15 @@ public class Test extends Canvas implements Runnable{
     }
 
     private static void block() {
-        JOptionPane jOptionPane = new JOptionPane("bruh", JOptionPane.QUESTION_MESSAGE);
-        jOptionPane.setWantsInput(true);
-        JDialog jDialog = jOptionPane.createDialog(null, "Bruh");
-        jOptionPane.addPropertyChangeListener(
-                JOptionPane.WANTS_INPUT_PROPERTY,
-                ignored -> {
-                    Object selected = jOptionPane.getInputValue();
-                    System.out.println(selected);
-                    jDialog.dispose();
+        new NonBlockingIntegerDialog(
+                "bruh",
+                "bruh",
+                JOptionPane.INFORMATION_MESSAGE,
+                x -> {
+                    System.out.println(x);
+                    return null;
                 }
         );
-        jDialog.setModal(false);
-        jDialog.setVisible(true);
     }
 
     public static void print() {

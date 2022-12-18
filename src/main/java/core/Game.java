@@ -1,6 +1,8 @@
 package core;
 
 import board.Board;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import io.KeyInput;
 import io.MouseInput;
 import screens.*;
@@ -10,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
+import java.util.concurrent.Executors;
 
 /**
  * Manages the overall game environment, and acts as the interface between the game and the game logic
@@ -115,11 +118,11 @@ public final class Game extends Canvas implements Runnable, Commandable {
 
     @Override
     public synchronized void synchronise_ticks() {
-//        switch (this.gameState) {
-//            case IN_GAME -> {
-//                board.synchronise_ticks();
-//            }
-//        }
+        switch (this.gameState) {
+            case IN_GAME -> {
+                board.synchronise_ticks();
+            }
+        }
     }
 
     @Override

@@ -321,11 +321,11 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     public synchronized void startGame() throws InterruptedException {
-//         try {
-//             synchronise_renders(game.graphics);
-//         } catch (IOException ex) {
-//             // do nothing
-//         }
+         try {
+             synchronise_renders(game.graphics);
+         } catch (IOException ex) {
+             // do nothing
+         }
 
         Player player = getCurrentPlayer();
         distributeToPlayer(player);

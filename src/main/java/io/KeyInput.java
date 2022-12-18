@@ -20,6 +20,11 @@ public class KeyInput extends KeyAdapter {
         this.board = board;
     }
 
+    /**
+     * Logs key press events from the keyboard
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -91,6 +96,11 @@ public class KeyInput extends KeyAdapter {
         }
     }
 
+    /**
+     * Logs key release events from the keyboard
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         // do nothing

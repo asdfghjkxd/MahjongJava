@@ -3,6 +3,7 @@ package entities;
 import algorithms.TileAlgorithm;
 import board.Board;
 import constants.VALID_TILE_ACTIONS;
+import io.NonBlockingIntegerDialog;
 import tests.Test;
 import pieces.Tile;
 import strategy.Strategy;
@@ -153,23 +154,26 @@ public abstract class Player implements Container, Observable, Renderable {
     }
 
     public void strategyAction() throws InterruptedException {
-        Thread current = new Thread(
-                () -> {
-                    if (isWinningHand()) {
-                        board.endGame(this);
-                    } else {
-                        Tile discard = strategy.pollDiscardTile(privateHand);
-                        discardItem(discard);
-                    }
-                });
-        current.start();
-        current.join();
-        current.interrupt();
-        current.notifyAll();
+        if (isWinningHand()) {
+            board.endGame(this);
+        } else {
+            NonBlockingIntegerDialog dialog = new NonBlockingIntegerDialog(
+                    "Discard", "Key in the tile to discard", JOptionPane.QUESTION_MESSAGE,
+                    x -> x
+            );
 
-        // after the thread has run to completion call the next player
-        board.advancePlayer();
-        board.getCurrentPlayer().strategyAction();
+            while (dialog.getInput() == Integer.MAX_VALUE) {
+                // await
+            }
+
+            Tile discard = strategy.pollDiscardTile(privateHand);
+            discardItem(discard);
+
+            // pause before advancing the player
+            Thread.sleep(2000);
+            board.advancePlayer();
+            board.getCurrentPlayer().strategyAction();
+        }
     };
 
     // Tile utility functions to keep hand sorted and to derive the next positions for the tile to be placed into

@@ -34,17 +34,9 @@ public final class AI extends Player {
 
     @Override
     public void strategyAction() throws InterruptedException {
-        Thread current = new Thread(
-                () -> {
-                    if (isWinningHand()) {
-                        board.endGame(this);
-                    } else {
-                        discardItem();
-                    }
-                });
-        current.start();
-        current.join();
-
+        // act first
+        discardItem();
+        Thread.sleep(2000);
 
         // after the thread has run to completion call the next player
         board.advancePlayer();
