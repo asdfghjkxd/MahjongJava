@@ -3,6 +3,7 @@ package entities;
 import algorithms.TileAlgorithm;
 import board.Board;
 import constants.VALID_TILE_ACTIONS;
+import game.ConsoleGame;
 import io.NonBlockingIntegerDialog;
 import tests.Test;
 import pieces.Tile;
@@ -15,6 +16,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+
+import static com.diogonunes.jcolor.Ansi.colorize;
 
 public abstract class Player implements Container, Observable, Renderable {
     protected int startingXPosition;
@@ -31,6 +34,7 @@ public abstract class Player implements Container, Observable, Renderable {
     protected final int TILE_X_SPACING = 50;
     protected final int TILE_Y_SPACING = 40;
     protected volatile int order = -1;
+    protected Scanner scanner = new Scanner(System.in);
 
     // Interface methods
     @Override
@@ -153,6 +157,28 @@ public abstract class Player implements Container, Observable, Renderable {
         ).getLeft();
     }
 
+    public void consoleStrategyAction() throws InterruptedException {
+        if (isWinningHand()) {
+            board.endGame(this);
+        } else {
+            System.out.println(colorize("Your hand: \n" + privateHand.toString(),
+                    ConsoleGame.consoleWhiteText));
+            int result = -1;
+
+            while (result < 0) {
+                System.out.println(colorize("Key in the tile index to discard: ", ConsoleGame.consoleWhiteText));
+
+                try {
+                    result = scanner.nextInt();
+                } catch (InputMismatchException | NumberFormatException ex) {
+                    System.out.println(colorize("Invalid tile index! Try again.", ConsoleGame.consoleRedText));
+                }
+            }
+
+            discardItem(privateHand.get(result));
+        }
+    }
+
     public void strategyAction() throws InterruptedException {
         if (isWinningHand()) {
             board.endGame(this);
@@ -174,7 +200,7 @@ public abstract class Player implements Container, Observable, Renderable {
             board.advancePlayer();
             board.getCurrentPlayer().strategyAction();
         }
-    };
+    }
 
     // Tile utility functions to keep hand sorted and to derive the next positions for the tile to be placed into
     public synchronized void sortHand() {

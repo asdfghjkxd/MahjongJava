@@ -1,5 +1,7 @@
 package core;
 
+import game.GUIGame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.Serial;
@@ -15,7 +17,7 @@ public class Window extends Canvas {
      * @param title             String, the title of the window
      * @param game              Runnable, game instance
      */
-    public Window(int width, int height, String title, Game game) {
+    public Window(int width, int height, String title, GUIGame game) {
         JFrame frame = new JFrame(title);
 
         // set the frame sizes

@@ -2,7 +2,7 @@ package screens;
 
 import board.Board;
 import constants.CONSTANTS;
-import core.Game;
+import game.GUIGame;
 import pieces.Tile;
 
 import java.awt.*;
@@ -14,7 +14,7 @@ public class HUD extends Screen {
 
 
 
-    public HUD(Game game, Board board) {
+    public HUD(GUIGame game, Board board) {
         super(game);
         this.board = board;
     }
@@ -22,7 +22,7 @@ public class HUD extends Screen {
     @Override
     public void render(Graphics g) throws IOException {
         g.setColor(CONSTANTS.BACKGROUND_COLOUR);
-        g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        g.fillRect(0, 0, GUIGame.WIDTH, GUIGame.HEIGHT);
         g.setColor(CONSTANTS.FONT_COLOUR);
         g.setFont(new Font("Arial", Font.BOLD, 16));
         g.setColor(CONSTANTS.TEXTBOX_COLOUR);
@@ -37,10 +37,10 @@ public class HUD extends Screen {
         g.drawString("Current Score: " + board.getCurrentPlayer().getScore() + " 台", 40, 100);
 
         g.setColor(CONSTANTS.TEXTBOX_COLOUR);
-        g.fillRect(Game.WIDTH - 75, 25, 50, 50);
+        g.fillRect(GUIGame.WIDTH - 75, 25, 50, 50);
         g.setColor(CONSTANTS.ACCENT_COLOUR);
-        g.fillRect(Game.WIDTH - 70, 30, 15, 40);
-        g.fillRect(Game.WIDTH - 45, 30, 15, 40);
+        g.fillRect(GUIGame.WIDTH - 70, 30, 15, 40);
+        g.fillRect(GUIGame.WIDTH - 45, 30, 15, 40);
 
         if (board.getCurrentPlayer() != null) {
             int[] tilePos = board.getHumanPlayer().getTilePosition(HUD.tileCounter);

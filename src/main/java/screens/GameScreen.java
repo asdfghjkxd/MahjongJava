@@ -1,12 +1,12 @@
 package screens;
 
-import core.Game;
+import game.GUIGame;
 
 import java.awt.*;
 import java.io.IOException;
 
 public class GameScreen extends Screen {
-    public GameScreen(Game game) {
+    public GameScreen(GUIGame game) {
         super(game);
     }
 

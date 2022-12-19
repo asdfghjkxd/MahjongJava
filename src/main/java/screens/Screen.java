@@ -1,7 +1,6 @@
 package screens;
 
-import board.Board;
-import core.Game;
+import game.GUIGame;
 import io.MouseInput;
 import utils.Renderable;
 import utils.Tickable;
@@ -15,11 +14,11 @@ public abstract class Screen extends MouseInput implements Tickable, Renderable 
     protected int movingX = 0;
     protected int movingY = 0;
 
-    public Screen(Game game) {
+    public Screen(GUIGame game) {
         super(game);
     }
 
-    public Screen(Game game, HUD hud) {
+    public Screen(GUIGame game, HUD hud) {
         super(game, hud);
     }
 

@@ -1,20 +1,20 @@
 package io;
 
-import algorithms.TileAlgorithm;
 import board.Board;
-import core.Game;
+import game.GUIGame;
 import screens.HUD;
+import constants.GAME_STATE;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class KeyInput extends KeyAdapter {
-    private final Game game;
+    private final GUIGame game;
     private final HUD hud;
     private final Board board;
 
-    public KeyInput(Game game, HUD hud, Board board) {
+    public KeyInput(GUIGame game, HUD hud, Board board) {
         this.game = game;
         this.hud = hud;
         this.board = board;
@@ -31,13 +31,13 @@ public class KeyInput extends KeyAdapter {
 
         switch (key) {
             case KeyEvent.VK_ESCAPE -> {
-                game.setGameState(Game.GAME_STATE.END);
+                game.setGameState(GAME_STATE.END);
                 System.exit(0);
             }
             case KeyEvent.VK_P -> {
                 switch (game.getGameState()) {
-                    case IN_GAME -> game.setGameState(Game.GAME_STATE.PAUSED);
-                    case PAUSED -> game.setGameState(Game.GAME_STATE.IN_GAME);
+                    case IN_GAME -> game.setGameState(GAME_STATE.PAUSED);
+                    case PAUSED -> game.setGameState(GAME_STATE.IN_GAME);
                     case MAIN_MENU, SETTINGS -> JOptionPane.showMessageDialog(null,
                             "Cannot pause when not in game!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -52,7 +52,7 @@ public class KeyInput extends KeyAdapter {
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if (quit == 0) {
-                            game.setGameState(Game.GAME_STATE.END);
+                            game.setGameState(GAME_STATE.END);
                             System.exit(0);
                         }
                     }
@@ -61,7 +61,7 @@ public class KeyInput extends KeyAdapter {
                                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                         if (quit == 0) {
-                            game.setGameState(Game.GAME_STATE.MAIN_MENU);
+                            game.setGameState(GAME_STATE.MAIN_MENU);
                         }
                     }
                 }

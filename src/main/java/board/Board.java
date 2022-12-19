@@ -1,12 +1,12 @@
 package board;
 
 import constants.*;
-import core.Game;
+import game.GUIGame;
 import entities.AI;
 import entities.Human;
 import entities.Player;
+import game.Game;
 import pieces.Tile;
-import screens.HUD;
 import utils.Commandable;
 import utils.Container;
 import utils.Observable;
@@ -16,9 +16,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static game.Game.HEIGHT;
+import static game.Game.WIDTH;
 
 public final class Board implements Container, Commandable, Observable {
     // Container is represented by a Stack of Tiles
@@ -35,10 +36,10 @@ public final class Board implements Container, Commandable, Observable {
     private WIND_DIRECTION windDirection = WIND_DIRECTION.NORTH;
     private final LinkedList<List<Integer>> POSITIONS =
             new LinkedList<>(Arrays.asList(
-                    new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (int) (Game.HEIGHT / 13 * 11.5))),
-                    new LinkedList<>(Arrays.asList((Game.WIDTH / 25), (Game.HEIGHT / 5))),
-                    new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 6 * 1.5), (Game.HEIGHT / 30))),
-                    new LinkedList<>(Arrays.asList((int) (Game.WIDTH / 20 * 18.5), (Game.HEIGHT / 5)))
+                    new LinkedList<>(Arrays.asList((int) (WIDTH / 6 * 1.5), (int) (HEIGHT / 13 * 11.5))),
+                    new LinkedList<>(Arrays.asList((WIDTH / 25), (HEIGHT / 5))),
+                    new LinkedList<>(Arrays.asList((int) (WIDTH / 6 * 1.5), (HEIGHT / 30))),
+                    new LinkedList<>(Arrays.asList((int) (WIDTH / 20 * 18.5), (HEIGHT / 5)))
             ));
     private BOARD_PLACEMENT_DIRECTION direction = BOARD_PLACEMENT_DIRECTION.RIGHT;
     private int counter = 1;
@@ -49,14 +50,30 @@ public final class Board implements Container, Commandable, Observable {
 
     public Board(Game game) {
         this.game = game;
-        // resetGame();
+//        resetGame();
     }
 
 
     // Instantiation of the Board and Players
     public void endGame(Player player) {
         currentPlayer = player;
-        game.setGameState(Game.GAME_STATE.END);
+        game.setGameState(GAME_STATE.END);
+    }
+
+    public void resetConsoleGame() {
+        // reset the board items
+        resetContainer();
+        instantiateBoard();
+        instantiateConsolePlayers();
+        humanPlayer = boardPlayers.stream().filter(x -> x instanceof Human).toList().get(0);
+        currentPlayer = boardPlayers.get(currentPlayerIndex.get());
+
+        try {
+            startConsoleGame();
+        } catch (InterruptedException ex) {
+            JOptionPane.showMessageDialog(null, "Runtime error", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void resetGame() {
@@ -102,6 +119,30 @@ public final class Board implements Container, Commandable, Observable {
 
         for (Tile t: boardTiles) {
             arrangeBoardTiles(t);
+        }
+    }
+
+    private void instantiateConsolePlayers() {
+        if (boardPlayers.isEmpty()) {
+            Human human = new Human(this);
+            AI ai1 = new AI(0, 0, 0, this);
+            AI ai2 = new AI(0, 0, 0, this);
+            AI ai3 = new AI(0, 0, 0, this);
+
+            this.boardPlayers.add(human);
+            this.boardPlayers.add(ai1);
+            this.boardPlayers.add(ai2);
+            this.boardPlayers.add(ai3);
+
+            // Shuffle the players
+            Collections.shuffle(boardPlayers, new Random());
+
+            // TODO: decide if initial distribution should be done during player setup or after
+            initialDistribution();
+        } else {
+            // if it is not empty for any reason, clear the players then reset it
+            boardPlayers.clear();
+            instantiatePlayers();
         }
     }
 
@@ -157,7 +198,7 @@ public final class Board implements Container, Commandable, Observable {
 
     private Tile distributeBoardTile() {
         if (boardTiles.empty()) {
-            game.setGameState(Game.GAME_STATE.END);
+            game.setGameState(GAME_STATE.END);
             return null;
         } else {
             return boardTiles.pop();
@@ -318,6 +359,12 @@ public final class Board implements Container, Commandable, Observable {
         JOptionPane.showMessageDialog(null, "Board does not discard specific tiles",
                 "Error", JOptionPane.ERROR_MESSAGE);
         return null;
+    }
+
+    public synchronized void startConsoleGame() throws InterruptedException{
+        Player player = getCurrentPlayer();
+        distributeToPlayer(player);
+        player.consoleStrategyAction();
     }
 
     public synchronized void startGame() throws InterruptedException {

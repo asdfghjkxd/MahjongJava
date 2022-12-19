@@ -1,8 +1,8 @@
-package core;
+package game;
 
 import board.Board;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
+import constants.GAME_STATE;
+import core.Window;
 import io.KeyInput;
 import io.MouseInput;
 import screens.*;
@@ -12,27 +12,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
-import java.util.concurrent.Executors;
 
 /**
  * Manages the overall game environment, and acts as the interface between the game and the game logic
  */
-public final class Game extends Canvas implements Runnable, Commandable {
-    public static final int WIDTH = 1180;
-    public static final int HEIGHT = WIDTH / 12 * 9;
-    public static final String GAMENAME = "Mahjong";
-    private boolean running = false;
-    private Thread gameThread;
+public final class GUIGame extends Game implements Runnable, Commandable {
     private GAME_STATE gameState = GAME_STATE.MAIN_MENU;
-    public enum GAME_STATE {
-        MAIN_MENU,
-        PAUSED,
-        IN_GAME,
-        SETTINGS,
-        END
-    }
+
     private final MainMenu mainMenu;
-    private final HUD hud;
+     private final HUD hud;
     private final Pause pause;
     private final GameScreen gameScreen;
     private final Settings settings;
@@ -41,22 +29,22 @@ public final class Game extends Canvas implements Runnable, Commandable {
     public Graphics graphics;
 
     public static void main(String[] args) {
-        new Game();
+        new GUIGame();
     }
 
-    public Game() {
+    public GUIGame() {
         synchronized (this) {
             new Window(WIDTH, HEIGHT, GAMENAME, this);
             mainMenu = new MainMenu(this);
-            board = new Board(this);
-            hud = new HUD(this, board);
+             board = new Board(this);
+             hud = new HUD(this, board);
             pause = new Pause(this);
             gameScreen = new GameScreen(this);
             settings = new Settings(this);
-            end = new End(this, board);
+             end = new End(this, board);
 
-            this.addKeyListener(new KeyInput(this, hud, board));
-            this.addMouseListener(new MouseInput(this, hud));
+             this.addKeyListener(new KeyInput(this, hud, board));
+             this.addMouseListener(new MouseInput(this, hud));
         }
     }
 
@@ -113,16 +101,16 @@ public final class Game extends Canvas implements Runnable, Commandable {
     }
 
     public void resetGame() {
-        board.resetGame();
+//        board.resetGame();
     }
 
     @Override
     public synchronized void synchronise_ticks() {
-        switch (this.gameState) {
-            case IN_GAME -> {
-                board.synchronise_ticks();
-            }
-        }
+//        switch (this.gameState) {
+//            case IN_GAME -> {
+//                board.synchronise_ticks();
+//            }
+//        }
     }
 
     @Override
@@ -140,14 +128,14 @@ public final class Game extends Canvas implements Runnable, Commandable {
 
         switch (gameState) {
             case IN_GAME -> {
-                hud.render(graph);
+//                hud.render(graph);
                 gameScreen.render(graph);
-                board.synchronise_renders(graph);
+//                board.synchronise_renders(graph);
             }
             case MAIN_MENU -> mainMenu.render(graph);
             case SETTINGS -> settings.render(graph);
             case PAUSED -> pause.render(graph);
-            case END -> end.render(graph);
+//            case END -> end.render(graph);
         }
 
         graph.dispose();

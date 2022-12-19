@@ -23,6 +23,20 @@ public final class Human extends Player {
         this.privateHand = new LinkedList<>();
     }
 
+    public Human(Board board) {
+        this.startingXPosition = 0;
+        this.startingYPosition = 0;
+        this.movingXPosition = 0;
+        this.movingYPosition = 0;
+        this.rotationDegrees = 0;
+        this.name = "You";
+        this.strategy = new HumanStrategy();
+        this.score = 0;
+        this.board = board;
+        this.publicHand = new LinkedList<>();
+        this.privateHand = new LinkedList<>();
+    }
+
     public synchronized String pollForPlayerName() {
         String name = "";
 

@@ -1,2 +1,2 @@
-Main-Class: core.Game
+Main-Class: game.GUIGame
 Class-Path: lib

@@ -1,7 +1,7 @@
 package screens;
 
 import constants.CONSTANTS;
-import core.Game;
+import game.GUIGame;
 import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
@@ -10,14 +10,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainMenu extends Screen {
-    public MainMenu(Game g) {
+    public MainMenu(GUIGame g) {
         super(g);
     }
 
     @Override
     public void render(Graphics g) throws IOException {
         g.setColor(CONSTANTS.BACKGROUND_COLOUR);
-        g.fill3DRect(0, 0, Game.WIDTH, Game.HEIGHT, true);
+        g.fill3DRect(0, 0, GUIGame.WIDTH, GUIGame.HEIGHT, true);
         g.setFont(CONSTANTS.MEDIUM_BOLD_FONT);
         g.setColor(CONSTANTS.TEXTBOX_COLOUR);
         g.fill3DRect(423, 190, 320, 80, true);

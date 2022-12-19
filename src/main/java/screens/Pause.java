@@ -1,14 +1,14 @@
 package screens;
 
 import constants.CONSTANTS;
-import core.Game;
+import game.GUIGame;
 import utils.Tickable;
 
 import java.awt.*;
 import java.io.IOException;
 
 public class Pause extends Screen implements Tickable {
-    public Pause(Game game) {
+    public Pause(GUIGame game) {
         super(game);
     }
 

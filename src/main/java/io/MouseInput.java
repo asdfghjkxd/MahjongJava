@@ -1,7 +1,8 @@
 package io;
 
 import constants.CONSTANTS;
-import core.Game;
+import constants.GAME_STATE;
+import game.GUIGame;
 import screens.HUD;
 
 import javax.swing.*;
@@ -10,17 +11,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static game.Game.HEIGHT;
+import static game.Game.WIDTH;
+
 public class MouseInput extends MouseAdapter {
-    public Game game;
+    public GUIGame game;
     public HUD hud;
 
     // Constructors for MouseInput
-    public MouseInput(Game game, HUD hud) {
+    public MouseInput(GUIGame game, HUD hud) {
         this.game = game;
         this.hud = hud;
     }
 
-    public MouseInput(Game game) {
+    public MouseInput(GUIGame game) {
         this.game = game;
     }
 
@@ -34,26 +38,26 @@ public class MouseInput extends MouseAdapter {
             case MAIN_MENU -> {
                 if (mouseOver(mouseX, mouseY, 480, 400, 200, 70)) {
                     game.resetGame();
-                    game.setGameState(Game.GAME_STATE.IN_GAME);
+                    game.setGameState(GAME_STATE.IN_GAME);
                 } else if (mouseOver(mouseX, mouseY, 480, 515, 200, 70)) {
-                    game.setGameState(Game.GAME_STATE.SETTINGS);
+                    game.setGameState(GAME_STATE.SETTINGS);
                 } else if (mouseOver(mouseX, mouseY, 480, 630, 200, 70)) {
                     if (JOptionPane.showConfirmDialog(null, "Quit the game?", "Quit",
                             JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == 0) {
-                        game.setGameState(Game.GAME_STATE.END);
+                        game.setGameState(GAME_STATE.END);
                         System.exit(0);
                     }
                 }
             }
             case PAUSED -> {
                 if (mouseOver(mouseX, mouseY, 450, 475, 275, 70)) {
-                    game.setGameState(Game.GAME_STATE.IN_GAME);
+                    game.setGameState(GAME_STATE.IN_GAME);
                 }
             }
             case SETTINGS -> {
-                if (mouseOver(mouseX, mouseY, Game.WIDTH - 215, Game.HEIGHT - 175, 170, 80)) {
-                    game.setGameState(Game.GAME_STATE.MAIN_MENU);
-                } else if (mouseOver(mouseX, mouseY, (int) (Game.WIDTH / 2.70), (Game.HEIGHT / 18) + 250, 300, 80)) {
+                if (mouseOver(mouseX, mouseY, WIDTH - 215, HEIGHT - 175, 170, 80)) {
+                    game.setGameState(GAME_STATE.MAIN_MENU);
+                } else if (mouseOver(mouseX, mouseY, (int) (WIDTH / 2.70), (HEIGHT / 18) + 250, 300, 80)) {
                     JFrame jFrame = new JFrame();
                     Container container = jFrame.getContentPane();
                     container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
@@ -169,8 +173,8 @@ public class MouseInput extends MouseAdapter {
                 }
             }
             case IN_GAME -> {
-                if (mouseOver(mouseX, mouseY, Game.WIDTH - 75, 25, 50, 50)) {
-                    game.setGameState(Game.GAME_STATE.PAUSED);
+                if (mouseOver(mouseX, mouseY, WIDTH - 75, 25, 50, 50)) {
+                    game.setGameState(GAME_STATE.PAUSED);
                 }
             }
         }
