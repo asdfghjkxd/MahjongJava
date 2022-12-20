@@ -18,6 +18,8 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static game.ConsoleGame.consoleRedText;
 import static game.Game.HEIGHT;
 import static game.Game.WIDTH;
 
@@ -309,6 +311,10 @@ public final class Board implements Container, Commandable, Observable {
     }
 
     private void distributeToPlayer(Player p) {
+        if (boardTiles.isEmpty()) {
+            endGame(null);
+        }
+
         Tile t = distributeBoardTile();
         if (t != null) {
             if (t.isBonus()) {

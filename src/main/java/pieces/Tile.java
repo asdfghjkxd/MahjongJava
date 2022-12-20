@@ -296,6 +296,6 @@ public final class Tile implements Comparable<Tile>, Renderable {
     // Utility
     @Override
     public String toString() {
-        return tileProperty.toString();
+        return tileProperty.toString() + " " + tileProperty.getUnicodeRepresentation();
     }
 }

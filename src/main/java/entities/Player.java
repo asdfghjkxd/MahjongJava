@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
+import static game.ConsoleGame.*;
 
 public abstract class Player implements Container, Observable, Renderable {
     protected int startingXPosition;
@@ -161,21 +162,51 @@ public abstract class Player implements Container, Observable, Renderable {
         if (isWinningHand()) {
             board.endGame(this);
         } else {
-            System.out.println(colorize("Your hand: \n" + privateHand.toString(),
-                    ConsoleGame.consoleWhiteText));
-            int result = -1;
-
-            while (result < 0) {
-                System.out.println(colorize("Key in the tile index to discard: ", ConsoleGame.consoleWhiteText));
-
-                try {
-                    result = scanner.nextInt();
-                } catch (InputMismatchException | NumberFormatException ex) {
-                    System.out.println(colorize("Invalid tile index! Try again.", ConsoleGame.consoleRedText));
-                }
+            System.out.println("-----------------------------------------------------------------------------------------");
+            System.out.println(colorize("Current Player: " + board.getCurrentPlayer().getName(), consoleBlueText));
+            System.out.println(colorize("Current Score: " + board.getCurrentPlayer().getScore(), consoleBlueText));
+            System.out.println(colorize("Public Tiles: " + board.getCurrentPlayer().publicHand, consoleBlueText));
+            System.out.println("-----------------------------------------------------------------------------------------");
+            System.out.println(colorize(" Your Private Hand:", consoleWhiteText));
+            for (Tile t: privateHand) {
+                System.out.println(colorize(t.toString(), consoleOrangeText));
             }
 
+            int result = -1;
+
+            System.out.println(colorize("Key in the tile index to discard [0 indexed]: ", consoleWhiteText));
+            while (!scanner.hasNextInt()) {
+                System.out.println(colorize("Invalid Index! Try again: ", consoleRedText));
+                scanner.next();
+            }
+
+
+            int nextInt = scanner.nextInt();
+
+            if (nextInt < 0) {
+                System.out.println(colorize("Warning: Index out of range, rounding to the nearest index...",
+                        consoleRedText));
+                result = Math.max(nextInt, 0);
+            } else if (nextInt > privateHand.size() - 1) {
+                System.out.println(colorize("Warning: Index out of range, rounding to the nearest index...",
+                        consoleRedText));
+                result = Math.min(nextInt, privateHand.size() - 1);
+            } else {
+                result = nextInt;
+            }
+
+            System.out.println(colorize("Tile selected: " + privateHand.get(result), consoleOrangeText));
             discardItem(privateHand.get(result));
+
+            System.out.println(colorize("New Hand: ", consoleWhiteText));
+            for (Tile t: privateHand) {
+                System.out.println(colorize(t.toString(), consoleOrangeText));
+            }
+            board.advancePlayer();
+
+            // delay execution
+            Thread.sleep(2000);
+            board.getCurrentPlayer().consoleStrategyAction();
         }
     }
 

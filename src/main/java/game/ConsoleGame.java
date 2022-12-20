@@ -3,6 +3,9 @@ package game;
 import board.Board;
 import constants.GAME_STATE;
 import com.diogonunes.jcolor.*;
+import constants.TILE_VECTOR_VALUE_INDEX;
+import org.checkerframework.checker.units.qual.A;
+
 import static com.diogonunes.jcolor.Attribute.*;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
@@ -18,6 +21,12 @@ public class ConsoleGame extends Game implements Runnable {
     );
     public static final  AnsiFormat consoleRedText = new AnsiFormat(
             RED_TEXT(), BOLD()
+    );
+    public static final AnsiFormat consoleOrangeText = new AnsiFormat(
+            TEXT_COLOR(255, 165, 0), BOLD()
+    );
+    public static final AnsiFormat consoleBlueText = new AnsiFormat(
+            TEXT_COLOR(0, 180, 255), BOLD()
     );
 
     public static void main(String[] args) {
@@ -48,23 +57,14 @@ public class ConsoleGame extends Game implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(colorize("Mahjong", consoleGreenText));
+        System.out.println(colorize(TILE_VECTOR_VALUE_INDEX.HONOUR_GREEN.getUnicodeRepresentation() +
+                " Mahjong Game " + TILE_VECTOR_VALUE_INDEX.HONOUR_GREEN.getUnicodeRepresentation(), consoleGreenText));
         board.resetConsoleGame();
-
-        while (true) {
-            // Player player = board.getCurrentPlayer();
-            break;
-        }
-
-        stop();
-    }
-
-    public int pollForTileRemoved() {
-        return -1;
     }
 
     @Override
     public void setGameState(GAME_STATE gameState) {
         // game state does nothing to a console game
+        throw new UnsupportedOperationException("Game State is not supported by Console Game");
     }
 }

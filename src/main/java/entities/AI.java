@@ -7,6 +7,9 @@ import strategy.AIStrategy;
 
 import java.util.LinkedList;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static game.ConsoleGame.consoleBlueText;
+
 public final class AI extends Player {
     public AI(int x, int y, int rotationDegrees, Board board) {
         this.startingXPosition = x;
@@ -41,5 +44,18 @@ public final class AI extends Player {
         // after the thread has run to completion call the next player
         board.advancePlayer();
         board.getCurrentPlayer().strategyAction();
+    }
+
+    public void consoleStrategyAction() throws InterruptedException {
+        discardItem();
+
+        System.out.println("-----------------------------------------------------------------------------------------");
+        System.out.println(colorize("Current Player: " + board.getCurrentPlayer().getName(), consoleBlueText));
+        System.out.println(colorize("Current Score: " + board.getCurrentPlayer().getScore(), consoleBlueText));
+        System.out.println(colorize("Public Tiles: " + board.getCurrentPlayer().publicHand, consoleBlueText));
+
+        Thread.sleep(3000);
+        board.advancePlayer();
+        board.getCurrentPlayer().consoleStrategyAction();
     }
 }

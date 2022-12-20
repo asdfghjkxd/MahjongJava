@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mahjong.game</groupId>
     <artifactId>MahjongJava</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-CONSOLE</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -44,7 +44,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>game.GUIGame</mainClass>
+                            <mainClass>game.ConsoleGame</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
